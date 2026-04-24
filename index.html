@@ -1,426 +1,1308 @@
 <!DOCTYPE html>
+<!-- saved from url=(0045)file:///C:/Users/hsasa/Downloads/index_6.html -->
 <html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>戸田市公園ガイド | 遊具・水遊び・犬の散歩で探せる</title>
+  <meta name="description" content="戸田市の公園80件を掲載。ブランコ・すべり台・砂場・水遊び・犬の散歩OKで絞り込みできる公園検索サイト。">
+  <!-- Google Search Console 確認タグ（必要に応じてcontentを更新） -->
+  <!-- <meta name="google-site-verification" content="YOUR_CODE_HERE" /> -->
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>戸田市公園ガイド | koengide.com</title>
-<meta name="description" content="埼玉県戸田市の公園情報を遊具・トイレ・水遊びで絞り込み検索。地図で場所を確認しながらお出かけ先を見つけよう。">
-<meta name="google-site-verification" content="K-LyPaQChEx_y6KwRHGp-JkaWfyg-OQtCTHlODVA_3g">
-<!-- ✅ CDN読み込みに変更 -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<link rel="preconnect" href="https://fonts.googleapis.com/">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --green: #3B7A3B;
-    --green-light: #EAF3DE;
-    --green-mid: #639922;
-    --accent: #5A9E3A;
-    --text: #1a1a1a;
-    --text-muted: #6b7280;
-    --border: #e5e7eb;
-    --bg: #ffffff;
-    --bg-soft: #f9fafb;
-    --radius: 12px;
-    --shadow: 0 1px 4px rgba(0,0,0,0.08);
-    --shadow-md: 0 4px 16px rgba(0,0,0,0.1);
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Noto Sans JP', sans-serif; color: var(--text); background: var(--bg); font-size: 15px; }
-  a { color: inherit; text-decoration: none; }
+  <!-- Leaflet.js -->
+  <link rel="stylesheet" href="./index_files/leaflet.css">
+  <script src="./index_files/leaflet.js.ダウンロード"></script>
 
-  /* Header */
-  header {
-    position: sticky; top: 0; z-index: 100;
-    background: var(--bg); border-bottom: 1px solid var(--border);
-    padding: 0.75rem 1rem;
-    display: flex; align-items: center; gap: 0.75rem;
-  }
-  .logo-icon {
-    width: 36px; height: 36px; border-radius: 10px;
-    background: var(--green); display: flex; align-items: center; justify-content: center;
-    font-size: 18px; flex-shrink: 0;
-  }
-  .logo-text { font-size: 16px; font-weight: 700; color: var(--green); }
-  .logo-domain { font-size: 11px; color: var(--text-muted); }
-  .header-stats {
-    margin-left: auto; display: flex; gap: 1rem; align-items: center;
-  }
-  .hstat { text-align: center; }
-  .hstat-num { font-size: 16px; font-weight: 700; color: var(--green); }
-  .hstat-lbl { font-size: 10px; color: var(--text-muted); }
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com/">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+  <link href="./index_files/css2" rel="stylesheet">
 
-  /* Hero */
-  .hero {
-    background: linear-gradient(135deg, #EAF3DE 0%, #d4edba 100%);
-    padding: 2rem 1rem 1.5rem;
-    text-align: center;
-  }
-  .hero h1 { font-size: 1.5rem; font-weight: 700; color: var(--green); line-height: 1.4; margin-bottom: 0.5rem; }
-  .hero p { font-size: 13px; color: #4a7a2a; line-height: 1.6; }
+  <style>
+    /* ============================================================
+       CSS Variables
+    ============================================================ */
+    :root {
+      --green-dark:   #1a4a2e;
+      --green-mid:    #2d6a4f;
+      --green-light:  #52b788;
+      --green-pale:   #d8f3dc;
+      --lime:         #95d5b2;
+      --accent:       #f4a261;
+      --accent-dark:  #e76f51;
+      --cream:        #fafaf7;
+      --white:        #ffffff;
+      --gray-100:     #f0f0ee;
+      --gray-300:     #d0d0cc;
+      --gray-500:     #888884;
+      --gray-700:     #444440;
+      --text:         #1e1e1a;
+      --radius-sm:    8px;
+      --radius-md:    14px;
+      --radius-lg:    22px;
+      --shadow-sm:    0 2px 8px rgba(0,0,0,.08);
+      --shadow-md:    0 6px 20px rgba(0,0,0,.12);
+      --shadow-lg:    0 16px 48px rgba(0,0,0,.18);
+    }
 
-  /* Filter */
-  .filter-section { background: var(--bg); padding: 1rem; border-bottom: 1px solid var(--border); }
-  .filter-label { font-size: 12px; font-weight: 500; color: var(--text-muted); margin-bottom: 0.5rem; }
-  .filter-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-  .chip {
-    display: flex; align-items: center; gap: 5px;
-    padding: 6px 12px; border-radius: 20px;
-    border: 1.5px solid var(--border); background: var(--bg);
-    font-size: 13px; font-weight: 500; color: var(--text-muted);
-    cursor: pointer; transition: all 0.15s; user-select: none;
-  }
-  .chip:hover { border-color: var(--green-mid); color: var(--green); }
-  .chip.active { background: var(--green-light); border-color: var(--green-mid); color: var(--green); }
-  .chip-reset { color: #ef4444; border-color: #fecaca; }
-  .chip-reset:hover { background: #fef2f2; border-color: #ef4444; }
+    /* ============================================================
+       Reset & Base
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-  /* Map */
-  #map { height: 250px; width: 100%; z-index: 1; }
+    /* ============================================================
+       HERO HEADER
+    ============================================================ */
+    .hero {
+      position: relative;
+      background: var(--green-dark);
+      overflow: hidden;
+      padding: 0;
+    }
 
-  /* Results */
-  .results-header {
-    padding: 0.75rem 1rem; font-size: 13px; color: var(--text-muted);
-    border-bottom: 1px solid var(--border); background: var(--bg-soft);
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .results-count { font-weight: 500; color: var(--text); }
+    /* 背景装飾：葉っぱシルエット（SVG） */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .hero-bg::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 420px; height: 420px;
+      background: radial-gradient(circle, rgba(82,183,136,.25) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; left: -60px;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(149,213,178,.15) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .hero-leaf {
+      position: absolute;
+      opacity: .06;
+    }
+    .hero-leaf-1 { top: 10px; left: 5%; font-size: 120px; transform: rotate(-20deg); }
+    .hero-leaf-2 { top: 30px; right: 8%; font-size: 90px; transform: rotate(15deg); }
+    .hero-leaf-3 { bottom: 10px; left: 30%; font-size: 70px; transform: rotate(10deg); }
 
-  /* Park list */
-  .park-list { padding: 0.5rem; }
-  .park-card {
-    background: var(--bg); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 1rem;
-    margin-bottom: 8px; cursor: pointer;
-    transition: box-shadow 0.15s, border-color 0.15s;
-    position: relative;
-  }
-  .park-card:hover { box-shadow: var(--shadow-md); border-color: #c3e6a0; }
-  .park-card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 0.4rem; }
-  .park-name { font-size: 15px; font-weight: 700; color: var(--text); }
-  .park-num {
-    width: 24px; height: 24px; border-radius: 50%;
-    background: var(--green); color: white;
-    font-size: 11px; font-weight: 700;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0; margin-left: 0.5rem;
-  }
-  .park-address {
-    font-size: 12px; color: var(--text-muted); margin-bottom: 0.6rem;
-    display: flex; align-items: center; gap: 4px;
-  }
-  .park-tags { display: flex; flex-wrap: wrap; gap: 5px; }
-  .tag {
-    font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 10px;
-    display: flex; align-items: center; gap: 3px;
-  }
-  .tag-swing { background: #EAF3DE; color: #3B6D11; }
-  .tag-slide { background: #E6F1FB; color: #185FA5; }
-  .tag-sandbox { background: #FAEEDA; color: #854F0B; }
-  .tag-toilet { background: #EEEDFE; color: #534AB7; }
-  .tag-water { background: #E1F5EE; color: #0F6E56; }
-  .tag-parking { background: #F1EFE8; color: #5F5E5A; }
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 44px 24px 36px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
 
-  /* Empty state */
-  .empty-state {
-    text-align: center; padding: 3rem 1rem;
-    color: var(--text-muted); font-size: 14px;
-  }
-  .empty-state-icon { font-size: 3rem; margin-bottom: 0.5rem; }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(82,183,136,.2);
+      border: 1px solid rgba(82,183,136,.4);
+      border-radius: 100px;
+      padding: 4px 14px;
+      font-size: 12px;
+      color: var(--lime);
+      letter-spacing: .05em;
+      font-weight: 500;
+    }
+    .hero-badge span { font-size: 14px; }
 
-  /* Loading */
-  .loading {
-    text-align: center; padding: 2rem;
-    color: var(--text-muted); font-size: 14px;
-  }
-  .spinner {
-    width: 32px; height: 32px; border: 3px solid var(--border);
-    border-top-color: var(--green); border-radius: 50%;
-    animation: spin 0.8s linear infinite; margin: 0 auto 0.5rem;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
+    .hero-title {
+      font-family: 'Zen Maru Gothic', sans-serif;
+      font-size: clamp(26px, 6vw, 46px);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.25;
+      letter-spacing: -.01em;
+    }
+    .hero-title em {
+      font-style: normal;
+      color: var(--lime);
+    }
 
-  /* Toast */
-  .toast {
-    position: fixed; bottom: 1rem; left: 50%; transform: translateX(-50%);
-    background: var(--text); color: white; padding: 0.6rem 1.2rem;
-    border-radius: 20px; font-size: 13px; z-index: 9999;
-    opacity: 0; transition: opacity 0.3s; pointer-events: none;
-  }
-  .toast.show { opacity: 1; }
+    .hero-sub {
+      font-size: clamp(13px, 2.5vw, 15px);
+      color: rgba(255,255,255,.65);
+      line-height: 1.7;
+      max-width: 520px;
+    }
 
-  /* Footer */
-  footer {
-    background: var(--bg-soft); border-top: 1px solid var(--border);
-    padding: 1.5rem 1rem; text-align: center;
-    font-size: 12px; color: var(--text-muted); margin-top: 2rem;
-  }
-  footer a { color: var(--green); }
+    .hero-stats {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+    .hero-stat {
+      display: flex;
+      flex-direction: column;
+    }
+    .hero-stat-num {
+      font-family: 'Zen Maru Gothic', sans-serif;
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--lime);
+      line-height: 1;
+    }
+    .hero-stat-num small { font-size: 14px; }
+    .hero-stat-label {
+      font-size: 11px;
+      color: rgba(255,255,255,.5);
+      margin-top: 2px;
+      letter-spacing: .06em;
+    }
 
-  /* Section divider */
-  .section-label {
-    padding: 0.5rem 1rem; font-size: 11px; font-weight: 500;
-    text-transform: uppercase; letter-spacing: 0.06em;
-    color: var(--text-muted); background: var(--bg-soft);
-    border-bottom: 1px solid var(--border); border-top: 1px solid var(--border);
-  }
-</style>
+    /* ============================================================
+       FILTER BAR
+    ============================================================ */
+    .filter-section {
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-100);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,.06);
+    }
+    .filter-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 12px 16px;
+    }
+    .filter-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gray-500);
+      letter-spacing: .1em;
+      margin-bottom: 8px;
+    }
+    .filter-chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 14px;
+      border-radius: 100px;
+      border: 1.5px solid var(--gray-300);
+      background: var(--white);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gray-700);
+      cursor: pointer;
+      transition: all .18s ease;
+      white-space: nowrap;
+      user-select: none;
+    }
+    .chip:hover {
+      border-color: var(--green-light);
+      color: var(--green-mid);
+      background: var(--green-pale);
+    }
+    .chip.active {
+      background: var(--green-mid);
+      border-color: var(--green-mid);
+      color: var(--white);
+      box-shadow: 0 2px 8px rgba(45,106,79,.3);
+    }
+    .chip.active:hover {
+      background: var(--green-dark);
+      border-color: var(--green-dark);
+    }
+    .chip-icon { font-size: 16px; }
+
+    /* ============================================================
+       MAIN LAYOUT
+    ============================================================ */
+    .main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 20px 16px 60px;
+    }
+
+    .result-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .result-count {
+      font-size: 13px;
+      color: var(--gray-500);
+    }
+    .result-count strong {
+      color: var(--green-mid);
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    /* ============================================================
+       MAP
+    ============================================================ */
+    #map {
+      height: 340px;
+      border-radius: var(--radius-lg);
+      border: 2px solid var(--gray-100);
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+
+    /* ============================================================
+       PARK CARDS GRID
+    ============================================================ */
+    .parks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 14px;
+    }
+
+    .park-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      border: 1.5px solid var(--gray-100);
+      padding: 16px;
+      cursor: pointer;
+      transition: all .2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .park-card:hover {
+      border-color: var(--green-light);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .park-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .park-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.4;
+      flex: 1;
+    }
+    .park-arrow {
+      font-size: 18px;
+      color: var(--gray-300);
+      flex-shrink: 0;
+      transition: transform .18s;
+    }
+    .park-card:hover .park-arrow {
+      transform: translateX(3px);
+      color: var(--green-light);
+    }
+
+    .park-address {
+      font-size: 11px;
+      color: var(--gray-500);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .park-features {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .feat-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      background: var(--green-pale);
+      color: var(--green-mid);
+      border-radius: 6px;
+      padding: 3px 8px;
+      font-size: 11px;
+      font-weight: 500;
+    }
+    .feat-tag.dog {
+      background: #fff3e0;
+      color: #e65100;
+    }
+    .feat-tag.water {
+      background: #e3f2fd;
+      color: #1565c0;
+    }
+
+    .park-detail-btn {
+      margin-top: 4px;
+      padding: 9px 0;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--green-light);
+      background: transparent;
+      color: var(--green-mid);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .18s;
+      font-family: inherit;
+    }
+    .park-detail-btn:hover {
+      background: var(--green-mid);
+      color: var(--white);
+    }
+
+    /* ============================================================
+       MODAL
+    ============================================================ */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10,20,15,.6);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s ease;
+    }
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      background: var(--white);
+      width: 100%;
+      max-width: 640px;
+      max-height: 90dvh;
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      transform: translateY(60px);
+      transition: transform .3s cubic-bezier(.22,.61,.36,1);
+    }
+    .modal-overlay.open .modal {
+      transform: translateY(0);
+    }
+
+    .modal-handle {
+      width: 40px; height: 4px;
+      background: var(--gray-300);
+      border-radius: 100px;
+      margin: 12px auto 0;
+    }
+
+    .modal-header {
+      padding: 16px 20px 12px;
+      border-bottom: 1px solid var(--gray-100);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      background: var(--white);
+      z-index: 1;
+    }
+    .modal-title {
+      font-family: 'Zen Maru Gothic', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--green-dark);
+    }
+    .modal-close {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: none;
+      background: var(--gray-100);
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background .15s;
+      color: var(--gray-700);
+    }
+    .modal-close:hover { background: var(--gray-300); }
+
+    .modal-body {
+      padding: 16px 20px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* 写真エリア */
+    .photo-area {
+      background: var(--gray-100);
+      border-radius: var(--radius-md);
+      min-height: 160px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 2px dashed var(--gray-300);
+      padding: 24px;
+      text-align: center;
+    }
+    .photo-area-icon { font-size: 36px; opacity: .4; }
+    .photo-area-text {
+      font-size: 13px;
+      color: var(--gray-500);
+      line-height: 1.6;
+    }
+    .photo-area-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--accent);
+      color: var(--white);
+      border-radius: 100px;
+      padding: 4px 12px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    /* 設備情報グリッド */
+    .info-section-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--gray-500);
+      letter-spacing: .1em;
+      margin-bottom: 10px;
+    }
+    .equip-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .equip-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 12px 8px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--gray-100);
+      font-size: 11px;
+      font-weight: 500;
+      text-align: center;
+      color: var(--gray-500);
+      transition: all .15s;
+    }
+    .equip-item.has {
+      border-color: var(--green-pale);
+      background: var(--green-pale);
+      color: var(--green-mid);
+    }
+    .equip-item.has-dog {
+      border-color: #ffe0b2;
+      background: #fff8f0;
+      color: #e65100;
+    }
+    .equip-item.has-water {
+      border-color: #bbdefb;
+      background: #e3f2fd;
+      color: #1565c0;
+    }
+    .equip-icon { font-size: 22px; }
+
+    /* 住所・メモ */
+    .info-row {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .info-row-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .info-row-content { flex: 1; }
+    .info-row-label {
+      font-size: 11px;
+      color: var(--gray-500);
+      margin-bottom: 2px;
+    }
+    .info-row-value {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    /* Googleマップボタン */
+    .gmap-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px;
+      border-radius: var(--radius-md);
+      border: none;
+      background: var(--green-mid);
+      color: var(--white);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background .18s;
+      font-family: inherit;
+    }
+    .gmap-btn:hover { background: var(--green-dark); }
+
+    /* ============================================================
+       EMPTY STATE
+    ============================================================ */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--gray-500);
+    }
+    .empty-state-icon { font-size: 48px; margin-bottom: 12px; }
+    .empty-state p { font-size: 15px; }
+
+    /* ============================================================
+       LOADING
+    ============================================================ */
+    .loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      padding: 48px;
+      color: var(--gray-500);
+      font-size: 14px;
+    }
+    .spinner {
+      width: 32px; height: 32px;
+      border: 3px solid var(--gray-100);
+      border-top-color: var(--green-mid);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    .footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 12px;
+      color: var(--gray-500);
+      border-top: 1px solid var(--gray-100);
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (min-width: 600px) {
+      .modal-overlay { align-items: center; }
+      .modal { border-radius: var(--radius-lg); max-height: 85vh; }
+      .equip-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .hero-stats { gap: 14px; }
+      .hero-stat-num { font-size: 24px; }
+      .parks-grid { grid-template-columns: 1fr; }
+      .equip-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
 </head>
 <body>
 
-<header>
-  <div class="logo-icon">🌳</div>
-  <div>
-    <div class="logo-text">公園ガイド 戸田市</div>
-    <div class="logo-domain">koengide.com</div>
-  </div>
-  <div class="header-stats">
-    <div class="hstat">
-      <div class="hstat-num" id="total-count">-</div>
-      <div class="hstat-lbl">公園数</div>
-    </div>
-    <div class="hstat">
-      <div class="hstat-num" id="toilet-count">-</div>
-      <div class="hstat-lbl">トイレあり</div>
-    </div>
-    <div class="hstat">
-      <div class="hstat-num" id="water-count">-</div>
-      <div class="hstat-lbl">水遊びあり</div>
-    </div>
-  </div>
-</header>
-
-<section class="hero">
-  <h1>戸田市のすべての公園を、<br>かんたんに探せる。</h1>
-  <p>遊具・トイレ・水遊びから絞り込み。地図で場所を確認しながら、<br>今日のお出かけ先を見つけよう。</p>
-</section>
-
-<section class="filter-section">
-  <div class="filter-label">🔍 絞り込み</div>
-  <div class="filter-chips">
-    <div class="chip" data-filter="has_swing" onclick="toggleFilter(this)">🏃 ブランコ</div>
-    <div class="chip" data-filter="has_slide" onclick="toggleFilter(this)">⬇️ すべり台</div>
-    <div class="chip" data-filter="has_sandbox" onclick="toggleFilter(this)">🟫 砂場</div>
-    <div class="chip" data-filter="has_toilet" onclick="toggleFilter(this)">🚻 トイレ</div>
-    <div class="chip" data-filter="has_water" onclick="toggleFilter(this)">💧 水遊び</div>
-    <div class="chip chip-reset" onclick="resetFilters()">✕ リセット</div>
-  </div>
-</section>
-
-<div class="section-label">📍 地図で探す</div>
-<div id="map"></div>
-
-<div class="results-header">
-  <span id="results-text" class="results-count">読み込み中...</span>
-</div>
-
-<div id="park-list" class="park-list">
-  <div class="loading">
-    <div class="spinner"></div>
-    <div>公園データを読み込んでいます...</div>
-  </div>
-</div>
-
-<footer>
-  <p>© 2025 <a href="https://www.koengide.com">koengide.com</a> — 埼玉県戸田市の公園情報サイト</p>
-  <p style="margin-top:0.4rem">情報は随時更新中。最新情報は各公園の案内板をご確認ください。</p>
-</footer>
-
-<div class="toast" id="toast"></div>
-
-<!-- ✅ CDN読み込みに変更 -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-const SUPABASE_URL = 'https://cxqzrbghdibahedstrrv.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_Jceze5gKAJ6VQbZc4_p8HA_aMNPCEXa';
-
-const SAMPLE_PARKS = [
-  { id:1, name:'こどもの国（児童センター）', address:'本町1-17-7', lat:35.8097, lng:139.6804, has_swing:false, has_slide:false, has_sandbox:true, has_toilet:true, has_water:true, has_parking:false, notes:'屋外アスレチック・恐竜・屋内砂場・プール（夏）。無料。' },
-  { id:2, name:'本村公園', address:'本町3-12', lat:35.8104, lng:139.6706, has_swing:false, has_slide:true, has_sandbox:true, has_toilet:true, has_water:false, has_parking:false, notes:'すべり台（大小）・スプリング×3・春は桜が綺麗' },
-  { id:3, name:'大前公園', address:'本町2-15', lat:35.8081, lng:139.6747, has_swing:false, has_slide:true, has_sandbox:false, has_toilet:true, has_water:true, has_parking:false, notes:'2024年リニューアル。夏は噴水あり。' },
-  { id:4, name:'東町公園', address:'上戸田2-40', lat:35.8135, lng:139.6779, has_swing:false, has_slide:true, has_sandbox:true, has_toilet:true, has_water:true, has_parking:false, notes:'複合すべり台・バナナ型すべり台など種類豊富' },
-  { id:5, name:'元蕨第三公園', address:'上戸田2-9', lat:35.8138, lng:139.6813, has_swing:false, has_slide:true, has_sandbox:true, has_toilet:true, has_water:false, has_parking:false, notes:'すべり台（大小）・スプリング・旧戸田城跡付近' },
-  { id:6, name:'南町児童公園', address:'南町7', lat:35.8059, lng:139.6727, has_swing:true, has_slide:true, has_sandbox:true, has_toilet:false, has_water:false, has_parking:false, notes:'木陰多い・自転車練習OK' },
-  { id:7, name:'南町児童遊園地', address:'南町4', lat:35.8063, lng:139.6725, has_swing:true, has_slide:true, has_sandbox:false, has_toilet:false, has_water:false, has_parking:false, notes:'スプリング遊具あり' },
-  { id:8, name:'曲尺手遊園地', address:'南町8', lat:35.8064, lng:139.6722, has_swing:true, has_slide:true, has_sandbox:true, has_toilet:false, has_water:false, has_parking:false, notes:'春の桜が美しい小さな公園' },
-  { id:9, name:'川岸3丁目遊園地', address:'川岸3-7', lat:35.8032, lng:139.6817, has_swing:true, has_slide:true, has_sandbox:true, has_toilet:true, has_water:false, has_parking:false, notes:'毎週土曜「ウーフ文庫」本の無料貸し出しあり' },
-  { id:10, name:'戸田橋親水公園', address:'川岸3-7-19', lat:35.8027, lng:139.6819, has_swing:false, has_slide:false, has_sandbox:false, has_toilet:true, has_water:true, has_parking:false, notes:'せせらぎ水遊び（夏）・花火大会の名所' },
-];
-
-let allParks = [];
-let activeFilters = new Set();
-let map, markers = [];
-
-function initMap() {
-  map = L.map('map').setView([35.810, 139.675], 14);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    maxZoom: 19
-  }).addTo(map);
-}
-
-function createMarker(park, index) {
-  const icon = L.divIcon({
-    className: '',
-    html: `<div style="
-      background:#3B7A3B;color:white;border-radius:50%;
-      width:26px;height:26px;display:flex;align-items:center;
-      justify-content:center;font-size:11px;font-weight:700;
-      border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3);
-      cursor:pointer;
-    ">${index + 1}</div>`,
-    iconSize: [26, 26],
-    iconAnchor: [13, 13]
-  });
-
-  const popupContent = `
-    <div style="font-family:'Noto Sans JP',sans-serif;min-width:160px;">
-      <div style="font-weight:700;font-size:14px;margin-bottom:4px;">${park.name}</div>
-      <div style="font-size:12px;color:#6b7280;margin-bottom:6px;">📍 ${park.address}</div>
-      ${park.notes ? `<div style="font-size:11px;color:#4a7a2a;background:#EAF3DE;padding:4px 6px;border-radius:6px;">${park.notes}</div>` : ''}
-    </div>
-  `;
-
-  const marker = L.marker([park.lat, park.lng], { icon })
-    .bindPopup(popupContent)
-    .addTo(map);
-  return marker;
-}
-
-function updateMarkers(parks) {
-  markers.forEach(m => map.removeLayer(m));
-  markers = [];
-  parks.forEach((park, i) => {
-    if (park.lat && park.lng) {
-      markers.push(createMarker(park, i));
-    }
-  });
-  if (markers.length > 0) {
-    const group = L.featureGroup(markers);
-    map.fitBounds(group.getBounds().pad(0.1));
-  }
-}
-
-function buildTags(park) {
-  const tags = [];
-  if (park.has_swing)   tags.push('<span class="tag tag-swing">🏃 ブランコ</span>');
-  if (park.has_slide)   tags.push('<span class="tag tag-slide">⬇️ すべり台</span>');
-  if (park.has_sandbox) tags.push('<span class="tag tag-sandbox">🟫 砂場</span>');
-  if (park.has_toilet)  tags.push('<span class="tag tag-toilet">🚻 トイレ</span>');
-  if (park.has_water)   tags.push('<span class="tag tag-water">💧 水遊び</span>');
-  if (park.has_parking) tags.push('<span class="tag tag-parking">🅿️ 駐車場</span>');
-  return tags.join('');
-}
-
-function renderParks(parks) {
-  const list = document.getElementById('park-list');
-  const resultsText = document.getElementById('results-text');
-
-  if (parks.length === 0) {
-    list.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-state-icon">🌿</div>
-        <div>条件に合う公園が見つかりませんでした</div>
-        <div style="margin-top:0.5rem;font-size:12px;">絞り込み条件を変えてみてください</div>
-      </div>`;
-    resultsText.textContent = '0件の公園が見つかりました';
-    updateMarkers([]);
-    return;
-  }
-
-  resultsText.textContent = `${parks.length}件の公園が見つかりました`;
-  list.innerHTML = parks.map((park, i) => `
-    <div class="park-card" onclick="focusMarker(${i})">
-      <div class="park-card-top">
-        <div class="park-name">${park.name}</div>
-        <div class="park-num">${i + 1}</div>
+  <!-- ======================================================
+       HERO
+  ====================================================== -->
+  <header class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-leaf hero-leaf-1">🌿</div>
+    <div class="hero-leaf hero-leaf-2">🍃</div>
+    <div class="hero-leaf hero-leaf-3">🌱</div>
+    <div class="hero-inner">
+      <div class="hero-badge"><span>📍</span> 埼玉県 戸田市</div>
+      <h1 class="hero-title">
+        戸田市の<em>すべての公園</em>を、<br>
+        簡単に探せる
+      </h1>
+      <p class="hero-sub">遊具・水遊び・犬の散歩OKで絞り込み。<br>子どもとのおでかけも、愛犬とのお散歩も、ぴったりの公園がすぐ見つかる。</p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num">80<small>件</small></div>
+          <div class="hero-stat-label">掲載公園数（目標）</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">5<small>種類</small></div>
+          <div class="hero-stat-label">絞り込み条件</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">0<small>円</small></div>
+          <div class="hero-stat-label">利用料金</div>
+        </div>
       </div>
-      <div class="park-address">📍 戸田市${park.address}</div>
-      <div class="park-tags">${buildTags(park)}</div>
-      ${park.notes ? `<div style="font-size:12px;color:#4a7a2a;margin-top:0.5rem;line-height:1.5;">${park.notes}</div>` : ''}
     </div>
-  `).join('');
+  </header>
 
-  updateMarkers(parks);
-}
+  <!-- ======================================================
+       FILTER BAR
+  ====================================================== -->
+  <div class="filter-section">
+    <div class="filter-inner">
+      <div class="filter-label">▼ 条件で絞り込む</div>
+      <div class="filter-chips">
+        <button class="chip" data-filter="has_swing" onclick="toggleFilter(this)"><span class="chip-icon">🔄</span>ブランコ</button>
+        <button class="chip" data-filter="has_slide" onclick="toggleFilter(this)"><span class="chip-icon">⛷️</span>すべり台</button>
+        <button class="chip" data-filter="has_sandbox" onclick="toggleFilter(this)"><span class="chip-icon">🏖️</span>砂場</button>
+        <button class="chip" data-filter="has_toilet" onclick="toggleFilter(this)"><span class="chip-icon">🚻</span>トイレ</button>
+        <button class="chip" data-filter="has_water" onclick="toggleFilter(this)"><span class="chip-icon">💧</span>水遊び</button>
+        <button class="chip" data-filter="has_parking" onclick="toggleFilter(this)"><span class="chip-icon">🅿️</span>駐車場</button>
+        <button class="chip" data-filter="has_dog" onclick="toggleFilter(this)"><span class="chip-icon">🐕</span>犬の散歩OK</button>
+      </div>
+    </div>
+  </div>
 
-function focusMarker(index) {
-  if (markers[index]) {
-    map.setView(markers[index].getLatLng(), 16);
-    markers[index].openPopup();
-    window.scrollTo({ top: document.getElementById('map').offsetTop - 60, behavior: 'smooth' });
-  }
-}
+  <!-- ======================================================
+       MAIN
+  ====================================================== -->
+  <main class="main">
+    <!-- 地図 -->
+    <div id="map" class="leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom" tabindex="0" style="position: relative;"><div class="leaflet-pane leaflet-map-pane" style="transform: translate3d(0px, 0px, 0px);"><div class="leaflet-pane leaflet-tile-pane"><div class="leaflet-layer " style="z-index: 1; opacity: 1;"><div class="leaflet-tile-container leaflet-zoom-animated" style="z-index: 19; transform: translate3d(0px, 0px, 0px) scale(1);"><img alt="" src="./index_files/3221.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(353px, -22px, 0px); opacity: 1;"><img alt="" src="./index_files/3222.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(353px, 234px, 0px); opacity: 1;"><img alt="" src="./index_files/3221(1).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(97px, -22px, 0px); opacity: 1;"><img alt="" src="./index_files/3221(2).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(609px, -22px, 0px); opacity: 1;"><img alt="" src="./index_files/3222(1).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(97px, 234px, 0px); opacity: 1;"><img alt="" src="./index_files/3222(2).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(609px, 234px, 0px); opacity: 1;"><img alt="" src="./index_files/3221(3).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-159px, -22px, 0px); opacity: 1;"><img alt="" src="./index_files/3221(4).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(865px, -22px, 0px); opacity: 1;"><img alt="" src="./index_files/3222(3).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-159px, 234px, 0px); opacity: 1;"><img alt="" src="./index_files/3222(4).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(865px, 234px, 0px); opacity: 1;"></div></div></div><div class="leaflet-pane leaflet-overlay-pane"></div><div class="leaflet-pane leaflet-shadow-pane"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(482px, 292px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(372px, 279px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(503px, 297px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(506px, 304px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(522px, 271px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(524px, 276px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(521px, 279px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(474px, 223px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(488px, 263px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(486px, 261px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(436px, 320px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(437px, 317px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(375px, 276px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(299px, 222px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(449px, 304px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(292px, 228px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(319px, 210px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(490px, 339px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(516px, 334px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(196px, 201px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(457px, 222px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(460px, 241px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(474px, 223px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(453px, 218px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(491px, 343px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(409px, 299px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(398px, 283px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(430px, 273px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(435px, 316px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(425px, 287px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(478px, 286px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(488px, 307px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(468px, 318px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(468px, 265px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(311px, 218px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(236px, 234px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(279px, 211px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(403px, 289px, 0px);"><img src="./index_files/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(405px, 294px, 0px);"></div><div class="leaflet-pane leaflet-marker-pane"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(482px, 292px, 0px); z-index: 292;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(372px, 279px, 0px); z-index: 279;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(503px, 297px, 0px); z-index: 297;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(506px, 304px, 0px); z-index: 304;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(522px, 271px, 0px); z-index: 271;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(524px, 276px, 0px); z-index: 276;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(521px, 279px, 0px); z-index: 279;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(474px, 223px, 0px); z-index: 223;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(488px, 263px, 0px); z-index: 263;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(486px, 261px, 0px); z-index: 261;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(436px, 320px, 0px); z-index: 320;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(437px, 317px, 0px); z-index: 317;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(375px, 276px, 0px); z-index: 276;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(299px, 222px, 0px); z-index: 222;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(449px, 304px, 0px); z-index: 304;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(292px, 228px, 0px); z-index: 228;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(319px, 210px, 0px); z-index: 210;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(490px, 339px, 0px); z-index: 339;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(516px, 334px, 0px); z-index: 334;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(196px, 201px, 0px); z-index: 201;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(457px, 222px, 0px); z-index: 222;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(460px, 241px, 0px); z-index: 241;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(474px, 223px, 0px); z-index: 223;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(453px, 218px, 0px); z-index: 218;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(491px, 343px, 0px); z-index: 343;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(409px, 299px, 0px); z-index: 299;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(398px, 283px, 0px); z-index: 283;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(430px, 273px, 0px); z-index: 273;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(435px, 316px, 0px); z-index: 316;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(425px, 287px, 0px); z-index: 287;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(478px, 286px, 0px); z-index: 286;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(488px, 307px, 0px); z-index: 307;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(468px, 318px, 0px); z-index: 318;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(468px, 265px, 0px); z-index: 265;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(311px, 218px, 0px); z-index: 218;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(236px, 234px, 0px); z-index: 234;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(279px, 211px, 0px); z-index: 211;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(403px, 289px, 0px); z-index: 289;"><img src="./index_files/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(405px, 294px, 0px); z-index: 294;"></div><div class="leaflet-pane leaflet-tooltip-pane"></div><div class="leaflet-pane leaflet-popup-pane"></div><div class="leaflet-proxy leaflet-zoom-animated" style="transform: translate3d(1.86225e+06px, 824766px, 0px) scale(4096);"></div></div><div class="leaflet-control-container"><div class="leaflet-top leaflet-left"><div class="leaflet-control-zoom leaflet-bar leaflet-control"><a class="leaflet-control-zoom-in" href="file:///C:/Users/hsasa/Downloads/index_6.html#" title="Zoom in" role="button" aria-label="Zoom in" aria-disabled="false"><span aria-hidden="true">+</span></a><a class="leaflet-control-zoom-out" href="file:///C:/Users/hsasa/Downloads/index_6.html#" title="Zoom out" role="button" aria-label="Zoom out" aria-disabled="false"><span aria-hidden="true">−</span></a></div></div><div class="leaflet-top leaflet-right"></div><div class="leaflet-bottom leaflet-left"></div><div class="leaflet-bottom leaflet-right"><div class="leaflet-control-attribution leaflet-control"><a href="https://leafletjs.com/" title="A JavaScript library for interactive maps"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" class="leaflet-attribution-flag"><path fill="#4C7BE1" d="M0 0h12v4H0z"></path><path fill="#FFD500" d="M0 4h12v3H0z"></path><path fill="#E0BC00" d="M0 7h12v1H0z"></path></svg> Leaflet</a> <span aria-hidden="true">|</span> © OpenStreetMap contributors</div></div></div></div>
 
-function getFilteredParks() {
-  if (activeFilters.size === 0) return allParks;
-  return allParks.filter(park =>
-    [...activeFilters].every(f => park[f])
-  );
-}
+    <!-- 件数 -->
+    <div class="result-bar">
+      <div class="result-count">
+        <strong id="count">39</strong> 件 見つかりました
+      </div>
+    </div>
 
-function toggleFilter(el) {
-  const f = el.dataset.filter;
-  if (activeFilters.has(f)) {
-    activeFilters.delete(f);
-    el.classList.remove('active');
-  } else {
-    activeFilters.add(f);
-    el.classList.add('active');
-  }
-  renderParks(getFilteredParks());
-}
+    <!-- カードグリッド -->
+    <div class="parks-grid" id="parksGrid">
+          <div class="park-card" onclick="openModal({&quot;id&quot;:1,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;こどもの国（児童センター）&quot;,&quot;address&quot;:&quot;本町1-17-7&quot;,&quot;lat&quot;:35.8097,&quot;lng&quot;:139.6804,&quot;has_swing&quot;:false,&quot;has_slide&quot;:false,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:true,&quot;notes&quot;:&quot;屋外アスレチック・恐竜・屋内砂場・プール（夏）。無料。9:00〜21:00&quot;,&quot;has_dog&quot;:false})">
+            <div class="park-card-header">
+              <div class="park-name">こどもの国（児童センター）</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 本町1-17-7</div>
+            <div class="park-features"><span class="feat-tag ">🏖️ 砂場</span><span class="feat-tag ">🚻 トイレ</span><span class="feat-tag has-water">💧 水遊び</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:1,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;こどもの国（児童センター）&quot;,&quot;address&quot;:&quot;本町1-17-7&quot;,&quot;lat&quot;:35.8097,&quot;lng&quot;:139.6804,&quot;has_swing&quot;:false,&quot;has_slide&quot;:false,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:true,&quot;notes&quot;:&quot;屋外アスレチック・恐竜・屋内砂場・プール（夏）。無料。9:00〜21:00&quot;,&quot;has_dog&quot;:false})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:32,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;ボール公園&quot;,&quot;address&quot;:&quot;新曽2238&quot;,&quot;lat&quot;:35.8115,&quot;lng&quot;:139.6615,&quot;has_swing&quot;:false,&quot;has_slide&quot;:false,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;ボール遊び専用。北戸田駅近く。&quot;,&quot;has_dog&quot;:false})">
+            <div class="park-card-header">
+              <div class="park-name">ボール公園</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 新曽2238</div>
+            
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:32,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;ボール公園&quot;,&quot;address&quot;:&quot;新曽2238&quot;,&quot;lat&quot;:35.8115,&quot;lng&quot;:139.6615,&quot;has_swing&quot;:false,&quot;has_slide&quot;:false,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;ボール遊び専用。北戸田駅近く。&quot;,&quot;has_dog&quot;:false})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:23,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;下前1丁目遊園地&quot;,&quot;address&quot;:&quot;下前1-14&quot;,&quot;lat&quot;:35.809,&quot;lng&quot;:139.684,&quot;has_swing&quot;:true,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;小さめの遊園地。&quot;,&quot;has_dog&quot;:false})">
+            <div class="park-card-header">
+              <div class="park-name">下前1丁目遊園地</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 下前1-14</div>
+            <div class="park-features"><span class="feat-tag ">🔄 ブランコ</span><span class="feat-tag ">⛷️ すべり台</span><span class="feat-tag ">🏖️ 砂場</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:23,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;下前1丁目遊園地&quot;,&quot;address&quot;:&quot;下前1-14&quot;,&quot;lat&quot;:35.809,&quot;lng&quot;:139.684,&quot;has_swing&quot;:true,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;小さめの遊園地。&quot;,&quot;has_dog&quot;:false})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:22,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;下前公園&quot;,&quot;address&quot;:&quot;下前2-10-23&quot;,&quot;lat&quot;:35.8081,&quot;lng&quot;:139.6844,&quot;has_swing&quot;:true,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;ボルダリング・カゴ型ブランコ・鉄棒・砂場。多目的トイレあり。★3.9&quot;,&quot;has_dog&quot;:false})">
+            <div class="park-card-header">
+              <div class="park-name">下前公園</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 下前2-10-23</div>
+            <div class="park-features"><span class="feat-tag ">🔄 ブランコ</span><span class="feat-tag ">⛷️ すべり台</span><span class="feat-tag ">🏖️ 砂場</span><span class="feat-tag ">🚻 トイレ</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:22,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;下前公園&quot;,&quot;address&quot;:&quot;下前2-10-23&quot;,&quot;lat&quot;:35.8081,&quot;lng&quot;:139.6844,&quot;has_swing&quot;:true,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;ボルダリング・カゴ型ブランコ・鉄棒・砂場。多目的トイレあり。★3.9&quot;,&quot;has_dog&quot;:false})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:24,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;下戸田1丁目児童公園&quot;,&quot;address&quot;:&quot;下戸田1-5&quot;,&quot;lat&quot;:35.8127,&quot;lng&quot;:139.6872,&quot;has_swing&quot;:true,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;複合遊具・すべり台・ブランコ・鉄棒・砂場。★3.9&quot;,&quot;has_dog&quot;:false})">
+            <div class="park-card-header">
+              <div class="park-name">下戸田1丁目児童公園</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 下戸田1-5</div>
+            <div class="park-features"><span class="feat-tag ">🔄 ブランコ</span><span class="feat-tag ">⛷️ すべり台</span><span class="feat-tag ">🏖️ 砂場</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:24,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;下戸田1丁目児童公園&quot;,&quot;address&quot;:&quot;下戸田1-5&quot;,&quot;lat&quot;:35.8127,&quot;lng&quot;:139.6872,&quot;has_swing&quot;:true,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;複合遊具・すべり台・ブランコ・鉄棒・砂場。★3.9&quot;,&quot;has_dog&quot;:false})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:25,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;下戸田第一公園&quot;,&quot;address&quot;:&quot;下戸田1-18&quot;,&quot;lat&quot;:35.812,&quot;lng&quot;:139.6875,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;複合遊具・うんてい。&quot;,&quot;has_dog&quot;:false})">
+            <div class="park-card-header">
+              <div class="park-name">下戸田第一公園</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 下戸田1-18</div>
+            <div class="park-features"><span class="feat-tag ">⛷️ すべり台</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:25,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;下戸田第一公園&quot;,&quot;address&quot;:&quot;下戸田1-18&quot;,&quot;lat&quot;:35.812,&quot;lng&quot;:139.6875,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;複合遊具・うんてい。&quot;,&quot;has_dog&quot;:false})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:26,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;下戸田第二公園&quot;,&quot;address&quot;:&quot;下戸田1-15&quot;,&quot;lat&quot;:35.8115,&quot;lng&quot;:139.687,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;複合遊具・うんてい。&quot;,&quot;has_dog&quot;:false})">
+            <div class="park-card-header">
+              <div class="park-name">下戸田第二公園</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 下戸田1-15</div>
+            <div class="park-features"><span class="feat-tag ">⛷️ すべり台</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:26,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;下戸田第二公園&quot;,&quot;address&quot;:&quot;下戸田1-15&quot;,&quot;lat&quot;:35.8115,&quot;lng&quot;:139.687,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;複合遊具・うんてい。&quot;,&quot;has_dog&quot;:false})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:12,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;元蕨第一公園&quot;,&quot;address&quot;:&quot;上戸田1-5&quot;,&quot;lat&quot;:35.8193,&quot;lng&quot;:139.6789,&quot;has_swing&quot;:false,&quot;has_slide&quot;:false,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;ベンチ・花壇・砂場。静かな公園。&quot;,&quot;has_dog&quot;:true})">
+            <div class="park-card-header">
+              <div class="park-name">元蕨第一公園</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 上戸田1-5</div>
+            <div class="park-features"><span class="feat-tag ">🏖️ 砂場</span><span class="feat-tag ">🚻 トイレ</span><span class="feat-tag has-dog">🐕 犬の散歩OK</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:12,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;元蕨第一公園&quot;,&quot;address&quot;:&quot;上戸田1-5&quot;,&quot;lat&quot;:35.8193,&quot;lng&quot;:139.6789,&quot;has_swing&quot;:false,&quot;has_slide&quot;:false,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;ベンチ・花壇・砂場。静かな公園。&quot;,&quot;has_dog&quot;:true})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:10,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;元蕨第三公園&quot;,&quot;address&quot;:&quot;上戸田2-9&quot;,&quot;lat&quot;:35.8138,&quot;lng&quot;:139.6813,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;すべり台（大小）・スプリング・砂場。旧戸田城跡付近。★4.2&quot;,&quot;has_dog&quot;:false})">
+            <div class="park-card-header">
+              <div class="park-name">元蕨第三公園</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 上戸田2-9</div>
+            <div class="park-features"><span class="feat-tag ">⛷️ すべり台</span><span class="feat-tag ">🏖️ 砂場</span><span class="feat-tag ">🚻 トイレ</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:10,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;元蕨第三公園&quot;,&quot;address&quot;:&quot;上戸田2-9&quot;,&quot;lat&quot;:35.8138,&quot;lng&quot;:139.6813,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;すべり台（大小）・スプリング・砂場。旧戸田城跡付近。★4.2&quot;,&quot;has_dog&quot;:false})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:11,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;元蕨第二公園&quot;,&quot;address&quot;:&quot;上戸田2-11&quot;,&quot;lat&quot;:35.814,&quot;lng&quot;:139.681,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;小さめの公園。&quot;,&quot;has_dog&quot;:false})">
+            <div class="park-card-header">
+              <div class="park-name">元蕨第二公園</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 上戸田2-11</div>
+            <div class="park-features"><span class="feat-tag ">⛷️ すべり台</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:11,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;元蕨第二公園&quot;,&quot;address&quot;:&quot;上戸田2-11&quot;,&quot;lat&quot;:35.814,&quot;lng&quot;:139.681,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;小さめの公園。&quot;,&quot;has_dog&quot;:false})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:8,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;南町児童公園&quot;,&quot;address&quot;:&quot;南町7-28&quot;,&quot;lat&quot;:35.8059,&quot;lng&quot;:139.6725,&quot;has_swing&quot;:true,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;木陰が多くて心地よい。自転車・バドミントン練習OK。&quot;,&quot;has_dog&quot;:true})">
+            <div class="park-card-header">
+              <div class="park-name">南町児童公園</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 南町7-28</div>
+            <div class="park-features"><span class="feat-tag ">🔄 ブランコ</span><span class="feat-tag ">⛷️ すべり台</span><span class="feat-tag ">🏖️ 砂場</span><span class="feat-tag has-dog">🐕 犬の散歩OK</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:8,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;南町児童公園&quot;,&quot;address&quot;:&quot;南町7-28&quot;,&quot;lat&quot;:35.8059,&quot;lng&quot;:139.6725,&quot;has_swing&quot;:true,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;木陰が多くて心地よい。自転車・バドミントン練習OK。&quot;,&quot;has_dog&quot;:true})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:9,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;南町児童遊園地&quot;,&quot;address&quot;:&quot;南町4-24&quot;,&quot;lat&quot;:35.8063,&quot;lng&quot;:139.6727,&quot;has_swing&quot;:true,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;スプリング遊具あり。戸田漕艇場・中学校近く。&quot;,&quot;has_dog&quot;:false})">
+            <div class="park-card-header">
+              <div class="park-name">南町児童遊園地</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 南町4-24</div>
+            <div class="park-features"><span class="feat-tag ">🔄 ブランコ</span><span class="feat-tag ">⛷️ すべり台</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:9,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;南町児童遊園地&quot;,&quot;address&quot;:&quot;南町4-24&quot;,&quot;lat&quot;:35.8063,&quot;lng&quot;:139.6727,&quot;has_swing&quot;:true,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;スプリング遊具あり。戸田漕艇場・中学校近く。&quot;,&quot;has_dog&quot;:false})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:31,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;噴水公園&quot;,&quot;address&quot;:&quot;新曽2196&quot;,&quot;lat&quot;:35.812,&quot;lng&quot;:139.662,&quot;has_swing&quot;:false,&quot;has_slide&quot;:false,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:true,&quot;notes&quot;:&quot;北戸田駅最寄り。夏は噴水・冬はイルミネーションが綺麗。&quot;,&quot;has_dog&quot;:false})">
+            <div class="park-card-header">
+              <div class="park-name">噴水公園</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 新曽2196</div>
+            <div class="park-features"><span class="feat-tag ">🚻 トイレ</span><span class="feat-tag has-water">💧 水遊び</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:31,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;噴水公園&quot;,&quot;address&quot;:&quot;新曽2196&quot;,&quot;lat&quot;:35.812,&quot;lng&quot;:139.662,&quot;has_swing&quot;:false,&quot;has_slide&quot;:false,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:true,&quot;notes&quot;:&quot;北戸田駅最寄り。夏は噴水・冬はイルミネーションが綺麗。&quot;,&quot;has_dog&quot;:false})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:36,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;圃中公園&quot;,&quot;address&quot;:&quot;笹目3-13&quot;,&quot;lat&quot;:35.8195,&quot;lng&quot;:139.649,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;笹目コミュニティセンターコンパル隣。&quot;,&quot;has_dog&quot;:false})">
+            <div class="park-card-header">
+              <div class="park-name">圃中公園</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 笹目3-13</div>
+            <div class="park-features"><span class="feat-tag ">⛷️ すべり台</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:36,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;圃中公園&quot;,&quot;address&quot;:&quot;笹目3-13&quot;,&quot;lat&quot;:35.8195,&quot;lng&quot;:139.649,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;笹目コミュニティセンターコンパル隣。&quot;,&quot;has_dog&quot;:false})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:4,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;大前公園&quot;,&quot;address&quot;:&quot;本町2-15&quot;,&quot;lat&quot;:35.8081,&quot;lng&quot;:139.6747,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:true,&quot;notes&quot;:&quot;2024年リニューアル。個性的なすべり台。夏は噴水あり。駅徒歩5分。&quot;,&quot;has_dog&quot;:false})">
+            <div class="park-card-header">
+              <div class="park-name">大前公園</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 本町2-15</div>
+            <div class="park-features"><span class="feat-tag ">⛷️ すべり台</span><span class="feat-tag ">🚻 トイレ</span><span class="feat-tag has-water">💧 水遊び</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:4,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;大前公園&quot;,&quot;address&quot;:&quot;本町2-15&quot;,&quot;lat&quot;:35.8081,&quot;lng&quot;:139.6747,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:true,&quot;notes&quot;:&quot;2024年リニューアル。個性的なすべり台。夏は噴水あり。駅徒歩5分。&quot;,&quot;has_dog&quot;:false})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:33,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;山宮公園&quot;,&quot;address&quot;:&quot;笹目4-29&quot;,&quot;lat&quot;:35.8187,&quot;lng&quot;:139.6477,&quot;has_swing&quot;:true,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;ボート型すべり台・鉄棒・砂場。★3.6&quot;,&quot;has_dog&quot;:false})">
+            <div class="park-card-header">
+              <div class="park-name">山宮公園</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 笹目4-29</div>
+            <div class="park-features"><span class="feat-tag ">🔄 ブランコ</span><span class="feat-tag ">⛷️ すべり台</span><span class="feat-tag ">🏖️ 砂場</span><span class="feat-tag ">🚻 トイレ</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:33,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;山宮公園&quot;,&quot;address&quot;:&quot;笹目4-29&quot;,&quot;lat&quot;:35.8187,&quot;lng&quot;:139.6477,&quot;has_swing&quot;:true,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;ボート型すべり台・鉄棒・砂場。★3.6&quot;,&quot;has_dog&quot;:false})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:34,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;山宮北公園&quot;,&quot;address&quot;:&quot;笹目4-44&quot;,&quot;lat&quot;:35.8212,&quot;lng&quot;:139.6523,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;複合遊具（すべり台3本）・ブランコ。木陰多い。イオンモール北戸田最寄り。&quot;,&quot;has_dog&quot;:true})">
+            <div class="park-card-header">
+              <div class="park-name">山宮北公園</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 笹目4-44</div>
+            <div class="park-features"><span class="feat-tag ">⛷️ すべり台</span><span class="feat-tag has-dog">🐕 犬の散歩OK</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:34,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;山宮北公園&quot;,&quot;address&quot;:&quot;笹目4-44&quot;,&quot;lat&quot;:35.8212,&quot;lng&quot;:139.6523,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;複合遊具（すべり台3本）・ブランコ。木陰多い。イオンモール北戸田最寄り。&quot;,&quot;has_dog&quot;:true})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:20,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;川岸3丁目遊園地&quot;,&quot;address&quot;:&quot;川岸3-7&quot;,&quot;lat&quot;:35.8032,&quot;lng&quot;:139.6817,&quot;has_swing&quot;:true,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;すべり台・ブランコ・砂場・シーソー。毎週土曜「ウーフ文庫」無料本貸出。&quot;,&quot;has_dog&quot;:false})">
+            <div class="park-card-header">
+              <div class="park-name">川岸3丁目遊園地</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 川岸3-7</div>
+            <div class="park-features"><span class="feat-tag ">🔄 ブランコ</span><span class="feat-tag ">⛷️ すべり台</span><span class="feat-tag ">🏖️ 砂場</span><span class="feat-tag ">🚻 トイレ</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:20,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;川岸3丁目遊園地&quot;,&quot;address&quot;:&quot;川岸3-7&quot;,&quot;lat&quot;:35.8032,&quot;lng&quot;:139.6817,&quot;has_swing&quot;:true,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;すべり台・ブランコ・砂場・シーソー。毎週土曜「ウーフ文庫」無料本貸出。&quot;,&quot;has_dog&quot;:false})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:19,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;川岸公園&quot;,&quot;address&quot;:&quot;川岸2-11&quot;,&quot;lat&quot;:35.8039,&quot;lng&quot;:139.6862,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;菖蒲川沿い。桜あり。盆踊り会場。&quot;,&quot;has_dog&quot;:true})">
+            <div class="park-card-header">
+              <div class="park-name">川岸公園</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 川岸2-11</div>
+            <div class="park-features"><span class="feat-tag ">⛷️ すべり台</span><span class="feat-tag has-dog">🐕 犬の散歩OK</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:19,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;川岸公園&quot;,&quot;address&quot;:&quot;川岸2-11&quot;,&quot;lat&quot;:35.8039,&quot;lng&quot;:139.6862,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;菖蒲川沿い。桜あり。盆踊り会場。&quot;,&quot;has_dog&quot;:true})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:39,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;彩湖・道満グリーンパーク&quot;,&quot;address&quot;:&quot;大字重瀬745&quot;,&quot;lat&quot;:35.8224,&quot;lng&quot;:139.6313,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:true,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;年間100万人来場。BBQ・テニス・ドッグラン・釣り。埼玉県営。★4.2&quot;,&quot;has_dog&quot;:false})">
+            <div class="park-card-header">
+              <div class="park-name">彩湖・道満グリーンパーク</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 大字重瀬745</div>
+            <div class="park-features"><span class="feat-tag ">⛷️ すべり台</span><span class="feat-tag ">🚻 トイレ</span><span class="feat-tag ">🅿️ 駐車場</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:39,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;彩湖・道満グリーンパーク&quot;,&quot;address&quot;:&quot;大字重瀬745&quot;,&quot;lat&quot;:35.8224,&quot;lng&quot;:139.6313,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:true,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;年間100万人来場。BBQ・テニス・ドッグラン・釣り。埼玉県営。★4.2&quot;,&quot;has_dog&quot;:false})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:18,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;後谷児童遊園地&quot;,&quot;address&quot;:&quot;上戸田4-11&quot;,&quot;lat&quot;:35.8195,&quot;lng&quot;:139.676,&quot;has_swing&quot;:true,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;後谷公園の隣。遊具で遊びたいキッズ向け。&quot;,&quot;has_dog&quot;:false})">
+            <div class="park-card-header">
+              <div class="park-name">後谷児童遊園地</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 上戸田4-11</div>
+            <div class="park-features"><span class="feat-tag ">🔄 ブランコ</span><span class="feat-tag ">⛷️ すべり台</span><span class="feat-tag ">🏖️ 砂場</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:18,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;後谷児童遊園地&quot;,&quot;address&quot;:&quot;上戸田4-11&quot;,&quot;lat&quot;:35.8195,&quot;lng&quot;:139.676,&quot;has_swing&quot;:true,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;後谷公園の隣。遊具で遊びたいキッズ向け。&quot;,&quot;has_dog&quot;:false})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:15,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;後谷公園&quot;,&quot;address&quot;:&quot;上戸田4-8-1&quot;,&quot;lat&quot;:35.8168,&quot;lng&quot;:139.6765,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;ローラー滑り台・池あり。散策向け。★3.7&quot;,&quot;has_dog&quot;:true})">
+            <div class="park-card-header">
+              <div class="park-name">後谷公園</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 上戸田4-8-1</div>
+            <div class="park-features"><span class="feat-tag ">⛷️ すべり台</span><span class="feat-tag ">🚻 トイレ</span><span class="feat-tag has-dog">🐕 犬の散歩OK</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:15,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;後谷公園&quot;,&quot;address&quot;:&quot;上戸田4-8-1&quot;,&quot;lat&quot;:35.8168,&quot;lng&quot;:139.6765,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;ローラー滑り台・池あり。散策向け。★3.7&quot;,&quot;has_dog&quot;:true})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:17,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;後谷第一公園&quot;,&quot;address&quot;:&quot;上戸田1-21&quot;,&quot;lat&quot;:35.8194,&quot;lng&quot;:139.6789,&quot;has_swing&quot;:false,&quot;has_slide&quot;:false,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;ベンチ・花壇・砂場のみ。&quot;,&quot;has_dog&quot;:false})">
+            <div class="park-card-header">
+              <div class="park-name">後谷第一公園</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 上戸田1-21</div>
+            <div class="park-features"><span class="feat-tag ">🏖️ 砂場</span><span class="feat-tag ">🚻 トイレ</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:17,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;後谷第一公園&quot;,&quot;address&quot;:&quot;上戸田1-21&quot;,&quot;lat&quot;:35.8194,&quot;lng&quot;:139.6789,&quot;has_swing&quot;:false,&quot;has_slide&quot;:false,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;ベンチ・花壇・砂場のみ。&quot;,&quot;has_dog&quot;:false})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:16,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;後谷第二公園&quot;,&quot;address&quot;:&quot;上戸田4-2&quot;,&quot;lat&quot;:35.8201,&quot;lng&quot;:139.6754,&quot;has_swing&quot;:true,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;ブランコ・すべり台・スプリング・ジャングルジム。桜あり。&quot;,&quot;has_dog&quot;:false})">
+            <div class="park-card-header">
+              <div class="park-name">後谷第二公園</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 上戸田4-2</div>
+            <div class="park-features"><span class="feat-tag ">🔄 ブランコ</span><span class="feat-tag ">⛷️ すべり台</span><span class="feat-tag ">🚻 トイレ</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:16,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;後谷第二公園&quot;,&quot;address&quot;:&quot;上戸田4-2&quot;,&quot;lat&quot;:35.8201,&quot;lng&quot;:139.6754,&quot;has_swing&quot;:true,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;ブランコ・すべり台・スプリング・ジャングルジム。桜あり。&quot;,&quot;has_dog&quot;:false})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:21,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;戸田橋親水公園&quot;,&quot;address&quot;:&quot;川岸3-7-19&quot;,&quot;lat&quot;:35.8027,&quot;lng&quot;:139.6819,&quot;has_swing&quot;:false,&quot;has_slide&quot;:false,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:true,&quot;notes&quot;:&quot;せせらぎ水遊び（夏）。花火大会の名所。遊具なし。&quot;,&quot;has_dog&quot;:true})">
+            <div class="park-card-header">
+              <div class="park-name">戸田橋親水公園</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 川岸3-7-19</div>
+            <div class="park-features"><span class="feat-tag ">🚻 トイレ</span><span class="feat-tag has-water">💧 水遊び</span><span class="feat-tag has-dog">🐕 犬の散歩OK</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:21,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;戸田橋親水公園&quot;,&quot;address&quot;:&quot;川岸3-7-19&quot;,&quot;lat&quot;:35.8027,&quot;lng&quot;:139.6819,&quot;has_swing&quot;:false,&quot;has_slide&quot;:false,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:true,&quot;notes&quot;:&quot;せせらぎ水遊び（夏）。花火大会の名所。遊具なし。&quot;,&quot;has_dog&quot;:true})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:29,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;新曽南1丁目児童遊園地&quot;,&quot;address&quot;:&quot;新曽南1-10&quot;,&quot;lat&quot;:35.8088,&quot;lng&quot;:139.6678,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;小さめの遊園地。&quot;,&quot;has_dog&quot;:false})">
+            <div class="park-card-header">
+              <div class="park-name">新曽南1丁目児童遊園地</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 新曽南1-10</div>
+            <div class="park-features"><span class="feat-tag ">⛷️ すべり台</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:29,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;新曽南1丁目児童遊園地&quot;,&quot;address&quot;:&quot;新曽南1-10&quot;,&quot;lat&quot;:35.8088,&quot;lng&quot;:139.6678,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;小さめの遊園地。&quot;,&quot;has_dog&quot;:false})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:30,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;新曽南4丁目児童遊園地&quot;,&quot;address&quot;:&quot;新曽南4-5&quot;,&quot;lat&quot;:35.811,&quot;lng&quot;:139.666,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;小さめの遊園地。&quot;,&quot;has_dog&quot;:false})">
+            <div class="park-card-header">
+              <div class="park-name">新曽南4丁目児童遊園地</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 新曽南4-5</div>
+            <div class="park-features"><span class="feat-tag ">⛷️ すべり台</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:30,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;新曽南4丁目児童遊園地&quot;,&quot;address&quot;:&quot;新曽南4-5&quot;,&quot;lat&quot;:35.811,&quot;lng&quot;:139.666,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;小さめの遊園地。&quot;,&quot;has_dog&quot;:false})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:14,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;新田口公園&quot;,&quot;address&quot;:&quot;上戸田5-28&quot;,&quot;lat&quot;:35.8124,&quot;lng&quot;:139.6714,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;広場メイン。ボール広場新設。弥生・古墳時代遺跡の上。&quot;,&quot;has_dog&quot;:true})">
+            <div class="park-card-header">
+              <div class="park-name">新田口公園</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 上戸田5-28</div>
+            <div class="park-features"><span class="feat-tag ">⛷️ すべり台</span><span class="feat-tag ">🚻 トイレ</span><span class="feat-tag has-dog">🐕 犬の散歩OK</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:14,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;新田口公園&quot;,&quot;address&quot;:&quot;上戸田5-28&quot;,&quot;lat&quot;:35.8124,&quot;lng&quot;:139.6714,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;広場メイン。ボール広場新設。弥生・古墳時代遺跡の上。&quot;,&quot;has_dog&quot;:true})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:7,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;曲尺手遊園地&quot;,&quot;address&quot;:&quot;南町8&quot;,&quot;lat&quot;:35.8064,&quot;lng&quot;:139.6722,&quot;has_swing&quot;:true,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;スーパーバリュー横。春の桜が美しい。&quot;,&quot;has_dog&quot;:true})">
+            <div class="park-card-header">
+              <div class="park-name">曲尺手遊園地</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 南町8</div>
+            <div class="park-features"><span class="feat-tag ">🔄 ブランコ</span><span class="feat-tag ">⛷️ すべり台</span><span class="feat-tag ">🏖️ 砂場</span><span class="feat-tag has-dog">🐕 犬の散歩OK</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:7,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;曲尺手遊園地&quot;,&quot;address&quot;:&quot;南町8&quot;,&quot;lat&quot;:35.8064,&quot;lng&quot;:139.6722,&quot;has_swing&quot;:true,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;スーパーバリュー横。春の桜が美しい。&quot;,&quot;has_dog&quot;:true})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:3,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;本村公園&quot;,&quot;address&quot;:&quot;本町3-12&quot;,&quot;lat&quot;:35.8104,&quot;lng&quot;:139.6706,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;すべり台（大小）・スプリング×3・砂場。春は桜が綺麗。&quot;,&quot;has_dog&quot;:false})">
+            <div class="park-card-header">
+              <div class="park-name">本村公園</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 本町3-12</div>
+            <div class="park-features"><span class="feat-tag ">⛷️ すべり台</span><span class="feat-tag ">🏖️ 砂場</span><span class="feat-tag ">🚻 トイレ</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:3,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;本村公園&quot;,&quot;address&quot;:&quot;本町3-12&quot;,&quot;lat&quot;:35.8104,&quot;lng&quot;:139.6706,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;すべり台（大小）・スプリング×3・砂場。春は桜が綺麗。&quot;,&quot;has_dog&quot;:false})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:2,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;本町1丁目児童遊園地&quot;,&quot;address&quot;:&quot;本町1-4-3&quot;,&quot;lat&quot;:35.8106,&quot;lng&quot;:139.6797,&quot;has_swing&quot;:true,&quot;has_slide&quot;:false,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;こどもの国から140m。ブランコあり。&quot;,&quot;has_dog&quot;:false})">
+            <div class="park-card-header">
+              <div class="park-name">本町1丁目児童遊園地</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 本町1-4-3</div>
+            <div class="park-features"><span class="feat-tag ">🔄 ブランコ</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:2,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;本町1丁目児童遊園地&quot;,&quot;address&quot;:&quot;本町1-4-3&quot;,&quot;lat&quot;:35.8106,&quot;lng&quot;:139.6797,&quot;has_swing&quot;:true,&quot;has_slide&quot;:false,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;こどもの国から140m。ブランコあり。&quot;,&quot;has_dog&quot;:false})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:5,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;本町4丁目児童遊園地&quot;,&quot;address&quot;:&quot;本町4-7-3&quot;,&quot;lat&quot;:35.8077,&quot;lng&quot;:139.6813,&quot;has_swing&quot;:true,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;すべり台・ブランコ・砂場。保育園・幼稚園の利用多い。&quot;,&quot;has_dog&quot;:false})">
+            <div class="park-card-header">
+              <div class="park-name">本町4丁目児童遊園地</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 本町4-7-3</div>
+            <div class="park-features"><span class="feat-tag ">🔄 ブランコ</span><span class="feat-tag ">⛷️ すべり台</span><span class="feat-tag ">🏖️ 砂場</span><span class="feat-tag ">🚻 トイレ</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:5,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;本町4丁目児童遊園地&quot;,&quot;address&quot;:&quot;本町4-7-3&quot;,&quot;lat&quot;:35.8077,&quot;lng&quot;:139.6813,&quot;has_swing&quot;:true,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;すべり台・ブランコ・砂場。保育園・幼稚園の利用多い。&quot;,&quot;has_dog&quot;:false})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:6,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;本町5丁目児童遊園地&quot;,&quot;address&quot;:&quot;本町5-13&quot;,&quot;lat&quot;:35.8061,&quot;lng&quot;:139.678,&quot;has_swing&quot;:false,&quot;has_slide&quot;:false,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;芝生のみ。遊具なし。休憩スペース。&quot;,&quot;has_dog&quot;:true})">
+            <div class="park-card-header">
+              <div class="park-name">本町5丁目児童遊園地</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 本町5-13</div>
+            <div class="park-features"><span class="feat-tag has-dog">🐕 犬の散歩OK</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:6,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;本町5丁目児童遊園地&quot;,&quot;address&quot;:&quot;本町5-13&quot;,&quot;lat&quot;:35.8061,&quot;lng&quot;:139.678,&quot;has_swing&quot;:false,&quot;has_slide&quot;:false,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;芝生のみ。遊具なし。休憩スペース。&quot;,&quot;has_dog&quot;:true})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:13,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;東町公園&quot;,&quot;address&quot;:&quot;上戸田2-40&quot;,&quot;lat&quot;:35.8135,&quot;lng&quot;:139.6779,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:true,&quot;notes&quot;:&quot;複合遊具・バナナ型すべり台など種類豊富。夏は水遊びあり。★3.9&quot;,&quot;has_dog&quot;:false})">
+            <div class="park-card-header">
+              <div class="park-name">東町公園</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 上戸田2-40</div>
+            <div class="park-features"><span class="feat-tag ">⛷️ すべり台</span><span class="feat-tag ">🏖️ 砂場</span><span class="feat-tag ">🚻 トイレ</span><span class="feat-tag has-water">💧 水遊び</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:13,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;東町公園&quot;,&quot;address&quot;:&quot;上戸田2-40&quot;,&quot;lat&quot;:35.8135,&quot;lng&quot;:139.6779,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:true,&quot;notes&quot;:&quot;複合遊具・バナナ型すべり台など種類豊富。夏は水遊びあり。★3.9&quot;,&quot;has_dog&quot;:false})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:35,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;柳坪公園&quot;,&quot;address&quot;:&quot;笹目4-22&quot;,&quot;lat&quot;:35.82,&quot;lng&quot;:139.651,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;市民医療センター隣。シェアサイクルステーションあり。&quot;,&quot;has_dog&quot;:false})">
+            <div class="park-card-header">
+              <div class="park-name">柳坪公園</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 笹目4-22</div>
+            <div class="park-features"><span class="feat-tag ">⛷️ すべり台</span><span class="feat-tag ">🏖️ 砂場</span><span class="feat-tag ">🚻 トイレ</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:35,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;柳坪公園&quot;,&quot;address&quot;:&quot;笹目4-22&quot;,&quot;lat&quot;:35.82,&quot;lng&quot;:139.651,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;市民医療センター隣。シェアサイクルステーションあり。&quot;,&quot;has_dog&quot;:false})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:38,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;荒川水循環センター上部公園&quot;,&quot;address&quot;:&quot;笹目5-36-1&quot;,&quot;lat&quot;:35.8178,&quot;lng&quot;:139.6382,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:true,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;屋上公園。パークゴルフ（有料）・どんぐり森・健康遊具。★4.0&quot;,&quot;has_dog&quot;:false})">
+            <div class="park-card-header">
+              <div class="park-name">荒川水循環センター上部公園</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 笹目5-36-1</div>
+            <div class="park-features"><span class="feat-tag ">⛷️ すべり台</span><span class="feat-tag ">🚻 トイレ</span><span class="feat-tag ">🅿️ 駐車場</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:38,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;荒川水循環センター上部公園&quot;,&quot;address&quot;:&quot;笹目5-36-1&quot;,&quot;lat&quot;:35.8178,&quot;lng&quot;:139.6382,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:false,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:true,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;屋上公園。パークゴルフ（有料）・どんぐり森・健康遊具。★4.0&quot;,&quot;has_dog&quot;:false})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:37,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;谷口公園&quot;,&quot;address&quot;:&quot;笹目1-20&quot;,&quot;lat&quot;:35.821,&quot;lng&quot;:139.6455,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;笹目エリアの公園。トイレあり。&quot;,&quot;has_dog&quot;:false})">
+            <div class="park-card-header">
+              <div class="park-name">谷口公園</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 笹目1-20</div>
+            <div class="park-features"><span class="feat-tag ">⛷️ すべり台</span><span class="feat-tag ">🏖️ 砂場</span><span class="feat-tag ">🚻 トイレ</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:37,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;谷口公園&quot;,&quot;address&quot;:&quot;笹目1-20&quot;,&quot;lat&quot;:35.821,&quot;lng&quot;:139.6455,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;笹目エリアの公園。トイレあり。&quot;,&quot;has_dog&quot;:false})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:27,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;馬場ふれあい公園&quot;,&quot;address&quot;:&quot;新曽南2-2&quot;,&quot;lat&quot;:35.8101,&quot;lng&quot;:139.6668,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;すべり台・砂場・ボール広場。★3.8&quot;,&quot;has_dog&quot;:true})">
+            <div class="park-card-header">
+              <div class="park-name">馬場ふれあい公園</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 新曽南2-2</div>
+            <div class="park-features"><span class="feat-tag ">⛷️ すべり台</span><span class="feat-tag ">🏖️ 砂場</span><span class="feat-tag ">🚻 トイレ</span><span class="feat-tag has-dog">🐕 犬の散歩OK</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:27,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;馬場ふれあい公園&quot;,&quot;address&quot;:&quot;新曽南2-2&quot;,&quot;lat&quot;:35.8101,&quot;lng&quot;:139.6668,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:true,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;すべり台・砂場・ボール広場。★3.8&quot;,&quot;has_dog&quot;:true})">詳細を見る</button>
+          </div>
+          <div class="park-card" onclick="openModal({&quot;id&quot;:28,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;馬場公園&quot;,&quot;address&quot;:&quot;新曽南2-7&quot;,&quot;lat&quot;:35.8095,&quot;lng&quot;:139.6672,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;住宅街の中の公園。&quot;,&quot;has_dog&quot;:false})">
+            <div class="park-card-header">
+              <div class="park-name">馬場公園</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 新曽南2-7</div>
+            <div class="park-features"><span class="feat-tag ">⛷️ すべり台</span><span class="feat-tag ">🏖️ 砂場</span></div>
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal({&quot;id&quot;:28,&quot;created_at&quot;:&quot;2026-04-19T03:20:41.545355+00:00&quot;,&quot;name&quot;:&quot;馬場公園&quot;,&quot;address&quot;:&quot;新曽南2-7&quot;,&quot;lat&quot;:35.8095,&quot;lng&quot;:139.6672,&quot;has_swing&quot;:false,&quot;has_slide&quot;:true,&quot;has_sandbox&quot;:true,&quot;has_toilet&quot;:false,&quot;has_parking&quot;:false,&quot;has_water&quot;:false,&quot;notes&quot;:&quot;住宅街の中の公園。&quot;,&quot;has_dog&quot;:false})">詳細を見る</button>
+          </div></div>
+  </main>
 
-function resetFilters() {
-  activeFilters.clear();
-  document.querySelectorAll('.chip[data-filter]').forEach(c => c.classList.remove('active'));
-  renderParks(allParks);
-}
+  <!-- ======================================================
+       MODAL（詳細ページ）
+  ====================================================== -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+    <div class="modal" id="modal" role="dialog" aria-modal="true">
+      <div class="modal-handle"></div>
+      <div class="modal-header">
+        <div class="modal-title" id="modalTitle">公園名</div>
+        <button class="modal-close" onclick="closeModal()" aria-label="閉じる">✕</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
 
-function updateStats(parks) {
-  document.getElementById('total-count').textContent = parks.length;
-  document.getElementById('toilet-count').textContent = parks.filter(p => p.has_toilet).length;
-  document.getElementById('water-count').textContent = parks.filter(p => p.has_water).length;
-}
+  <!-- ======================================================
+       FOOTER
+  ====================================================== -->
+  <footer class="footer">
+    <p>© 2026 戸田市公園ガイド｜情報は現地確認済みですが変更の場合があります</p>
+  </footer>
 
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
-}
+  <!-- ======================================================
+       JavaScript
+  ====================================================== -->
+  <script>
+    /* ---------- Supabase 設定 ---------- */
+    const SUPABASE_URL = 'https://cxqzrbghdibahedstrrv.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_Jceze5gKAJ6VQbZc4_p8HA_aMNPCEXa';
 
-async function fetchParks() {
-  try {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/parks?select=*&order=name`, {
-      headers: {
-        'apikey': SUPABASE_KEY,
-        'Authorization': `Bearer ${SUPABASE_KEY}`,
-        'Content-Type': 'application/json'
+    /* ---------- State ---------- */
+    let allParks = [];
+    let activeFilters = new Set();
+    let map, markers = [];
+
+    /* ---------- 設備ラベル定義 ---------- */
+    const FEATURES = [
+      { key: 'has_swing',   icon: '🔄', label: 'ブランコ',     cls: '' },
+      { key: 'has_slide',   icon: '⛷️', label: 'すべり台',     cls: '' },
+      { key: 'has_sandbox', icon: '🏖️', label: '砂場',         cls: '' },
+      { key: 'has_toilet',  icon: '🚻', label: 'トイレ',       cls: '' },
+      { key: 'has_parking', icon: '🅿️', label: '駐車場',       cls: '' },
+      { key: 'has_water',   icon: '💧', label: '水遊び',       cls: 'has-water' },
+      { key: 'has_dog',     icon: '🐕', label: '犬の散歩OK',   cls: 'has-dog' },
+    ];
+
+    /* ---------- サンプルデータ（Supabase障害時フォールバック） ---------- */
+    const SAMPLE_PARKS = [
+      { id:1, name:'戸田公園',           address:'埼玉県戸田市戸田公園',        lat:35.8234, lng:139.6809, has_swing:true,  has_slide:true,  has_sandbox:true,  has_toilet:true,  has_parking:true,  has_water:true,  has_dog:true,  notes:'広い芝生広場あり' },
+      { id:2, name:'美女木公園',          address:'埼玉県戸田市美女木',           lat:35.8319, lng:139.6621, has_swing:true,  has_slide:false, has_sandbox:false, has_toilet:false, has_parking:false, has_water:false, has_dog:true,  notes:null },
+      { id:3, name:'上戸田緑地',          address:'埼玉県戸田市上戸田',           lat:35.8265, lng:139.6774, has_swing:false, has_slide:true,  has_sandbox:true,  has_toilet:true,  has_parking:false, has_water:false, has_dog:false, notes:null },
+      { id:4, name:'新曽北公園',          address:'埼玉県戸田市新曽北',           lat:35.8192, lng:139.6842, has_swing:true,  has_slide:true,  has_sandbox:false, has_toilet:true,  has_parking:true,  has_water:true,  has_dog:true,  notes:'夏季のみ水遊び' },
+      { id:5, name:'喜沢南公園',          address:'埼玉県戸田市喜沢南',           lat:35.8155, lng:139.6881, has_swing:false, has_slide:false, has_sandbox:false, has_toilet:false, has_parking:false, has_water:false, has_dog:true,  notes:null },
+      { id:6, name:'下笹目公園',          address:'埼玉県戸田市下笹目',           lat:35.8445, lng:139.6730, has_swing:true,  has_slide:true,  has_sandbox:true,  has_toilet:true,  has_parking:false, has_water:false, has_dog:false, notes:null },
+      { id:7, name:'川岸公園',            address:'埼玉県戸田市川岸',             lat:35.8376, lng:139.6893, has_swing:false, has_slide:true,  has_sandbox:false, has_toilet:true,  has_parking:false, has_water:true,  has_dog:true,  notes:null },
+      { id:8, name:'前谷公園',            address:'埼玉県戸田市前谷',             lat:35.8298, lng:139.6753, has_swing:true,  has_slide:false, has_sandbox:true,  has_toilet:false, has_parking:false, has_water:false, has_dog:false, notes:null },
+      { id:9, name:'笹目川公園',          address:'埼玉県戸田市笹目',             lat:35.8412, lng:139.6677, has_swing:true,  has_slide:true,  has_sandbox:false, has_toilet:true,  has_parking:true,  has_water:false, has_dog:true,  notes:null },
+      { id:10,name:'本町公園',            address:'埼玉県戸田市本町',             lat:35.8220, lng:139.6838, has_swing:false, has_slide:true,  has_sandbox:true,  has_toilet:true,  has_parking:false, has_water:false, has_dog:false, notes:null },
+    ];
+
+    /* ============================================================
+       Supabase からデータ取得
+    ============================================================ */
+    async function fetchParks() {
+      try {
+        const res = await fetch(
+          `${SUPABASE_URL}/rest/v1/parks?select=*&order=name`,
+          {
+            headers: {
+              'apikey': SUPABASE_KEY,
+              'Authorization': `Bearer ${SUPABASE_KEY}`,
+            }
+          }
+        );
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        return Array.isArray(data) && data.length > 0 ? data : SAMPLE_PARKS;
+      } catch (e) {
+        console.warn('Supabase fetch failed, using sample data:', e);
+        return SAMPLE_PARKS;
       }
+    }
+
+    /* ============================================================
+       地図初期化
+    ============================================================ */
+    function initMap() {
+      map = L.map('map').setView([35.827, 139.677], 13);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors',
+        maxZoom: 19,
+      }).addTo(map);
+    }
+
+    function updateMapMarkers(parks) {
+      markers.forEach(m => map.removeLayer(m));
+      markers = [];
+      parks.forEach(p => {
+        if (!p.lat || !p.lng) return;
+        const m = L.marker([p.lat, p.lng])
+          .addTo(map)
+          .bindPopup(`<strong>${p.name}</strong><br><small>${p.address||''}</small>`);
+        m.on('click', () => openModal(p));
+        markers.push(m);
+      });
+    }
+
+    /* ============================================================
+       フィルター
+    ============================================================ */
+    function toggleFilter(btn) {
+      const key = btn.dataset.filter;
+      if (activeFilters.has(key)) {
+        activeFilters.delete(key);
+        btn.classList.remove('active');
+      } else {
+        activeFilters.add(key);
+        btn.classList.add('active');
+      }
+      renderParks();
+    }
+
+    function getFiltered() {
+      if (activeFilters.size === 0) return allParks;
+      return allParks.filter(p =>
+        [...activeFilters].every(f => p[f] === true)
+      );
+    }
+
+    /* ============================================================
+       カードレンダリング
+    ============================================================ */
+    function renderParks() {
+      const filtered = getFiltered();
+      document.getElementById('count').textContent = filtered.length;
+      updateMapMarkers(filtered);
+
+      const grid = document.getElementById('parksGrid');
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🔍</div><p>条件に合う公園が見つかりませんでした。<br>絞り込みを解除してお試しください。</p></div>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(p => {
+        const featTags = FEATURES
+          .filter(f => p[f.key])
+          .map(f => `<span class="feat-tag ${f.cls}">${f.icon} ${f.label}</span>`)
+          .join('');
+        return `
+          <div class="park-card" onclick="openModal(${JSON.stringify(p).replace(/"/g,'&quot;')})">
+            <div class="park-card-header">
+              <div class="park-name">${esc(p.name)}</div>
+              <div class="park-arrow">›</div>
+            </div>
+            <div class="park-address">📍 ${esc(p.address || '住所未登録')}</div>
+            ${featTags ? `<div class="park-features">${featTags}</div>` : ''}
+            <button class="park-detail-btn" onclick="event.stopPropagation();openModal(${JSON.stringify(p).replace(/"/g,'&quot;')})">詳細を見る</button>
+          </div>`;
+      }).join('');
+    }
+
+    function esc(str) {
+      return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    /* ============================================================
+       モーダル
+    ============================================================ */
+    function openModal(park) {
+      document.getElementById('modalTitle').textContent = park.name;
+
+      const equipHTML = FEATURES.map(f => {
+        const has = park[f.key];
+        const cls = has ? (f.cls || 'has') : '';
+        const opacity = has ? '' : 'style="opacity:.35"';
+        return `<div class="equip-item ${cls}" ${opacity}><span class="equip-icon">${f.icon}</span>${f.label}</div>`;
+      }).join('');
+
+      const gmapUrl = park.lat && park.lng
+        ? `https://www.google.com/maps/search/?api=1&query=${park.lat},${park.lng}`
+        : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(park.name + ' 戸田市')}`;
+
+      document.getElementById('modalBody').innerHTML = `
+        <!-- 写真エリア（将来ユーザー投稿対応） -->
+        <div class="photo-area">
+          <div class="photo-area-icon">📸</div>
+          <div class="photo-area-text">
+            公園の写真はまだ登録されていません<br>
+            <small>散歩中の写真を投稿してみんなに教えよう</small>
+          </div>
+          <span class="photo-area-badge">🚧 写真投稿機能 準備中</span>
+        </div>
+
+        <!-- 設備情報 -->
+        <div>
+          <div class="info-section-title">EQUIPMENT ／ 設備・特徴</div>
+          <div class="equip-grid">${equipHTML}</div>
+        </div>
+
+        <!-- 住所 -->
+        <div>
+          <div class="info-section-title">ACCESS ／ アクセス</div>
+          <div class="info-row">
+            <span class="info-row-icon">📍</span>
+            <div class="info-row-content">
+              <div class="info-row-label">住所</div>
+              <div class="info-row-value">${esc(park.address || '住所未登録')}</div>
+            </div>
+          </div>
+        </div>
+
+        ${park.notes ? `
+        <!-- メモ -->
+        <div class="info-row">
+          <span class="info-row-icon">💬</span>
+          <div class="info-row-content">
+            <div class="info-row-label">メモ</div>
+            <div class="info-row-value">${esc(park.notes)}</div>
+          </div>
+        </div>` : ''}
+
+        <!-- Googleマップ -->
+        <a class="gmap-btn" href="${gmapUrl}" target="_blank" rel="noopener">
+          🗺️ Googleマップで経路を調べる
+        </a>
+      `;
+
+      document.getElementById('modalOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function closeModalOutside(e) {
+      if (e.target === document.getElementById('modalOverlay')) closeModal();
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeModal();
     });
-    if (!res.ok) throw new Error('Supabase error');
-    const data = await res.json();
-    return data && data.length > 0 ? data : null;
-  } catch (e) {
-    return null;
-  }
-}
 
-async function init() {
-  initMap();
-  const data = await fetchParks();
-  if (data) {
-    allParks = data;
-    showToast('✅ データを読み込みました');
-  } else {
-    allParks = SAMPLE_PARKS;
-    showToast('📋 サンプルデータを表示中');
-  }
-  updateStats(allParks);
-  renderParks(allParks);
-}
+    /* ============================================================
+       Init
+    ============================================================ */
+    (async () => {
+      initMap();
+      allParks = await fetchParks();
+      renderParks();
+    })();
+  </script>
 
-init();
-</script>
 
 </body></html>
