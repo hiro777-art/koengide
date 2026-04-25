@@ -312,6 +312,7 @@
     let activeFilters = new Set();
     let map, markers = [];
 
+    // フィルター用（チップボタン）
     const FEATURES = [
       { key: 'has_swing',   icon: '🎠', label: 'ブランコ',     cls: '' },
       { key: 'has_slide',   icon: '🛝', label: 'すべり台',     cls: '' },
@@ -320,6 +321,18 @@
       { key: 'has_parking', icon: '🅿️', label: '駐車場',       cls: '' },
       { key: 'has_water',   icon: '💧', label: '水遊び',       cls: 'has-water' },
       { key: 'has_dog',     icon: '🐕', label: '犬の散歩OK',   cls: 'has-dog' },
+    ];
+
+    // モーダル用（設備グリッド）：コンビニ近隣を追加
+    const MODAL_FEATURES = [
+      { key: 'has_swing',       icon: '🎠', label: 'ブランコ',     cls: '' },
+      { key: 'has_slide',       icon: '🛝', label: 'すべり台',     cls: '' },
+      { key: 'has_sandbox',     icon: '🏖️', label: '砂場',         cls: '' },
+      { key: 'has_toilet',      icon: '🚻', label: 'トイレ',       cls: '' },
+      { key: 'has_parking',     icon: '🅿️', label: '駐車場',       cls: '' },
+      { key: 'has_water',       icon: '💧', label: '水遊び',       cls: 'has-water' },
+      { key: 'has_dog',         icon: '🐕', label: '犬の散歩OK',   cls: 'has-dog' },
+      { key: 'has_convenience', icon: '🏪', label: 'コンビニ近隣', cls: '' },
     ];
 
     const SAMPLE_PARKS = [
@@ -421,7 +434,7 @@
 
     function openModal(park) {
       document.getElementById('modalTitle').textContent = park.name;
-      const equipHTML = FEATURES.map(f => {
+      const equipHTML = MODAL_FEATURES.map(f => {
         const has = park[f.key];
         const cls = has ? (f.cls || 'has') : '';
         const opacity = has ? '' : 'style="opacity:.35"';
