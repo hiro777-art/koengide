@@ -27,9 +27,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Zen+Maru+Gothic:wght@700;900&display=swap" rel="stylesheet" />
 
   <style>
-    /* ============================================================
-       CSS Variables
-    ============================================================ */
     :root {
       --green-dark:   #1a4a2e;
       --green-mid:    #2d6a4f;
@@ -52,10 +49,6 @@
       --shadow-md:    0 6px 20px rgba(0,0,0,.12);
       --shadow-lg:    0 16px 48px rgba(0,0,0,.18);
     }
-
-    /* ============================================================
-       Reset & Base
-    ============================================================ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
@@ -65,18 +58,12 @@
       min-height: 100vh;
       overflow-x: hidden;
     }
-
-    /* ============================================================
-       HERO HEADER
-    ============================================================ */
     .hero {
       position: relative;
       background: var(--green-dark);
       overflow: hidden;
       padding: 0;
     }
-
-    /* 背景装飾：葉っぱシルエット（SVG） */
     .hero-bg {
       position: absolute;
       inset: 0;
@@ -99,14 +86,10 @@
       background: radial-gradient(circle, rgba(149,213,178,.15) 0%, transparent 70%);
       border-radius: 50%;
     }
-    .hero-leaf {
-      position: absolute;
-      opacity: .06;
-    }
+    .hero-leaf { position: absolute; opacity: .06; }
     .hero-leaf-1 { top: 10px; left: 5%; font-size: 120px; transform: rotate(-20deg); }
     .hero-leaf-2 { top: 30px; right: 8%; font-size: 90px; transform: rotate(15deg); }
     .hero-leaf-3 { bottom: 10px; left: 30%; font-size: 70px; transform: rotate(10deg); }
-
     .hero-inner {
       position: relative;
       z-index: 1;
@@ -118,7 +101,6 @@
       align-items: flex-start;
       gap: 10px;
     }
-
     .hero-badge {
       display: inline-flex;
       align-items: center;
@@ -133,7 +115,6 @@
       font-weight: 500;
     }
     .hero-badge span { font-size: 14px; }
-
     .hero-title {
       font-family: 'Zen Maru Gothic', sans-serif;
       font-size: clamp(26px, 6vw, 46px);
@@ -142,28 +123,15 @@
       line-height: 1.25;
       letter-spacing: -.01em;
     }
-    .hero-title em {
-      font-style: normal;
-      color: var(--lime);
-    }
-
+    .hero-title em { font-style: normal; color: var(--lime); }
     .hero-sub {
       font-size: clamp(13px, 2.5vw, 15px);
       color: rgba(255,255,255,.65);
       line-height: 1.7;
       max-width: 520px;
     }
-
-    .hero-stats {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-      margin-top: 4px;
-    }
-    .hero-stat {
-      display: flex;
-      flex-direction: column;
-    }
+    .hero-stats { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 4px; }
+    .hero-stat { display: flex; flex-direction: column; }
     .hero-stat-num {
       font-family: 'Zen Maru Gothic', sans-serif;
       font-size: 28px;
@@ -172,16 +140,7 @@
       line-height: 1;
     }
     .hero-stat-num small { font-size: 14px; }
-    .hero-stat-label {
-      font-size: 11px;
-      color: rgba(255,255,255,.5);
-      margin-top: 2px;
-      letter-spacing: .06em;
-    }
-
-    /* ============================================================
-       FILTER BAR
-    ============================================================ */
+    .hero-stat-label { font-size: 11px; color: rgba(255,255,255,.5); margin-top: 2px; letter-spacing: .06em; }
     .filter-section {
       background: var(--white);
       border-bottom: 1px solid var(--gray-100);
@@ -190,23 +149,9 @@
       z-index: 100;
       box-shadow: 0 2px 12px rgba(0,0,0,.06);
     }
-    .filter-inner {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 12px 16px;
-    }
-    .filter-label {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--gray-500);
-      letter-spacing: .1em;
-      margin-bottom: 8px;
-    }
-    .filter-chips {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
+    .filter-inner { max-width: 960px; margin: 0 auto; padding: 12px 16px; }
+    .filter-label { font-size: 11px; font-weight: 700; color: var(--gray-500); letter-spacing: .1em; margin-bottom: 8px; }
+    .filter-chips { display: flex; gap: 8px; flex-wrap: wrap; }
     .chip {
       display: inline-flex;
       align-items: center;
@@ -223,408 +168,64 @@
       white-space: nowrap;
       user-select: none;
     }
-    .chip:hover {
-      border-color: var(--green-light);
-      color: var(--green-mid);
-      background: var(--green-pale);
-    }
-    .chip.active {
-      background: var(--green-mid);
-      border-color: var(--green-mid);
-      color: var(--white);
-      box-shadow: 0 2px 8px rgba(45,106,79,.3);
-    }
-    .chip.active:hover {
-      background: var(--green-dark);
-      border-color: var(--green-dark);
-    }
+    .chip:hover { border-color: var(--green-light); color: var(--green-mid); background: var(--green-pale); }
+    .chip.active { background: var(--green-mid); border-color: var(--green-mid); color: var(--white); box-shadow: 0 2px 8px rgba(45,106,79,.3); }
+    .chip.active:hover { background: var(--green-dark); border-color: var(--green-dark); }
     .chip-icon { font-size: 16px; }
-
-    /* ============================================================
-       MAIN LAYOUT
-    ============================================================ */
-    .main {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 20px 16px 60px;
-    }
-
-    .result-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 16px;
-    }
-    .result-count {
-      font-size: 13px;
-      color: var(--gray-500);
-    }
-    .result-count strong {
-      color: var(--green-mid);
-      font-size: 18px;
-      font-weight: 700;
-    }
-
-    /* ============================================================
-       MAP
-    ============================================================ */
-    #map {
-      height: 340px;
-      border-radius: var(--radius-lg);
-      border: 2px solid var(--gray-100);
-      margin-bottom: 24px;
-      box-shadow: var(--shadow-md);
-      overflow: hidden;
-    }
-
-    /* ============================================================
-       PARK CARDS GRID
-    ============================================================ */
-    .parks-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 14px;
-    }
-
-    .park-card {
-      background: var(--white);
-      border-radius: var(--radius-md);
-      border: 1.5px solid var(--gray-100);
-      padding: 16px;
-      cursor: pointer;
-      transition: all .2s ease;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .park-card:hover {
-      border-color: var(--green-light);
-      box-shadow: var(--shadow-md);
-      transform: translateY(-2px);
-    }
-
-    .park-card-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 8px;
-    }
-    .park-name {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--text);
-      line-height: 1.4;
-      flex: 1;
-    }
-    .park-arrow {
-      font-size: 18px;
-      color: var(--gray-300);
-      flex-shrink: 0;
-      transition: transform .18s;
-    }
-    .park-card:hover .park-arrow {
-      transform: translateX(3px);
-      color: var(--green-light);
-    }
-
-    .park-address {
-      font-size: 11px;
-      color: var(--gray-500);
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .park-features {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-    .feat-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 3px;
-      background: var(--green-pale);
-      color: var(--green-mid);
-      border-radius: 6px;
-      padding: 3px 8px;
-      font-size: 11px;
-      font-weight: 500;
-    }
-    .feat-tag.dog {
-      background: #fff3e0;
-      color: #e65100;
-    }
-    .feat-tag.water {
-      background: #e3f2fd;
-      color: #1565c0;
-    }
-
-    .park-detail-btn {
-      margin-top: 4px;
-      padding: 9px 0;
-      border-radius: var(--radius-sm);
-      border: 1.5px solid var(--green-light);
-      background: transparent;
-      color: var(--green-mid);
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all .18s;
-      font-family: inherit;
-    }
-    .park-detail-btn:hover {
-      background: var(--green-mid);
-      color: var(--white);
-    }
-
-    /* ============================================================
-       MODAL
-    ============================================================ */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(10,20,15,.6);
-      backdrop-filter: blur(4px);
-      z-index: 1000;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .25s ease;
-    }
-    .modal-overlay.open {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    .modal {
-      background: var(--white);
-      width: 100%;
-      max-width: 640px;
-      max-height: 90dvh;
-      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-      overflow-y: auto;
-      overscroll-behavior: contain;
-      transform: translateY(60px);
-      transition: transform .3s cubic-bezier(.22,.61,.36,1);
-    }
-    .modal-overlay.open .modal {
-      transform: translateY(0);
-    }
-
-    .modal-handle {
-      width: 40px; height: 4px;
-      background: var(--gray-300);
-      border-radius: 100px;
-      margin: 12px auto 0;
-    }
-
-    .modal-header {
-      padding: 16px 20px 12px;
-      border-bottom: 1px solid var(--gray-100);
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 12px;
-      position: sticky;
-      top: 0;
-      background: var(--white);
-      z-index: 1;
-    }
-    .modal-title {
-      font-family: 'Zen Maru Gothic', sans-serif;
-      font-size: 20px;
-      font-weight: 700;
-      line-height: 1.3;
-      color: var(--green-dark);
-    }
-    .modal-close {
-      width: 32px; height: 32px;
-      border-radius: 50%;
-      border: none;
-      background: var(--gray-100);
-      cursor: pointer;
-      font-size: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      transition: background .15s;
-      color: var(--gray-700);
-    }
+    .main { max-width: 960px; margin: 0 auto; padding: 20px 16px 60px; }
+    .result-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .result-count { font-size: 13px; color: var(--gray-500); }
+    .result-count strong { color: var(--green-mid); font-size: 18px; font-weight: 700; }
+    #map { height: 340px; border-radius: var(--radius-lg); border: 2px solid var(--gray-100); margin-bottom: 24px; box-shadow: var(--shadow-md); overflow: hidden; }
+    .parks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+    .park-card { background: var(--white); border-radius: var(--radius-md); border: 1.5px solid var(--gray-100); padding: 16px; cursor: pointer; transition: all .2s ease; display: flex; flex-direction: column; gap: 10px; }
+    .park-card:hover { border-color: var(--green-light); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .park-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+    .park-name { font-size: 15px; font-weight: 700; color: var(--text); line-height: 1.4; flex: 1; }
+    .park-arrow { font-size: 18px; color: var(--gray-300); flex-shrink: 0; transition: transform .18s; }
+    .park-card:hover .park-arrow { transform: translateX(3px); color: var(--green-light); }
+    .park-address { font-size: 11px; color: var(--gray-500); display: flex; align-items: center; gap: 4px; }
+    .park-features { display: flex; gap: 6px; flex-wrap: wrap; }
+    .feat-tag { display: inline-flex; align-items: center; gap: 3px; background: var(--green-pale); color: var(--green-mid); border-radius: 6px; padding: 3px 8px; font-size: 11px; font-weight: 500; }
+    .feat-tag.dog { background: #fff3e0; color: #e65100; }
+    .feat-tag.water { background: #e3f2fd; color: #1565c0; }
+    .park-detail-btn { margin-top: 4px; padding: 9px 0; border-radius: var(--radius-sm); border: 1.5px solid var(--green-light); background: transparent; color: var(--green-mid); font-size: 13px; font-weight: 700; cursor: pointer; transition: all .18s; font-family: inherit; }
+    .park-detail-btn:hover { background: var(--green-mid); color: var(--white); }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(10,20,15,.6); backdrop-filter: blur(4px); z-index: 1000; display: flex; align-items: flex-end; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .25s ease; }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal { background: var(--white); width: 100%; max-width: 640px; max-height: 90dvh; border-radius: var(--radius-lg) var(--radius-lg) 0 0; overflow-y: auto; overscroll-behavior: contain; transform: translateY(60px); transition: transform .3s cubic-bezier(.22,.61,.36,1); }
+    .modal-overlay.open .modal { transform: translateY(0); }
+    .modal-handle { width: 40px; height: 4px; background: var(--gray-300); border-radius: 100px; margin: 12px auto 0; }
+    .modal-header { padding: 16px 20px 12px; border-bottom: 1px solid var(--gray-100); display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; position: sticky; top: 0; background: var(--white); z-index: 1; }
+    .modal-title { font-family: 'Zen Maru Gothic', sans-serif; font-size: 20px; font-weight: 700; line-height: 1.3; color: var(--green-dark); }
+    .modal-close { width: 32px; height: 32px; border-radius: 50%; border: none; background: var(--gray-100); cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background .15s; color: var(--gray-700); }
     .modal-close:hover { background: var(--gray-300); }
-
-    .modal-body {
-      padding: 16px 20px 32px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    /* 写真エリア */
-    .photo-area {
-      background: var(--gray-100);
-      border-radius: var(--radius-md);
-      min-height: 160px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      border: 2px dashed var(--gray-300);
-      padding: 24px;
-      text-align: center;
-    }
+    .modal-body { padding: 16px 20px 32px; display: flex; flex-direction: column; gap: 20px; }
+    .photo-area { background: var(--gray-100); border-radius: var(--radius-md); min-height: 160px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; border: 2px dashed var(--gray-300); padding: 24px; text-align: center; }
     .photo-area-icon { font-size: 36px; opacity: .4; }
-    .photo-area-text {
-      font-size: 13px;
-      color: var(--gray-500);
-      line-height: 1.6;
-    }
-    .photo-area-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      background: var(--accent);
-      color: var(--white);
-      border-radius: 100px;
-      padding: 4px 12px;
-      font-size: 11px;
-      font-weight: 700;
-    }
-
-    /* 設備情報グリッド */
-    .info-section-title {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--gray-500);
-      letter-spacing: .1em;
-      margin-bottom: 10px;
-    }
-    .equip-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-    }
-    .equip-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      padding: 12px 8px;
-      border-radius: var(--radius-sm);
-      border: 1.5px solid var(--gray-100);
-      font-size: 11px;
-      font-weight: 500;
-      text-align: center;
-      color: var(--gray-500);
-      transition: all .15s;
-    }
-    .equip-item.has {
-      border-color: var(--green-pale);
-      background: var(--green-pale);
-      color: var(--green-mid);
-    }
-    .equip-item.has-dog {
-      border-color: #ffe0b2;
-      background: #fff8f0;
-      color: #e65100;
-    }
-    .equip-item.has-water {
-      border-color: #bbdefb;
-      background: #e3f2fd;
-      color: #1565c0;
-    }
+    .photo-area-text { font-size: 13px; color: var(--gray-500); line-height: 1.6; }
+    .photo-area-badge { display: inline-flex; align-items: center; gap: 5px; background: var(--accent); color: var(--white); border-radius: 100px; padding: 4px 12px; font-size: 11px; font-weight: 700; }
+    .info-section-title { font-size: 12px; font-weight: 700; color: var(--gray-500); letter-spacing: .1em; margin-bottom: 10px; }
+    .equip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .equip-item { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px 8px; border-radius: var(--radius-sm); border: 1.5px solid var(--gray-100); font-size: 11px; font-weight: 500; text-align: center; color: var(--gray-500); transition: all .15s; }
+    .equip-item.has { border-color: var(--green-pale); background: var(--green-pale); color: var(--green-mid); }
+    .equip-item.has-dog { border-color: #ffe0b2; background: #fff8f0; color: #e65100; }
+    .equip-item.has-water { border-color: #bbdefb; background: #e3f2fd; color: #1565c0; }
     .equip-icon { font-size: 22px; }
-
-    /* 住所・メモ */
-    .info-row {
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-    }
+    .info-row { display: flex; gap: 10px; align-items: flex-start; }
     .info-row-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
     .info-row-content { flex: 1; }
-    .info-row-label {
-      font-size: 11px;
-      color: var(--gray-500);
-      margin-bottom: 2px;
-    }
-    .info-row-value {
-      font-size: 14px;
-      color: var(--text);
-      line-height: 1.5;
-    }
-
-    /* Googleマップボタン */
-    .gmap-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 14px;
-      border-radius: var(--radius-md);
-      border: none;
-      background: var(--green-mid);
-      color: var(--white);
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      text-decoration: none;
-      transition: background .18s;
-      font-family: inherit;
-    }
+    .info-row-label { font-size: 11px; color: var(--gray-500); margin-bottom: 2px; }
+    .info-row-value { font-size: 14px; color: var(--text); line-height: 1.5; }
+    .gmap-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px; border-radius: var(--radius-md); border: none; background: var(--green-mid); color: var(--white); font-size: 14px; font-weight: 700; cursor: pointer; text-decoration: none; transition: background .18s; font-family: inherit; }
     .gmap-btn:hover { background: var(--green-dark); }
-
-    /* ============================================================
-       EMPTY STATE
-    ============================================================ */
-    .empty-state {
-      grid-column: 1 / -1;
-      text-align: center;
-      padding: 60px 20px;
-      color: var(--gray-500);
-    }
+    .empty-state { grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: var(--gray-500); }
     .empty-state-icon { font-size: 48px; margin-bottom: 12px; }
     .empty-state p { font-size: 15px; }
-
-    /* ============================================================
-       LOADING
-    ============================================================ */
-    .loading {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      padding: 48px;
-      color: var(--gray-500);
-      font-size: 14px;
-    }
-    .spinner {
-      width: 32px; height: 32px;
-      border: 3px solid var(--gray-100);
-      border-top-color: var(--green-mid);
-      border-radius: 50%;
-      animation: spin .8s linear infinite;
-    }
+    .loading { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 48px; color: var(--gray-500); font-size: 14px; }
+    .spinner { width: 32px; height: 32px; border: 3px solid var(--gray-100); border-top-color: var(--green-mid); border-radius: 50%; animation: spin .8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* ============================================================
-       FOOTER
-    ============================================================ */
-    .footer {
-      text-align: center;
-      padding: 24px;
-      font-size: 12px;
-      color: var(--gray-500);
-      border-top: 1px solid var(--gray-100);
-    }
-
-    /* ============================================================
-       RESPONSIVE
-    ============================================================ */
+    .footer { text-align: center; padding: 24px; font-size: 12px; color: var(--gray-500); border-top: 1px solid var(--gray-100); }
     @media (min-width: 600px) {
       .modal-overlay { align-items: center; }
       .modal { border-radius: var(--radius-lg); max-height: 85vh; }
@@ -640,9 +241,6 @@
 </head>
 <body>
 
-  <!-- ======================================================
-       HERO
-  ====================================================== -->
   <header class="hero">
     <div class="hero-bg"></div>
     <div class="hero-leaf hero-leaf-1">🌿</div>
@@ -660,23 +258,16 @@
           <div class="hero-stat-num">80<small>件</small></div>
           <div class="hero-stat-label">掲載公園数（目標）</div>
         </div>
-        <div class="hero-stat">
-          <div class="hero-stat-num">5<small>種類</small></div>
-          <div class="hero-stat-label">絞り込み条件</div>
-        </div>
       </div>
     </div>
   </header>
 
-  <!-- ======================================================
-       FILTER BAR
-  ====================================================== -->
   <div class="filter-section">
     <div class="filter-inner">
       <div class="filter-label">▼ 条件で絞り込む</div>
       <div class="filter-chips">
-        <button class="chip" data-filter="has_swing"   onclick="toggleFilter(this)"><span class="chip-icon">🔄</span>ブランコ</button>
-        <button class="chip" data-filter="has_slide"   onclick="toggleFilter(this)"><span class="chip-icon">⛷️</span>すべり台</button>
+        <button class="chip" data-filter="has_swing"   onclick="toggleFilter(this)"><span class="chip-icon">🎠</span>ブランコ</button>
+        <button class="chip" data-filter="has_slide"   onclick="toggleFilter(this)"><span class="chip-icon">🛝</span>すべり台</button>
         <button class="chip" data-filter="has_sandbox" onclick="toggleFilter(this)"><span class="chip-icon">🏖️</span>砂場</button>
         <button class="chip" data-filter="has_toilet"  onclick="toggleFilter(this)"><span class="chip-icon">🚻</span>トイレ</button>
         <button class="chip" data-filter="has_water"   onclick="toggleFilter(this)"><span class="chip-icon">💧</span>水遊び</button>
@@ -686,29 +277,18 @@
     </div>
   </div>
 
-  <!-- ======================================================
-       MAIN
-  ====================================================== -->
   <main class="main">
-    <!-- 地図 -->
     <div id="map"></div>
-
-    <!-- 件数 -->
     <div class="result-bar">
       <div class="result-count">
         <strong id="count">−</strong> 件 見つかりました
       </div>
     </div>
-
-    <!-- カードグリッド -->
     <div class="parks-grid" id="parksGrid">
       <div class="loading"><div class="spinner"></div>公園データを読み込み中…</div>
     </div>
   </main>
 
-  <!-- ======================================================
-       MODAL（詳細ページ）
-  ====================================================== -->
   <div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
     <div class="modal" id="modal" role="dialog" aria-modal="true">
       <div class="modal-handle"></div>
@@ -720,30 +300,21 @@
     </div>
   </div>
 
-  <!-- ======================================================
-       FOOTER
-  ====================================================== -->
   <footer class="footer">
     <p>© 2026 戸田市公園ガイド｜情報は現地確認済みですが変更の場合があります</p>
   </footer>
 
-  <!-- ======================================================
-       JavaScript
-  ====================================================== -->
   <script>
-    /* ---------- Supabase 設定 ---------- */
     const SUPABASE_URL = 'https://cxqzrbghdibahedstrrv.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_Jceze5gKAJ6VQbZc4_p8HA_aMNPCEXa';
 
-    /* ---------- State ---------- */
     let allParks = [];
     let activeFilters = new Set();
     let map, markers = [];
 
-    /* ---------- 設備ラベル定義 ---------- */
     const FEATURES = [
-      { key: 'has_swing',   icon: '🔄', label: 'ブランコ',     cls: '' },
-      { key: 'has_slide',   icon: '⛷️', label: 'すべり台',     cls: '' },
+      { key: 'has_swing',   icon: '🎠', label: 'ブランコ',     cls: '' },
+      { key: 'has_slide',   icon: '🛝', label: 'すべり台',     cls: '' },
       { key: 'has_sandbox', icon: '🏖️', label: '砂場',         cls: '' },
       { key: 'has_toilet',  icon: '🚻', label: 'トイレ',       cls: '' },
       { key: 'has_parking', icon: '🅿️', label: '駐車場',       cls: '' },
@@ -751,33 +322,24 @@
       { key: 'has_dog',     icon: '🐕', label: '犬の散歩OK',   cls: 'has-dog' },
     ];
 
-    /* ---------- サンプルデータ（Supabase障害時フォールバック） ---------- */
     const SAMPLE_PARKS = [
-      { id:1, name:'戸田公園',           address:'埼玉県戸田市戸田公園',        lat:35.8234, lng:139.6809, has_swing:true,  has_slide:true,  has_sandbox:true,  has_toilet:true,  has_parking:true,  has_water:true,  has_dog:true,  notes:'広い芝生広場あり' },
-      { id:2, name:'美女木公園',          address:'埼玉県戸田市美女木',           lat:35.8319, lng:139.6621, has_swing:true,  has_slide:false, has_sandbox:false, has_toilet:false, has_parking:false, has_water:false, has_dog:true,  notes:null },
-      { id:3, name:'上戸田緑地',          address:'埼玉県戸田市上戸田',           lat:35.8265, lng:139.6774, has_swing:false, has_slide:true,  has_sandbox:true,  has_toilet:true,  has_parking:false, has_water:false, has_dog:false, notes:null },
-      { id:4, name:'新曽北公園',          address:'埼玉県戸田市新曽北',           lat:35.8192, lng:139.6842, has_swing:true,  has_slide:true,  has_sandbox:false, has_toilet:true,  has_parking:true,  has_water:true,  has_dog:true,  notes:'夏季のみ水遊び' },
-      { id:5, name:'喜沢南公園',          address:'埼玉県戸田市喜沢南',           lat:35.8155, lng:139.6881, has_swing:false, has_slide:false, has_sandbox:false, has_toilet:false, has_parking:false, has_water:false, has_dog:true,  notes:null },
-      { id:6, name:'下笹目公園',          address:'埼玉県戸田市下笹目',           lat:35.8445, lng:139.6730, has_swing:true,  has_slide:true,  has_sandbox:true,  has_toilet:true,  has_parking:false, has_water:false, has_dog:false, notes:null },
-      { id:7, name:'川岸公園',            address:'埼玉県戸田市川岸',             lat:35.8376, lng:139.6893, has_swing:false, has_slide:true,  has_sandbox:false, has_toilet:true,  has_parking:false, has_water:true,  has_dog:true,  notes:null },
-      { id:8, name:'前谷公園',            address:'埼玉県戸田市前谷',             lat:35.8298, lng:139.6753, has_swing:true,  has_slide:false, has_sandbox:true,  has_toilet:false, has_parking:false, has_water:false, has_dog:false, notes:null },
-      { id:9, name:'笹目川公園',          address:'埼玉県戸田市笹目',             lat:35.8412, lng:139.6677, has_swing:true,  has_slide:true,  has_sandbox:false, has_toilet:true,  has_parking:true,  has_water:false, has_dog:true,  notes:null },
-      { id:10,name:'本町公園',            address:'埼玉県戸田市本町',             lat:35.8220, lng:139.6838, has_swing:false, has_slide:true,  has_sandbox:true,  has_toilet:true,  has_parking:false, has_water:false, has_dog:false, notes:null },
+      { id:1, name:'戸田公園',     address:'埼玉県戸田市戸田公園',  lat:35.8234, lng:139.6809, has_swing:true,  has_slide:true,  has_sandbox:true,  has_toilet:true,  has_parking:true,  has_water:true,  has_dog:true,  notes:'広い芝生広場あり' },
+      { id:2, name:'美女木公園',   address:'埼玉県戸田市美女木',    lat:35.8319, lng:139.6621, has_swing:true,  has_slide:false, has_sandbox:false, has_toilet:false, has_parking:false, has_water:false, has_dog:true,  notes:null },
+      { id:3, name:'上戸田緑地',   address:'埼玉県戸田市上戸田',    lat:35.8265, lng:139.6774, has_swing:false, has_slide:true,  has_sandbox:true,  has_toilet:true,  has_parking:false, has_water:false, has_dog:false, notes:null },
+      { id:4, name:'新曽北公園',   address:'埼玉県戸田市新曽北',    lat:35.8192, lng:139.6842, has_swing:true,  has_slide:true,  has_sandbox:false, has_toilet:true,  has_parking:true,  has_water:true,  has_dog:true,  notes:'夏季のみ水遊び' },
+      { id:5, name:'喜沢南公園',   address:'埼玉県戸田市喜沢南',    lat:35.8155, lng:139.6881, has_swing:false, has_slide:false, has_sandbox:false, has_toilet:false, has_parking:false, has_water:false, has_dog:true,  notes:null },
+      { id:6, name:'下笹目公園',   address:'埼玉県戸田市下笹目',    lat:35.8445, lng:139.6730, has_swing:true,  has_slide:true,  has_sandbox:true,  has_toilet:true,  has_parking:false, has_water:false, has_dog:false, notes:null },
+      { id:7, name:'川岸公園',     address:'埼玉県戸田市川岸',      lat:35.8376, lng:139.6893, has_swing:false, has_slide:true,  has_sandbox:false, has_toilet:true,  has_parking:false, has_water:true,  has_dog:true,  notes:null },
+      { id:8, name:'前谷公園',     address:'埼玉県戸田市前谷',      lat:35.8298, lng:139.6753, has_swing:true,  has_slide:false, has_sandbox:true,  has_toilet:false, has_parking:false, has_water:false, has_dog:false, notes:null },
+      { id:9, name:'笹目川公園',   address:'埼玉県戸田市笹目',      lat:35.8412, lng:139.6677, has_swing:true,  has_slide:true,  has_sandbox:false, has_toilet:true,  has_parking:true,  has_water:false, has_dog:true,  notes:null },
+      { id:10,name:'本町公園',     address:'埼玉県戸田市本町',      lat:35.8220, lng:139.6838, has_swing:false, has_slide:true,  has_sandbox:true,  has_toilet:true,  has_parking:false, has_water:false, has_dog:false, notes:null },
     ];
 
-    /* ============================================================
-       Supabase からデータ取得
-    ============================================================ */
     async function fetchParks() {
       try {
         const res = await fetch(
           `${SUPABASE_URL}/rest/v1/parks?select=*&order=name`,
-          {
-            headers: {
-              'apikey': SUPABASE_KEY,
-              'Authorization': `Bearer ${SUPABASE_KEY}`,
-            }
-          }
+          { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
         );
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
@@ -788,9 +350,6 @@
       }
     }
 
-    /* ============================================================
-       地図初期化
-    ============================================================ */
     function initMap() {
       map = L.map('map').setView([35.827, 139.677], 13);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -812,9 +371,6 @@
       });
     }
 
-    /* ============================================================
-       フィルター
-    ============================================================ */
     function toggleFilter(btn) {
       const key = btn.dataset.filter;
       if (activeFilters.has(key)) {
@@ -829,26 +385,18 @@
 
     function getFiltered() {
       if (activeFilters.size === 0) return allParks;
-      return allParks.filter(p =>
-        [...activeFilters].every(f => p[f] === true)
-      );
+      return allParks.filter(p => [...activeFilters].every(f => p[f] === true));
     }
 
-    /* ============================================================
-       カードレンダリング
-    ============================================================ */
     function renderParks() {
       const filtered = getFiltered();
       document.getElementById('count').textContent = filtered.length;
       updateMapMarkers(filtered);
-
       const grid = document.getElementById('parksGrid');
-
       if (filtered.length === 0) {
         grid.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🔍</div><p>条件に合う公園が見つかりませんでした。<br>絞り込みを解除してお試しください。</p></div>`;
         return;
       }
-
       grid.innerHTML = filtered.map(p => {
         const featTags = FEATURES
           .filter(f => p[f.key])
@@ -871,25 +419,18 @@
       return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     }
 
-    /* ============================================================
-       モーダル
-    ============================================================ */
     function openModal(park) {
       document.getElementById('modalTitle').textContent = park.name;
-
       const equipHTML = FEATURES.map(f => {
         const has = park[f.key];
         const cls = has ? (f.cls || 'has') : '';
         const opacity = has ? '' : 'style="opacity:.35"';
         return `<div class="equip-item ${cls}" ${opacity}><span class="equip-icon">${f.icon}</span>${f.label}</div>`;
       }).join('');
-
       const gmapUrl = park.lat && park.lng
         ? `https://www.google.com/maps/search/?api=1&query=${park.lat},${park.lng}`
         : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(park.name + ' 戸田市')}`;
-
       document.getElementById('modalBody').innerHTML = `
-        <!-- 写真エリア（将来ユーザー投稿対応） -->
         <div class="photo-area">
           <div class="photo-area-icon">📸</div>
           <div class="photo-area-text">
@@ -898,14 +439,10 @@
           </div>
           <span class="photo-area-badge">🚧 写真投稿機能 準備中</span>
         </div>
-
-        <!-- 設備情報 -->
         <div>
           <div class="info-section-title">EQUIPMENT ／ 設備・特徴</div>
           <div class="equip-grid">${equipHTML}</div>
         </div>
-
-        <!-- 住所 -->
         <div>
           <div class="info-section-title">ACCESS ／ アクセス</div>
           <div class="info-row">
@@ -916,9 +453,7 @@
             </div>
           </div>
         </div>
-
         ${park.notes ? `
-        <!-- メモ -->
         <div class="info-row">
           <span class="info-row-icon">💬</span>
           <div class="info-row-content">
@@ -926,13 +461,10 @@
             <div class="info-row-value">${esc(park.notes)}</div>
           </div>
         </div>` : ''}
-
-        <!-- Googleマップ -->
         <a class="gmap-btn" href="${gmapUrl}" target="_blank" rel="noopener">
           🗺️ Googleマップで経路を調べる
         </a>
       `;
-
       document.getElementById('modalOverlay').classList.add('open');
       document.body.style.overflow = 'hidden';
     }
@@ -946,18 +478,12 @@
       if (e.target === document.getElementById('modalOverlay')) closeModal();
     }
 
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') closeModal();
-    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-    /* ============================================================
-       Init
-    ============================================================ */
     window.addEventListener('load', async () => {
       initMap();
       allParks = await fetchParks();
       renderParks();
-      /* Leaflet が hidden 状態から表示されたとき用の保険 */
       setTimeout(() => { if (map) map.invalidateSize(); }, 300);
     });
   </script>
