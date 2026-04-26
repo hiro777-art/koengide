@@ -58,89 +58,184 @@
       min-height: 100vh;
       overflow-x: hidden;
     }
+    /* ============================================================
+       HERO - 公園らしいかわいいデザイン
+    ============================================================ */
     .hero {
       position: relative;
-      background: var(--green-dark);
+      background: linear-gradient(180deg, #87CEEB 0%, #b8e4f7 45%, #7ec850 45%, #5aab32 100%);
       overflow: hidden;
       padding: 0;
     }
-    .hero-bg {
+
+    /* 太陽 */
+    .hero-sun {
       position: absolute;
-      inset: 0;
+      top: 18px; right: 10%;
+      width: 72px; height: 72px;
+      background: radial-gradient(circle, #ffe066 60%, #ffd000 100%);
+      border-radius: 50%;
+      box-shadow: 0 0 0 10px rgba(255,224,102,.25), 0 0 0 22px rgba(255,224,102,.12);
+      animation: sun-pulse 3s ease-in-out infinite;
+    }
+    @keyframes sun-pulse {
+      0%,100% { box-shadow: 0 0 0 10px rgba(255,224,102,.25), 0 0 0 22px rgba(255,224,102,.12); }
+      50%      { box-shadow: 0 0 0 14px rgba(255,224,102,.3),  0 0 0 30px rgba(255,224,102,.14); }
+    }
+
+    /* 雲 */
+    .hero-cloud {
+      position: absolute;
+      background: rgba(255,255,255,.88);
+      border-radius: 100px;
+      filter: blur(1px);
+    }
+    .hero-cloud::before, .hero-cloud::after {
+      content: '';
+      position: absolute;
+      background: inherit;
+      border-radius: 50%;
+    }
+    .hero-cloud-1 {
+      top: 28px; left: 8%;
+      width: 90px; height: 28px;
+      animation: cloud-drift 18s linear infinite;
+    }
+    .hero-cloud-1::before { width: 42px; height: 42px; top: -20px; left: 14px; }
+    .hero-cloud-1::after  { width: 30px; height: 30px; top: -14px; left: 44px; }
+    .hero-cloud-2 {
+      top: 14px; left: 35%;
+      width: 70px; height: 22px;
+      animation: cloud-drift 24s linear infinite;
+      opacity: .75;
+    }
+    .hero-cloud-2::before { width: 32px; height: 32px; top: -16px; left: 10px; }
+    .hero-cloud-2::after  { width: 22px; height: 22px; top: -12px; left: 34px; }
+    @keyframes cloud-drift {
+      0%   { transform: translateX(0); }
+      50%  { transform: translateX(18px); }
+      100% { transform: translateX(0); }
+    }
+
+    /* 草の丘 */
+    .hero-hills {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 54%;
       pointer-events: none;
-      overflow: hidden;
     }
-    .hero-bg::before {
-      content: '';
+
+    /* 木のシルエット */
+    .hero-tree {
       position: absolute;
-      top: -80px; right: -80px;
-      width: 420px; height: 420px;
-      background: radial-gradient(circle, rgba(82,183,136,.25) 0%, transparent 70%);
-      border-radius: 50%;
+      bottom: 52%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-    .hero-bg::after {
-      content: '';
+    .hero-tree-top {
+      background: #2d8a1e;
+      border-radius: 50% 50% 40% 40%;
+    }
+    .hero-tree-trunk {
+      background: #8B5E3C;
+      border-radius: 2px;
+    }
+    .tree-l { left: 2%; }
+    .tree-l .hero-tree-top  { width: 52px; height: 64px; }
+    .tree-l .hero-tree-trunk { width: 10px; height: 22px; }
+    .tree-r { right: 4%; }
+    .tree-r .hero-tree-top  { width: 44px; height: 54px; background: #3aab24; }
+    .tree-r .hero-tree-trunk { width: 8px; height: 18px; }
+    .tree-m { right: 16%; }
+    .tree-m .hero-tree-top  { width: 36px; height: 46px; background: #4dbf2e; }
+    .tree-m .hero-tree-trunk { width: 7px; height: 14px; }
+
+    /* 鳥 */
+    .hero-birds {
       position: absolute;
-      bottom: -60px; left: -60px;
-      width: 300px; height: 300px;
-      background: radial-gradient(circle, rgba(149,213,178,.15) 0%, transparent 70%);
-      border-radius: 50%;
+      top: 48px; left: 20%;
+      animation: birds-fly 6s ease-in-out infinite;
     }
-    .hero-leaf { position: absolute; opacity: .06; }
-    .hero-leaf-1 { top: 10px; left: 5%; font-size: 120px; transform: rotate(-20deg); }
-    .hero-leaf-2 { top: 30px; right: 8%; font-size: 90px; transform: rotate(15deg); }
-    .hero-leaf-3 { bottom: 10px; left: 30%; font-size: 70px; transform: rotate(10deg); }
+    @keyframes birds-fly {
+      0%,100% { transform: translateY(0) translateX(0); }
+      50%      { transform: translateY(-6px) translateX(10px); }
+    }
+
+    /* コンテンツ */
     .hero-inner {
       position: relative;
-      z-index: 1;
+      z-index: 2;
       max-width: 960px;
       margin: 0 auto;
-      padding: 44px 24px 36px;
+      padding: 36px 24px 52px;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       gap: 10px;
     }
+
     .hero-badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: rgba(82,183,136,.2);
-      border: 1px solid rgba(82,183,136,.4);
+      background: rgba(255,255,255,.85);
+      border: none;
       border-radius: 100px;
-      padding: 4px 14px;
+      padding: 5px 14px;
       font-size: 12px;
-      color: var(--lime);
+      color: var(--green-dark);
       letter-spacing: .05em;
-      font-weight: 500;
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(0,0,0,.1);
     }
     .hero-badge span { font-size: 14px; }
+
     .hero-title {
       font-family: 'Zen Maru Gothic', sans-serif;
-      font-size: clamp(26px, 6vw, 46px);
+      font-size: clamp(24px, 5.5vw, 42px);
       font-weight: 900;
       color: var(--white);
-      line-height: 1.25;
-      letter-spacing: -.01em;
+      line-height: 1.28;
+      letter-spacing: .01em;
+      text-shadow: 0 2px 12px rgba(30,80,40,.35), 0 1px 3px rgba(0,0,0,.2);
     }
-    .hero-title em { font-style: normal; color: var(--lime); }
+    .hero-title em {
+      font-style: normal;
+      color: #fff176;
+      text-shadow: 0 2px 12px rgba(180,140,0,.4);
+    }
+
     .hero-sub {
-      font-size: clamp(13px, 2.5vw, 15px);
-      color: rgba(255,255,255,.65);
-      line-height: 1.7;
-      max-width: 520px;
+      font-size: clamp(13px, 2.5vw, 14px);
+      color: #1a3d20;
+      line-height: 1.75;
+      max-width: 480px;
+      background: rgba(255,255,255,.72);
+      border-radius: 10px;
+      padding: 8px 12px;
+      backdrop-filter: blur(4px);
+      margin-top: 8px;
     }
-    .hero-stats { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 4px; }
-    .hero-stat { display: flex; flex-direction: column; }
+
+    .hero-stats { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 6px; }
+    .hero-stat {
+      display: flex;
+      flex-direction: column;
+      background: rgba(255,255,255,.85);
+      border-radius: 14px;
+      padding: 8px 16px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.1);
+    }
     .hero-stat-num {
       font-family: 'Zen Maru Gothic', sans-serif;
-      font-size: 28px;
+      font-size: 26px;
       font-weight: 900;
-      color: var(--lime);
+      color: var(--green-dark);
       line-height: 1;
     }
-    .hero-stat-num small { font-size: 14px; }
-    .hero-stat-label { font-size: 11px; color: rgba(255,255,255,.5); margin-top: 2px; letter-spacing: .06em; }
+    .hero-stat-num small { font-size: 13px; }
+    .hero-stat-label { font-size: 10px; color: var(--gray-500); margin-top: 2px; letter-spacing: .06em; }
     .filter-section {
       background: var(--white);
       border-bottom: 1px solid var(--gray-100);
@@ -236,27 +331,68 @@
       .hero-stat-num { font-size: 24px; }
       .parks-grid { grid-template-columns: 1fr; }
       .equip-grid { grid-template-columns: repeat(3, 1fr); }
+
+      /* スマホ：木を右端に小さく・テキストと重ならないよう調整 */
+      .tree-l { display: none; }
+      .tree-r { right: 1%; }
+      .tree-r .hero-tree-top  { width: 30px; height: 38px; }
+      .tree-r .hero-tree-trunk { width: 6px; height: 13px; }
+      .tree-m { right: 10%; }
+      .tree-m .hero-tree-top  { width: 24px; height: 30px; }
+      .tree-m .hero-tree-trunk { width: 5px; height: 10px; }
+
+      /* 太陽を小さく右上に */
+      .hero-sun { width: 52px; height: 52px; top: 12px; right: 4%; }
+
+      /* 雲1をテキストエリア外へ */
+      .hero-cloud-1 { top: 16px; left: 4%; width: 64px; height: 20px; }
+      .hero-cloud-1::before { width: 30px; height: 30px; top: -14px; left: 10px; }
+      .hero-cloud-1::after  { width: 22px; height: 22px; top: -10px; left: 32px; }
+
+      /* 鳥を非表示 */
+      .hero-birds { display: none; }
+
+      /* 内側パディング調整 */
+      .hero-inner { padding: 28px 16px 44px; }
+
+      /* サブテキストの幅を画面に合わせる */
+      .hero-sub { max-width: 100%; }
     }
   </style>
 </head>
 <body>
 
   <header class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-leaf hero-leaf-1">🌿</div>
-    <div class="hero-leaf hero-leaf-2">🍃</div>
-    <div class="hero-leaf hero-leaf-3">🌱</div>
+    <div class="hero-sun"></div>
+    <div class="hero-cloud hero-cloud-1"></div>
+    <div class="hero-cloud hero-cloud-2"></div>
+    <div class="hero-birds">
+      <svg width="80" height="30" viewBox="0 0 80 30" fill="none" xmlns="http://www.w3.org/2000/svg" opacity="0.55">
+        <!-- 鳥1（大） -->
+        <path d="M2 10 Q7 5 12 10 Q17 5 22 10" stroke="#1a3d20" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <!-- 鳥2（中） -->
+        <path d="M30 6 Q34 2 38 6 Q42 2 46 6" stroke="#1a3d20" stroke-width="1.7" stroke-linecap="round" fill="none"/>
+        <!-- 鳥3（小） -->
+        <path d="M54 16 Q57 13 60 16 Q63 13 66 16" stroke="#1a3d20" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+      </svg>
+    </div>
+    <div class="hero-tree tree-l"><div class="hero-tree-top"></div><div class="hero-tree-trunk"></div></div>
+    <div class="hero-tree tree-r"><div class="hero-tree-top"></div><div class="hero-tree-trunk"></div></div>
+    <div class="hero-tree tree-m"><div class="hero-tree-top"></div><div class="hero-tree-trunk"></div></div>
     <div class="hero-inner">
       <div class="hero-badge"><span>📍</span> 埼玉県 戸田市</div>
       <h1 class="hero-title">
-        戸田市の<em>すべての公園</em>を、<br>
-        簡単に探せる
+        戸田市の<em>公園</em>を、<br>
+        かんたんに探せる
       </h1>
-      <p class="hero-sub">遊具・水遊び・犬の散歩OKで絞り込み。<br>子どもとのおでかけも、愛犬とのお散歩も、ぴったりの公園がすぐ見つかる。</p>
       <div class="hero-stats">
         <div class="hero-stat">
-          <div class="hero-stat-num">80<small>件</small></div>
-          <div class="hero-stat-label">掲載公園数（目標）</div>
+          <div class="hero-stat-num">39<small>件</small></div>
+          <div class="hero-stat-label">掲載公園数</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">7<small>種類</small></div>
+          <div class="hero-stat-label">絞り込み条件</div>
         </div>
       </div>
     </div>
