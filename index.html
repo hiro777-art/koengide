@@ -17,10 +17,6 @@
     gtag('config', 'G-TY1M6QFYVZ');
   </script>
 
-  <!-- Leaflet.js -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -288,7 +284,6 @@
     .result-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
     .result-count { font-size: 13px; color: var(--gray-500); }
     .result-count strong { color: var(--green-mid); font-size: 18px; font-weight: 700; }
-    #map { height: 340px; border-radius: var(--radius-lg); border: 2px solid var(--gray-100); margin-bottom: 24px; box-shadow: var(--shadow-md); overflow: hidden; }
     .parks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
     .park-card { background: var(--white); border-radius: var(--radius-md); border: 1.5px solid var(--gray-100); padding: 16px; cursor: pointer; transition: all .2s ease; display: flex; flex-direction: column; gap: 10px; }
     .park-card:hover { border-color: var(--green-light); box-shadow: var(--shadow-md); transform: translateY(-2px); }
@@ -439,7 +434,6 @@
   </div>
 
   <main class="main">
-    <div id="map"></div>
     <div class="result-bar">
       <div class="result-count">
         <strong id="count">−</strong> 件 見つかりました
@@ -471,8 +465,7 @@
 
     let allParks = [];
     let activeFilters = new Set();
-    let activeArea = '';   // '' = 全エリア
-    let map, markers = [];
+    let activeArea = '';
 
     const FEATURES = [
       { key: 'has_swing',   icon: '🎠', label: 'ブランコ',     cls: '' },
@@ -514,27 +507,6 @@
       }
     }
 
-    function initMap() {
-      map = L.map('map').setView([35.827, 139.677], 13);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors',
-        maxZoom: 19,
-      }).addTo(map);
-    }
-
-    function updateMapMarkers(parks) {
-      markers.forEach(m => map.removeLayer(m));
-      markers = [];
-      parks.forEach(p => {
-        if (!p.lat || !p.lng) return;
-        const m = L.marker([p.lat, p.lng])
-          .addTo(map)
-          .bindPopup(`<strong>${p.name}</strong><br><small>${p.address||''}</small>`);
-        m.on('click', () => openModal(p));
-        markers.push(m);
-      });
-    }
-
     // エリア選択（単一選択・ラジオ的な動作）
     function selectArea(btn) {
       document.querySelectorAll('.area-chip').forEach(b => b.classList.remove('active'));
@@ -571,7 +543,6 @@
     function renderParks() {
       const filtered = getFiltered();
       document.getElementById('count').textContent = filtered.length;
-      updateMapMarkers(filtered);
       const grid = document.getElementById('parksGrid');
       if (filtered.length === 0) {
         grid.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🔍</div><p>条件に合う公園が見つかりませんでした。<br>絞り込みを解除してお試しください。</p></div>`;
@@ -675,10 +646,8 @@
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
     window.addEventListener('load', async () => {
-      initMap();
       allParks = await fetchParks();
       renderParks();
-      setTimeout(() => { if (map) map.invalidateSize(); }, 300);
     });
   </script>
 </body>
