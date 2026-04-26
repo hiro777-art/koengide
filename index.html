@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>戸田市公園ガイド | 遊具・水遊び・犬の散歩で探せる</title>
-  <meta name="description" content="戸田市の公園80件を掲載。ブランコ・すべり台・砂場・水遊び・犬の散歩OKで絞り込みできる公園検索サイト。" />
+  <meta name="description" content="戸田市の公園89件を掲載。ブランコ・すべり台・砂場・水遊び・犬の散歩OKで絞り込みできる公園検索サイト。" />
   <!-- Google Search Console 確認タグ -->
   <meta name="google-site-verification" content="K-LyPaQChEx_y6KwRHGp-JkaWfyg-OQtCTHlODVA_3g" />
 
@@ -58,17 +58,12 @@
       min-height: 100vh;
       overflow-x: hidden;
     }
-    /* ============================================================
-       HERO - 公園らしいかわいいデザイン
-    ============================================================ */
     .hero {
       position: relative;
       background: linear-gradient(180deg, #87CEEB 0%, #b8e4f7 45%, #7ec850 45%, #5aab32 100%);
       overflow: hidden;
       padding: 0;
     }
-
-    /* 太陽 */
     .hero-sun {
       position: absolute;
       top: 18px; right: 10%;
@@ -82,8 +77,6 @@
       0%,100% { box-shadow: 0 0 0 10px rgba(255,224,102,.25), 0 0 0 22px rgba(255,224,102,.12); }
       50%      { box-shadow: 0 0 0 14px rgba(255,224,102,.3),  0 0 0 30px rgba(255,224,102,.14); }
     }
-
-    /* 雲 */
     .hero-cloud {
       position: absolute;
       background: rgba(255,255,255,.88);
@@ -116,16 +109,12 @@
       50%  { transform: translateX(18px); }
       100% { transform: translateX(0); }
     }
-
-    /* 草の丘 */
     .hero-hills {
       position: absolute;
       bottom: 0; left: 0; right: 0;
       height: 54%;
       pointer-events: none;
     }
-
-    /* 木のシルエット */
     .hero-tree {
       position: absolute;
       bottom: 52%;
@@ -150,8 +139,6 @@
     .tree-m { right: 16%; }
     .tree-m .hero-tree-top  { width: 36px; height: 46px; background: #4dbf2e; }
     .tree-m .hero-tree-trunk { width: 7px; height: 14px; }
-
-    /* 鳥 */
     .hero-birds {
       position: absolute;
       top: 48px; left: 20%;
@@ -161,8 +148,6 @@
       0%,100% { transform: translateY(0) translateX(0); }
       50%      { transform: translateY(-6px) translateX(10px); }
     }
-
-    /* コンテンツ */
     .hero-inner {
       position: relative;
       z-index: 2;
@@ -174,7 +159,6 @@
       align-items: flex-start;
       gap: 10px;
     }
-
     .hero-badge {
       display: inline-flex;
       align-items: center;
@@ -190,7 +174,6 @@
       box-shadow: 0 2px 8px rgba(0,0,0,.1);
     }
     .hero-badge span { font-size: 14px; }
-
     .hero-title {
       font-family: 'Zen Maru Gothic', sans-serif;
       font-size: clamp(24px, 5.5vw, 42px);
@@ -205,7 +188,6 @@
       color: #fff176;
       text-shadow: 0 2px 12px rgba(180,140,0,.4);
     }
-
     .hero-sub {
       font-size: clamp(13px, 2.5vw, 14px);
       color: #1a3d20;
@@ -217,7 +199,6 @@
       backdrop-filter: blur(4px);
       margin-top: 8px;
     }
-
     .hero-stats { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 6px; }
     .hero-stat {
       display: flex;
@@ -331,8 +312,6 @@
       .hero-stat-num { font-size: 24px; }
       .parks-grid { grid-template-columns: 1fr; }
       .equip-grid { grid-template-columns: repeat(3, 1fr); }
-
-      /* スマホ：木を右端に小さく・テキストと重ならないよう調整 */
       .tree-l { display: none; }
       .tree-r { right: 1%; }
       .tree-r .hero-tree-top  { width: 30px; height: 38px; }
@@ -340,22 +319,12 @@
       .tree-m { right: 10%; }
       .tree-m .hero-tree-top  { width: 24px; height: 30px; }
       .tree-m .hero-tree-trunk { width: 5px; height: 10px; }
-
-      /* 太陽を小さく右上に */
       .hero-sun { width: 52px; height: 52px; top: 12px; right: 4%; }
-
-      /* 雲1をテキストエリア外へ */
       .hero-cloud-1 { top: 16px; left: 4%; width: 64px; height: 20px; }
       .hero-cloud-1::before { width: 30px; height: 30px; top: -14px; left: 10px; }
       .hero-cloud-1::after  { width: 22px; height: 22px; top: -10px; left: 32px; }
-
-      /* 鳥を非表示 */
       .hero-birds { display: none; }
-
-      /* 内側パディング調整 */
       .hero-inner { padding: 28px 16px 44px; }
-
-      /* サブテキストの幅を画面に合わせる */
       .hero-sub { max-width: 100%; }
     }
   </style>
@@ -368,11 +337,8 @@
     <div class="hero-cloud hero-cloud-2"></div>
     <div class="hero-birds">
       <svg width="80" height="30" viewBox="0 0 80 30" fill="none" xmlns="http://www.w3.org/2000/svg" opacity="0.55">
-        <!-- 鳥1（大） -->
         <path d="M2 10 Q7 5 12 10 Q17 5 22 10" stroke="#1a3d20" stroke-width="2" stroke-linecap="round" fill="none"/>
-        <!-- 鳥2（中） -->
         <path d="M30 6 Q34 2 38 6 Q42 2 46 6" stroke="#1a3d20" stroke-width="1.7" stroke-linecap="round" fill="none"/>
-        <!-- 鳥3（小） -->
         <path d="M54 16 Q57 13 60 16 Q63 13 66 16" stroke="#1a3d20" stroke-width="1.4" stroke-linecap="round" fill="none"/>
       </svg>
     </div>
@@ -387,7 +353,7 @@
       </h1>
       <div class="hero-stats">
         <div class="hero-stat">
-          <div class="hero-stat-num">39<small>件</small></div>
+          <div class="hero-stat-num">89<small>件</small></div>
           <div class="hero-stat-label">掲載公園数</div>
         </div>
         <div class="hero-stat">
@@ -448,7 +414,6 @@
     let activeFilters = new Set();
     let map, markers = [];
 
-    // フィルター用（チップボタン）
     const FEATURES = [
       { key: 'has_swing',   icon: '🎠', label: 'ブランコ',     cls: '' },
       { key: 'has_slide',   icon: '🛝', label: 'すべり台',     cls: '' },
@@ -459,7 +424,6 @@
       { key: 'has_dog',     icon: '🐕', label: '犬の散歩OK',   cls: 'has-dog' },
     ];
 
-    // モーダル用（設備グリッド）：コンビニ近隣を追加
     const MODAL_FEATURES = [
       { key: 'has_swing',       icon: '🎠', label: 'ブランコ',     cls: '' },
       { key: 'has_slide',       icon: '🛝', label: 'すべり台',     cls: '' },
@@ -472,16 +436,7 @@
     ];
 
     const SAMPLE_PARKS = [
-      { id:1, name:'戸田公園',     address:'埼玉県戸田市戸田公園',  lat:35.8234, lng:139.6809, has_swing:true,  has_slide:true,  has_sandbox:true,  has_toilet:true,  has_parking:true,  has_water:true,  has_dog:true,  notes:'広い芝生広場あり' },
-      { id:2, name:'美女木公園',   address:'埼玉県戸田市美女木',    lat:35.8319, lng:139.6621, has_swing:true,  has_slide:false, has_sandbox:false, has_toilet:false, has_parking:false, has_water:false, has_dog:true,  notes:null },
-      { id:3, name:'上戸田緑地',   address:'埼玉県戸田市上戸田',    lat:35.8265, lng:139.6774, has_swing:false, has_slide:true,  has_sandbox:true,  has_toilet:true,  has_parking:false, has_water:false, has_dog:false, notes:null },
-      { id:4, name:'新曽北公園',   address:'埼玉県戸田市新曽北',    lat:35.8192, lng:139.6842, has_swing:true,  has_slide:true,  has_sandbox:false, has_toilet:true,  has_parking:true,  has_water:true,  has_dog:true,  notes:'夏季のみ水遊び' },
-      { id:5, name:'喜沢南公園',   address:'埼玉県戸田市喜沢南',    lat:35.8155, lng:139.6881, has_swing:false, has_slide:false, has_sandbox:false, has_toilet:false, has_parking:false, has_water:false, has_dog:true,  notes:null },
-      { id:6, name:'下笹目公園',   address:'埼玉県戸田市下笹目',    lat:35.8445, lng:139.6730, has_swing:true,  has_slide:true,  has_sandbox:true,  has_toilet:true,  has_parking:false, has_water:false, has_dog:false, notes:null },
-      { id:7, name:'川岸公園',     address:'埼玉県戸田市川岸',      lat:35.8376, lng:139.6893, has_swing:false, has_slide:true,  has_sandbox:false, has_toilet:true,  has_parking:false, has_water:true,  has_dog:true,  notes:null },
-      { id:8, name:'前谷公園',     address:'埼玉県戸田市前谷',      lat:35.8298, lng:139.6753, has_swing:true,  has_slide:false, has_sandbox:true,  has_toilet:false, has_parking:false, has_water:false, has_dog:false, notes:null },
-      { id:9, name:'笹目川公園',   address:'埼玉県戸田市笹目',      lat:35.8412, lng:139.6677, has_swing:true,  has_slide:true,  has_sandbox:false, has_toilet:true,  has_parking:true,  has_water:false, has_dog:true,  notes:null },
-      { id:10,name:'本町公園',     address:'埼玉県戸田市本町',      lat:35.8220, lng:139.6838, has_swing:false, has_slide:true,  has_sandbox:true,  has_toilet:true,  has_parking:false, has_water:false, has_dog:false, notes:null },
+      { id:1, name:'戸田公園', address:'埼玉県戸田市戸田公園', lat:35.8234, lng:139.6809, has_swing:true, has_slide:true, has_sandbox:true, has_toilet:true, has_parking:true, has_water:true, has_dog:true, notes:'広い芝生広場あり' },
     ];
 
     async function fetchParks() {
