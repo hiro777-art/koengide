@@ -370,8 +370,8 @@
     function buildHTML(park, nearby) {
       const desc = generateDescription(park);
       const googleMapsUrl  = 'https://www.google.com/maps/search/?api=1&query=' + park.lat + ',' + park.lng;
-      const convenienceUrl = 'https://www.google.com/maps/dir/' + park.lat + ',' + park.lng + '/コンビニ/@' + park.lat + ',' + park.lng + ',16z';
-      const supermarketUrl = 'https://www.google.com/maps/dir/' + park.lat + ',' + park.lng + '/スーパー/@' + park.lat + ',' + park.lng + ',16z';
+      const convenienceUrl = 'https://www.google.com/maps/dir/?api=1&origin=' + park.lat + ',' + park.lng + '&destination=コンビニ&travelmode=walking';
+      const supermarketUrl = 'https://www.google.com/maps/dir/?api=1&origin=' + park.lat + ',' + park.lng + '&destination=スーパー&travelmode=walking';
 
       // Update page title / OGP / meta description
       document.title = park.name + '｜遊具・設備情報【戸田市公園ガイド】';
