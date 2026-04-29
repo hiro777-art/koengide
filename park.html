@@ -171,16 +171,14 @@
     }
     .info-row:last-child { border-bottom: none; }
     .info-label { color: #555; }
-    .map-link {
-      color: #2d6a4f;
-      font-weight: bold;
+    .info-badge {
       font-size: 12px;
-      text-decoration: none;
-      background: #ecfdf5;
-      padding: 4px 10px;
+      font-weight: bold;
+      color: #166534;
+      background: #dcfce7;
+      padding: 3px 10px;
       border-radius: 20px;
     }
-    .map-link:hover { background: #d1fae5; }
 
     /* Map area */
     .map-iframe {
@@ -436,20 +434,17 @@
       if (park.has_convenience) {
         surroundRows += '<div class="info-row">' +
           '<span class="info-label">近くにコンビニ</span>' +
-          '<a href="' + convenienceUrl + '" target="_blank" rel="noopener" class="map-link">📍 公園周辺で探す →</a>' +
+          '<span class="info-badge">あり</span>' +
           '</div>';
       }
       if (park.near_supermarket) {
         surroundRows += '<div class="info-row">' +
           '<span class="info-label">近くにスーパー</span>' +
-          '<a href="' + supermarketUrl + '" target="_blank" rel="noopener" class="map-link">📍 公園周辺で探す →</a>' +
+          '<span class="info-badge">あり</span>' +
           '</div>';
       }
       const surroundSection = surroundRows
-        ? '<div class="section-card"><div class="section-title">周辺情報</div>' +
-          surroundRows +
-          '<p style="font-size:11px;color:#aaa;margin-top:8px;">※ 地図は公園周辺を中心に表示されます</p>' +
-          '</div>'
+        ? '<div class="section-card"><div class="section-title">周辺情報</div>' + surroundRows + '</div>'
         : '';
 
       // 「この公園について」は photo_url がある場合のみ
