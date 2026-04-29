@@ -370,8 +370,8 @@
     function buildHTML(park, nearby) {
       const desc = generateDescription(park);
       const googleMapsUrl  = 'https://www.google.com/maps/search/?api=1&query=' + park.lat + ',' + park.lng;
-      const convenienceUrl = 'https://www.google.com/maps/dir/?api=1&origin=' + park.lat + ',' + park.lng + '&destination=コンビニ&travelmode=walking';
-      const supermarketUrl = 'https://www.google.com/maps/dir/?api=1&origin=' + park.lat + ',' + park.lng + '&destination=スーパー&travelmode=walking';
+      const convenienceUrl = 'https://www.google.com/maps/search/コンビニ/@' + park.lat + ',' + park.lng + ',16z';
+      const supermarketUrl = 'https://www.google.com/maps/search/スーパー/@' + park.lat + ',' + park.lng + ',16z';
 
       // Update page title / OGP / meta description
       document.title = park.name + '｜遊具・設備情報【戸田市公園ガイド】';
@@ -436,17 +436,20 @@
       if (park.has_convenience) {
         surroundRows += '<div class="info-row">' +
           '<span class="info-label">近くにコンビニ</span>' +
-          '<a href="' + convenienceUrl + '" target="_blank" rel="noopener" class="map-link">マップで見る →</a>' +
+          '<a href="' + convenienceUrl + '" target="_blank" rel="noopener" class="map-link">📍 公園周辺で探す →</a>' +
           '</div>';
       }
       if (park.near_supermarket) {
         surroundRows += '<div class="info-row">' +
           '<span class="info-label">近くにスーパー</span>' +
-          '<a href="' + supermarketUrl + '" target="_blank" rel="noopener" class="map-link">マップで見る →</a>' +
+          '<a href="' + supermarketUrl + '" target="_blank" rel="noopener" class="map-link">📍 公園周辺で探す →</a>' +
           '</div>';
       }
       const surroundSection = surroundRows
-        ? '<div class="section-card"><div class="section-title">周辺情報</div>' + surroundRows + '</div>'
+        ? '<div class="section-card"><div class="section-title">周辺情報</div>' +
+          surroundRows +
+          '<p style="font-size:11px;color:#aaa;margin-top:8px;">※ 地図は公園周辺を中心に表示されます</p>' +
+          '</div>'
         : '';
 
       // 「この公園について」は photo_url がある場合のみ
