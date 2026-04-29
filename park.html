@@ -183,19 +183,12 @@
     .map-link:hover { background: #d1fae5; }
 
     /* Map area */
-    .map-embed-placeholder {
+    .map-iframe {
       width: 100%;
-      height: 160px;
+      height: 200px;
       border-radius: 8px;
-      background: #f0f4f0;
       border: 1px solid #e0e8e0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 6px;
-      color: #999;
-      font-size: 13px;
+      display: block;
       margin-bottom: 12px;
     }
     .map-btn {
@@ -510,10 +503,7 @@
 
         '<div class="section-card">' +
           '<div class="section-title">アクセス・地図</div>' +
-          '<div class="map-embed-placeholder">' +
-            '<span style="font-size:32px;">🗺</span>' +
-            '<span>Googleマップ埋め込み予定エリア</span>' +
-          '</div>' +
+          '<iframe class="map-iframe" src="https://www.google.com/maps?q=' + park.lat + ',' + park.lng + '&hl=ja&z=16&output=embed" loading="lazy" allowfullscreen></iframe>' +
           '<a class="map-btn" href="' + googleMapsUrl + '" target="_blank" rel="noopener">📍 Googleマップで開く</a>' +
         '</div>' +
 
