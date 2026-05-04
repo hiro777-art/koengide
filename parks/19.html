@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>川岸公園｜戸田市公園ガイド</title>
-  <meta name="description" content="川岸公園（戸田市川岸2-11）の詳細情報。菖蒲川沿いの桜が美しい公園。すべり台・砂場・トイレあり。犬の散歩OK。盆踊り会場としても親しまれています。" />
-  <link rel="canonical" href="https://koengide.com/parks/19.html" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>川岸公園 - 菖蒲川沿いの桜・犬の散歩OK・盆踊り会場 | 戸田市公園ガイド</title>
+  <meta name="description" content="戸田市川岸にある川岸公園の詳細情報。菖蒲川沿いに桜並木が続く春の散歩スポット。すべり台・砂場・トイレあり。犬の散歩OK。盆踊り会場としても地域に親しまれています。住所：川岸2-11">
 
   <!-- OGP -->
-  <meta property="og:title" content="川岸公園｜戸田市公園ガイド" />
-  <meta property="og:description" content="菖蒲川沿いの桜が美しい公園。すべり台・砂場・トイレあり。犬の散歩OK。" />
-  <meta property="og:url" content="https://koengide.com/parks/19.html" />
-  <meta property="og:type" content="article" />
-  <meta property="og:image" content="https://koengide.com/images/parks/19/park-19-main.jpg" />
+  <meta property="og:title" content="川岸公園 | 戸田市公園ガイド">
+  <meta property="og:description" content="菖蒲川沿いの桜が美しい公園。すべり台・砂場・トイレあり。犬の散歩OK。盆踊り会場としても親しまれています。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://www.koengide.com/parks/19.html">
+  <meta property="og:site_name" content="戸田市公園ガイド">
+  <meta property="og:image" content="https://www.koengide.com/images/parks/19/park-19-main.jpg">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 
   <!-- GA4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-TY1M6QFYVZ"></script>
@@ -23,7 +28,7 @@
     gtag('config', 'G-TY1M6QFYVZ');
   </script>
 
-  <!-- JSON-LD -->
+  <!-- JSON-LD 構造化データ -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -41,8 +46,8 @@
       "latitude": 35.8039,
       "longitude": 139.6862
     },
-    "url": "https://koengide.com/parks/19.html",
-    "description": "菖蒲川沿いの桜が美しい公園。すべり台・砂場・トイレあり。犬の散歩OK。盆踊り会場としても親しまれています。"
+    "url": "https://www.koengide.com/parks/19.html",
+    "description": "菖蒲川沿いに桜並木が続く公園。すべり台・砂場・トイレあり。犬の散歩OK。盆踊り会場としても地域に親しまれています。"
   }
   </script>
 
@@ -52,264 +57,533 @@
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://koengide.com/" },
-      { "@type": "ListItem", "position": 2, "name": "川岸公園", "item": "https://koengide.com/parks/19.html" }
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://www.koengide.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "戸田公園エリアの公園",
+        "item": "https://www.koengide.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "川岸公園",
+        "item": "https://www.koengide.com/parks/19.html"
+      }
     ]
   }
   </script>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Zen+Maru+Gothic:wght@700;900&display=swap" rel="stylesheet" />
-
   <style>
     :root {
-      --green-dark: #1a4a2e; --green-mid: #2d6a4f; --green-light: #52b788;
-      --green-pale: #d8f3dc; --accent: #f4a261; --accent-dark: #e76f51;
-      --cream: #fafaf7; --white: #ffffff;
-      --gray-100: #f0f0ee; --gray-300: #d0d0cc; --gray-500: #888884; --gray-700: #444440;
-      --text: #1e1e1a; --area-color: #3d6b9e; --area-pale: #ddeaf7;
-      --radius-sm: 8px; --radius-md: 14px; --radius-lg: 22px;
-      --shadow-sm: 0 2px 8px rgba(0,0,0,.08); --shadow-md: 0 6px 20px rgba(0,0,0,.12);
+      --primary: #1a8c6e;
+      --primary-light: #e8f5f0;
+      --accent: #4db8f0;
+      --accent-light: #e3f4fc;
+      --text: #2d3748;
+      --text-muted: #718096;
+      --border: #e2e8f0;
+      --bg: #f7fafc;
+      --white: #ffffff;
+      --badge-area: #2b7de9;
+      --tag-bg: #e8f5f0;
+      --tag-text: #1a8c6e;
+      --tag-off: #f1f5f9;
+      --tag-off-text: #94a3b8;
+      --special-bg: #fff8e1;
+      --special-border: #f59e0b;
     }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Noto Sans JP', sans-serif; background: var(--cream); color: var(--text); }
 
-    /* ヘッダー */
-    .site-header { background: var(--green-dark); padding: 12px 16px; display: flex; align-items: center; gap: 10px; }
-    .site-header a { color: var(--white); text-decoration: none; font-size: 13px; opacity: .85; }
-    .site-header a:hover { opacity: 1; }
-    .header-sep { color: rgba(255,255,255,.4); font-size: 12px; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    /* ヒーロー */
-    .park-hero { position: relative; background: var(--green-dark); overflow: hidden; }
-    .hero-img-wrap { width: 100%; aspect-ratio: 16/9; max-height: 420px; overflow: hidden; }
-    .hero-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,30,18,.75) 0%, transparent 55%); }
-    .hero-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 20px 20px 24px; }
-    .hero-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
-    .hero-badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; }
-    .badge-area { background: var(--area-color); color: var(--white); }
-    .badge-feature { background: rgba(255,255,255,.2); color: var(--white); border: 1px solid rgba(255,255,255,.4); backdrop-filter: blur(4px); }
-    .hero-title { font-family: 'Zen Maru Gothic', sans-serif; font-size: clamp(24px, 5vw, 36px); font-weight: 900; color: var(--white); text-shadow: 0 2px 12px rgba(0,0,0,.4); line-height: 1.2; }
-    .hero-address { font-size: 13px; color: rgba(255,255,255,.8); margin-top: 6px; display: flex; align-items: center; gap: 4px; }
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
 
-    /* メインコンテンツ */
-    .content-wrap { max-width: 720px; margin: 0 auto; padding: 24px 16px 60px; display: flex; flex-direction: column; gap: 24px; }
+    .site-header {
+      background: linear-gradient(135deg, #1a8c6e 0%, #2b9fd4 100%);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .site-header a {
+      color: white;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.05rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .site-header a:hover { opacity: 0.85; }
+    .header-icon { font-size: 1.3rem; }
 
-    /* セクション共通 */
-    .section { background: var(--white); border-radius: var(--radius-md); padding: 20px; box-shadow: var(--shadow-sm); }
-    .section-title { font-size: 12px; font-weight: 700; color: var(--gray-500); letter-spacing: .1em; margin-bottom: 14px; }
+    .breadcrumb {
+      background: var(--white);
+      padding: 10px 16px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+    }
+    .breadcrumb a { color: var(--primary); text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
+    .breadcrumb span { margin: 0 6px; }
 
-    /* 写真ギャラリー */
-    .gallery-sub { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px; }
-    .gallery-sub img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: var(--radius-sm); cursor: pointer; transition: opacity .18s; }
-    .gallery-sub img:hover { opacity: .88; }
+    .main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 20px 16px 60px;
+    }
 
-    /* ライトボックス */
-    .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,.88); z-index: 2000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .25s; }
-    .lightbox.open { opacity: 1; pointer-events: all; }
-    .lightbox img { max-width: 92vw; max-height: 88vh; border-radius: var(--radius-sm); object-fit: contain; }
-    .lightbox-close { position: absolute; top: 16px; right: 20px; color: var(--white); font-size: 28px; cursor: pointer; background: none; border: none; line-height: 1; }
+    .park-header {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .park-badges {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .badge-area {
+      background: var(--badge-area);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: 20px;
+    }
+    .badge-special {
+      background: var(--special-border);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: 20px;
+    }
+    .park-name {
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .park-address {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
 
-    /* 差別化ポイント */
-    .highlight-box { background: var(--green-pale); border-left: 4px solid var(--green-mid); border-radius: var(--radius-sm); padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; }
-    .highlight-item { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 1.6; }
-    .highlight-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+    .highlight-box {
+      background: var(--special-bg);
+      border: 2px solid var(--special-border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .highlight-icon { font-size: 1.8rem; flex-shrink: 0; }
+    .highlight-text h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #92400e;
+      margin-bottom: 4px;
+    }
+    .highlight-text p {
+      font-size: 0.85rem;
+      color: #78350f;
+      line-height: 1.5;
+    }
 
-    /* 設備グリッド */
-    .equip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-    .equip-item { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px 8px; border-radius: var(--radius-sm); font-size: 11px; font-weight: 500; text-align: center; transition: all .15s; }
-    .equip-item.has { border: 1.5px solid var(--green-pale); background: var(--green-pale); color: var(--green-mid); }
-    .equip-item.has-dog { border: 1.5px solid #ffe0b2; background: #fff8f0; color: #e65100; }
-    .equip-item.none { border: 1.5px dashed var(--gray-300); background: var(--gray-100); color: var(--gray-500); opacity: .55; filter: grayscale(1); }
-    .equip-icon { font-size: 22px; }
+    .section {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .section-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--primary-light);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title::before {
+      content: '';
+      display: block;
+      width: 3px;
+      height: 16px;
+      background: var(--primary);
+      border-radius: 2px;
+    }
 
-    /* おすすめ */
-    .recommend-list { display: flex; flex-direction: column; gap: 10px; }
-    .recommend-item { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 1.6; }
-    .recommend-icon { font-size: 20px; flex-shrink: 0; }
+    .park-description { font-size: 0.95rem; line-height: 1.85; color: var(--text); }
+    .park-description p { margin-bottom: 10px; }
+    .park-description p:last-child { margin-bottom: 0; }
 
-    /* アクセス */
-    .info-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
-    .info-row:last-child { margin-bottom: 0; }
-    .info-row-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
-    .info-row-label { font-size: 11px; color: var(--gray-500); margin-bottom: 2px; }
-    .info-row-value { font-size: 14px; color: var(--text); line-height: 1.5; }
+    .equipment-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+    .tag-on { background: var(--tag-bg); color: var(--tag-text); border: 1px solid #b2dfcc; }
+    .tag-off { background: var(--tag-off); color: var(--tag-off-text); border: 1px solid var(--border); text-decoration: line-through; }
 
-    /* Googleマップ */
-    .gmap-embed { width: 100%; height: 240px; border-radius: var(--radius-sm); border: none; }
-    .gmap-btn { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 12px; padding: 14px; border-radius: var(--radius-md); background: var(--green-mid); color: var(--white); font-size: 14px; font-weight: 700; text-decoration: none; transition: background .18s; }
-    .gmap-btn:hover { background: var(--green-dark); }
+    .equipment-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    @media (max-width: 400px) {
+      .equipment-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .equip-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      padding: 14px 8px;
+      border-radius: 12px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-align: center;
+      border: 1.5px solid transparent;
+    }
+    .equip-on { background: var(--primary-light); color: var(--primary); border-color: #b2dfcc; }
+    .equip-off { background: #efefef; color: #b0b8c1; border: 1.5px dashed #c8c8c8; opacity: 0.55; }
+    .equip-off .equip-icon { filter: grayscale(100%); }
+    .equip-item .equip-icon { font-size: 1.5rem; }
 
-    /* 近隣公園 */
+    .detail-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    .detail-table tr { border-bottom: 1px solid var(--border); }
+    .detail-table tr:last-child { border-bottom: none; }
+    .detail-table td { padding: 10px 4px; vertical-align: top; }
+    .detail-table td:first-child { color: var(--text-muted); font-weight: 600; width: 90px; white-space: nowrap; }
+
+    .recommend-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .recommend-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.88rem;
+      padding: 10px 14px;
+      background: var(--accent-light);
+      border-radius: 10px;
+      color: #1e4e7a;
+    }
+    .recommend-list li .r-icon { font-size: 1.2rem; flex-shrink: 0; }
+
+    .map-container { border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
+    .map-container iframe { width: 100%; height: 280px; display: block; border: none; }
+    .map-link {
+      display: block;
+      text-align: center;
+      margin-top: 12px;
+      padding: 12px;
+      background: var(--primary);
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+    .map-link:hover { background: #157a5c; }
+
     .nearby-list { display: flex; flex-direction: column; gap: 8px; }
-    .nearby-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border-radius: var(--radius-sm); border: 1.5px solid var(--gray-100); text-decoration: none; color: var(--text); transition: all .18s; font-size: 14px; }
-    .nearby-item:hover { border-color: var(--green-light); background: var(--green-pale); }
-    .nearby-arrow { color: var(--gray-300); font-size: 18px; }
-
-    /* フッター */
-    .footer { text-align: center; padding: 24px; font-size: 12px; color: var(--gray-500); border-top: 1px solid var(--gray-100); }
-
-    @media (min-width: 600px) {
-      .equip-grid { grid-template-columns: repeat(4, 1fr); }
+    .nearby-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.2s;
     }
+    .nearby-item:hover { background: var(--primary-light); border-color: var(--primary); }
+    .nearby-item-name { font-weight: 600; font-size: 0.9rem; }
+    .nearby-item-area { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
+    .nearby-arrow { color: var(--primary); font-size: 1rem; }
+
+    .gallery-grid { display: flex; flex-direction: column; gap: 8px; }
+    .gallery-main .gallery-img {
+      width: 100%; height: 220px; object-fit: cover;
+      border-radius: 10px; cursor: pointer; transition: opacity 0.2s; display: block;
+    }
+    .gallery-sub { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .gallery-item .gallery-img {
+      width: 100%; height: 120px; object-fit: cover;
+      border-radius: 8px; cursor: pointer; transition: opacity 0.2s; display: block;
+    }
+    .gallery-img:hover { opacity: 0.88; }
+    .gallery-caption { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; padding-left: 2px; }
+
+    .lightbox {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.88); z-index: 1000;
+      align-items: center; justify-content: center; padding: 16px;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-width: 100%; max-height: 90vh; border-radius: 8px; object-fit: contain; }
+    .lightbox-close { position: absolute; top: 16px; right: 20px; color: white; font-size: 2rem; cursor: pointer; line-height: 1; background: none; border: none; }
+    .lightbox-caption { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); color: white; font-size: 0.85rem; background: rgba(0,0,0,0.5); padding: 6px 14px; border-radius: 20px; white-space: nowrap; }
+
+    .back-btn {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--white); color: var(--primary);
+      border: 2px solid var(--primary); border-radius: 12px;
+      padding: 14px 24px; font-size: 0.95rem; font-weight: 700;
+      cursor: pointer; text-decoration: none; width: 100%;
+      justify-content: center; margin-top: 8px; transition: all 0.2s;
+    }
+    .back-btn:hover { background: var(--primary); color: white; }
   </style>
 </head>
 <body>
 
-  <!-- ヘッダー -->
   <header class="site-header">
-    <a href="/">🌳 戸田市公園ガイド</a>
-    <span class="header-sep">›</span>
-    <a href="/">公園一覧</a>
-    <span class="header-sep">›</span>
-    <span style="color:rgba(255,255,255,.6);font-size:13px;">川岸公園</span>
+    <a href="https://www.koengide.com/">
+      <span class="header-icon">🌳</span>
+      戸田市公園ガイド
+    </a>
   </header>
 
-  <!-- ヒーロー -->
-  <div class="park-hero">
-    <div class="hero-img-wrap">
-      <img src="../images/parks/19/park-19-main.jpg" alt="川岸公園のメイン写真" />
-    </div>
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <div class="hero-badges">
-        <span class="hero-badge badge-area">📍 戸田公園エリア</span>
-        <span class="hero-badge badge-feature">🌸 桜の名所</span>
-        <span class="hero-badge badge-feature">🐕 犬の散歩OK</span>
+  <nav class="breadcrumb" aria-label="パンくずリスト">
+    <a href="https://www.koengide.com/">ホーム</a>
+    <span>›</span>
+    <a href="https://www.koengide.com/">戸田公園エリア</a>
+    <span>›</span>
+    川岸公園
+  </nav>
+
+  <main class="main">
+
+    <div class="park-header">
+      <div class="park-badges">
+        <span class="badge-area">🚉 戸田公園エリア</span>
+        <span class="badge-special">🌸 桜の名所</span>
+        <span class="badge-special">🐕 犬の散歩OK</span>
       </div>
-      <h1 class="hero-title">川岸公園</h1>
-      <div class="hero-address">📍 埼玉県戸田市川岸2-11</div>
+      <h1 class="park-name">川岸公園</h1>
+      <p class="park-address">📍 埼玉県戸田市川岸2-11</p>
     </div>
-  </div>
 
-  <div class="content-wrap">
+    <div class="highlight-box">
+      <div class="highlight-icon">🌸</div>
+      <div class="highlight-text">
+        <h3>菖蒲川沿いに続く桜並木が美しい</h3>
+        <p>春になると川沿いの桜が満開に。お花見スポットとして地域に親しまれており、夏には盆踊り会場としても活用される地域の憩いの場です。</p>
+      </div>
+    </div>
 
-    <!-- 差別化ポイント -->
     <div class="section">
-      <div class="section-title">HIGHLIGHT ／ この公園の特徴</div>
-      <div class="highlight-box">
-        <div class="highlight-item">
-          <span class="highlight-icon">🌸</span>
-          <span>菖蒲川沿いに桜並木が続く、<strong>春の散歩に最高のロケーション</strong>。お花見スポットとしても人気です。</span>
+      <div class="section-title">公園の写真</div>
+      <div class="gallery-grid">
+        <div class="gallery-main">
+          <img
+            src="/images/parks/19/park-19-main.jpg"
+            alt="川岸公園の全景"
+            loading="lazy"
+            class="gallery-img"
+            onclick="openPhoto(this.src, this.alt)">
+          <div class="gallery-caption">川岸公園・全景</div>
         </div>
-        <div class="highlight-item">
-          <span class="highlight-icon">🏮</span>
-          <span><strong>盆踊り会場</strong>としても地域に親しまれており、夏は賑わいを見せます。</span>
-        </div>
-        <div class="highlight-item">
-          <span class="highlight-icon">🐕</span>
-          <span>川沿いの開放的な環境で<strong>犬の散歩にも最適</strong>。のびのびと歩けます。</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- 写真ギャラリー -->
-    <div class="section">
-      <div class="section-title">PHOTO ／ 写真</div>
-      <div class="gallery-sub">
-        <img src="../images/parks/19/park-19-sandbox.jpg" alt="川岸公園の砂場" onclick="openLightbox(this.src)" />
-        <img src="../images/parks/19/park-19-toilet.jpg" alt="川岸公園のトイレ" onclick="openLightbox(this.src)" />
-      </div>
-    </div>
-
-    <!-- 設備グリッド -->
-    <div class="section">
-      <div class="section-title">EQUIPMENT ／ 設備・遊具</div>
-      <div class="equip-grid">
-        <div class="equip-item none"><span class="equip-icon">🎠</span>ブランコ<br><small>なし</small></div>
-        <div class="equip-item has"><span class="equip-icon">🛝</span>すべり台</div>
-        <div class="equip-item has"><span class="equip-icon">🏖️</span>砂場</div>
-        <div class="equip-item has"><span class="equip-icon">🚻</span>トイレ</div>
-        <div class="equip-item none"><span class="equip-icon">🅿️</span>駐車場<br><small>なし</small></div>
-        <div class="equip-item none"><span class="equip-icon">💧</span>水遊び<br><small>なし</small></div>
-        <div class="equip-item has-dog"><span class="equip-icon">🐕</span>犬の散歩OK</div>
-      </div>
-    </div>
-
-    <!-- 公園の説明 -->
-    <div class="section">
-      <div class="section-title">ABOUT ／ 公園について</div>
-      <p style="font-size:14px;line-height:1.9;color:var(--text);">
-        川岸公園は菖蒲川沿いに位置する、戸田公園エリアの公園です。春には川沿いの桜が美しく咲き誇り、お花見スポットとして地域の方々に親しまれています。<br><br>
-        園内にはすべり台・砂場があり、小さなお子様が遊べる環境が整っています。トイレも完備しているので安心してお出かけいただけます。<br><br>
-        また、犬の散歩にも開放されており、川沿いの気持ちよい散歩道として愛犬家にも人気のスポットです。夏には盆踊り会場としても活用され、地域のコミュニティの場になっています。
-      </p>
-    </div>
-
-    <!-- こんな方におすすめ -->
-    <div class="section">
-      <div class="section-title">RECOMMEND ／ こんな方におすすめ</div>
-      <div class="recommend-list">
-        <div class="recommend-item"><span class="recommend-icon">🌸</span><span>春のお花見・桜の写真を撮りたい方</span></div>
-        <div class="recommend-item"><span class="recommend-icon">🐕</span><span>愛犬と川沿いをのんびり散歩したい方</span></div>
-        <div class="recommend-item"><span class="recommend-icon">👶</span><span>砂場・すべり台で遊ばせたい小さなお子様連れ</span></div>
-        <div class="recommend-item"><span class="recommend-icon">🚶</span><span>朝のウォーキングコースを探している方</span></div>
-      </div>
-    </div>
-
-    <!-- アクセス・地図 -->
-    <div class="section">
-      <div class="section-title">ACCESS ／ アクセス・地図</div>
-      <div class="info-row">
-        <span class="info-row-icon">📍</span>
-        <div>
-          <div class="info-row-label">住所</div>
-          <div class="info-row-value">埼玉県戸田市川岸2-11</div>
+        <div class="gallery-sub">
+          <div class="gallery-item">
+            <img
+              src="/images/parks/19/park-19-sandbox.jpg"
+              alt="川岸公園の砂場"
+              loading="lazy"
+              class="gallery-img"
+              onclick="openPhoto(this.src, this.alt)">
+            <div class="gallery-caption">砂場</div>
+          </div>
+          <div class="gallery-item">
+            <img
+              src="/images/parks/19/park-19-toilet.jpg"
+              alt="川岸公園のトイレ"
+              loading="lazy"
+              class="gallery-img"
+              onclick="openPhoto(this.src, this.alt)">
+            <div class="gallery-caption">トイレ</div>
+          </div>
         </div>
       </div>
-      <div class="info-row">
-        <span class="info-row-icon">🗺️</span>
-        <div>
-          <div class="info-row-label">エリア</div>
-          <div class="info-row-value">戸田公園エリア</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">設備タグ</div>
+      <div class="equipment-tags">
+        <span class="tag tag-on">🛝 すべり台</span>
+        <span class="tag tag-on">🏖️ 砂場</span>
+        <span class="tag tag-on">🚻 トイレ</span>
+        <span class="tag tag-on">🐕 犬の散歩OK</span>
+        <span class="tag tag-on">🌸 桜の名所</span>
+        <span class="tag tag-on">🏮 盆踊り会場</span>
+        <span class="tag tag-off">🪁 ブランコ</span>
+        <span class="tag tag-off">🚿 水遊び</span>
+        <span class="tag tag-off">🅿️ 駐車場</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">公園について</div>
+      <div class="park-description">
+        <p>川岸公園は菖蒲川沿いに位置する、戸田公園エリアの公園です。春には川沿いの桜が美しく咲き誇り、地域の方々に人気のお花見スポットとして親しまれています。</p>
+        <p>園内にはすべり台・砂場が整備されており、小さなお子様が安心して遊べる環境です。トイレも完備しているため、長時間のお出かけでも安心です。</p>
+        <p><strong>犬の散歩</strong>にも開放されており、菖蒲川沿いの開放的な環境で愛犬とのびのびと歩くことができます。朝の散歩コースとしても人気があります。</p>
+        <p>夏には<strong>盆踊り会場</strong>としても活用され、地域コミュニティの場として大切にされています。季節ごとに異なる表情を楽しめる公園です。</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">設備・施設一覧</div>
+      <div class="equipment-grid">
+        <div class="equip-item equip-off">
+          <span class="equip-icon">🪁</span>
+          <span>ブランコ<br><small style="font-size:0.65rem;font-weight:400;">なし</small></span>
+        </div>
+        <div class="equip-item equip-on">
+          <span class="equip-icon">🛝</span>
+          <span>すべり台</span>
+        </div>
+        <div class="equip-item equip-on">
+          <span class="equip-icon">🏖️</span>
+          <span>砂場</span>
+        </div>
+        <div class="equip-item equip-on">
+          <span class="equip-icon">🚻</span>
+          <span>トイレ</span>
+        </div>
+        <div class="equip-item equip-off">
+          <span class="equip-icon">🅿️</span>
+          <span>駐車場<br><small style="font-size:0.65rem;font-weight:400;">なし</small></span>
+        </div>
+        <div class="equip-item equip-off">
+          <span class="equip-icon">🚿</span>
+          <span>水遊び<br><small style="font-size:0.65rem;font-weight:400;">なし</small></span>
+        </div>
+        <div class="equip-item equip-on" style="background:#fff8f0;color:#e65100;border-color:#ffcc80;">
+          <span class="equip-icon">🐕</span>
+          <span>犬の散歩OK</span>
         </div>
       </div>
-      <iframe class="gmap-embed"
-        src="https://maps.google.com/maps?q=35.8039,139.6862&output=embed"
-        allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-      </iframe>
-      <a class="gmap-btn" href="https://www.google.com/maps/search/?api=1&query=35.8039,139.6862" target="_blank" rel="noopener">
+    </div>
+
+    <div class="section">
+      <div class="section-title">こんな方におすすめ</div>
+      <ul class="recommend-list">
+        <li><span class="r-icon">🌸</span><span><strong>春のお花見</strong>：菖蒲川沿いの桜並木でのんびりお花見を楽しめます</span></li>
+        <li><span class="r-icon">🐕</span><span><strong>愛犬家</strong>：川沿いの開放的な環境で犬の散歩に最適です</span></li>
+        <li><span class="r-icon">👶</span><span><strong>小さなお子様連れ</strong>：すべり台・砂場でのびのび遊べます</span></li>
+        <li><span class="r-icon">🚶</span><span><strong>朝の散歩派</strong>：川沿いの気持ちよい散歩コースとして人気です</span></li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title">基本情報</div>
+      <table class="detail-table">
+        <tr><td>住所</td><td>埼玉県戸田市川岸2-11</td></tr>
+        <tr><td>エリア</td><td>戸田公園エリア</td></tr>
+        <tr><td>最寄り駅</td><td>JR埼京線 戸田公園駅</td></tr>
+        <tr><td>トイレ</td><td>あり</td></tr>
+        <tr><td>駐車場</td><td>なし</td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title">地図・アクセス</div>
+      <div class="map-container">
+        <iframe
+          src="https://maps.google.com/maps?q=35.8039,139.6862&z=16&output=embed"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="川岸公園の地図">
+        </iframe>
+      </div>
+      <a href="https://www.google.com/maps/dir/?api=1&destination=35.8039,139.6862" target="_blank" rel="noopener" class="map-link">
         🗺️ Googleマップで経路を調べる
       </a>
     </div>
 
-    <!-- 近隣公園 -->
     <div class="section">
-      <div class="section-title">NEARBY ／ 同エリアの公園</div>
+      <div class="section-title">同じエリアの公園</div>
       <div class="nearby-list">
-        <a class="nearby-item" href="22.html">🌳 下前公園<span class="nearby-arrow">›</span></a>
-        <a class="nearby-item" href="../">📍 公園一覧に戻る<span class="nearby-arrow">›</span></a>
+        <a href="https://www.koengide.com/parks/22.html" class="nearby-item">
+          <div>
+            <div class="nearby-item-name">下前公園</div>
+            <div class="nearby-item-area">戸田公園エリア</div>
+          </div>
+          <span class="nearby-arrow">›</span>
+        </a>
+        <a href="https://www.koengide.com/parks/1.html" class="nearby-item">
+          <div>
+            <div class="nearby-item-name">戸田公園（大型）</div>
+            <div class="nearby-item-area">戸田公園エリア</div>
+          </div>
+          <span class="nearby-arrow">›</span>
+        </a>
       </div>
     </div>
 
-  </div>
+    <a href="https://www.koengide.com/" class="back-btn">← 公園一覧に戻る</a>
 
-  <!-- フッター -->
-  <footer class="footer">
-    <p>© 2026 戸田市公園ガイド</p>
-    <p style="margin-top:6px;font-size:11px;line-height:1.8;">掲載情報は調査時点のものです。設備の撤去・変更等により実際と異なる場合があります。<br>お出かけ前に現地または<a href="https://www.city.toda.saitama.jp/" target="_blank" rel="noopener noreferrer" style="color:var(--green-mid);text-decoration:underline;">戸田市公式サイト</a>でご確認ください。</p>
-  </footer>
+  </main>
 
-  <!-- ライトボックス -->
-  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
-    <img id="lightboxImg" src="" alt="" />
+  <div class="lightbox" id="lightbox" onclick="closePhoto()">
+    <button class="lightbox-close" onclick="closePhoto()">✕</button>
+    <img id="lightbox-img" src="" alt="">
+    <div class="lightbox-caption" id="lightbox-caption"></div>
   </div>
 
   <script>
-    function openLightbox(src) {
-      document.getElementById('lightboxImg').src = src;
+    function openPhoto(src, alt) {
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox-img').alt = alt;
+      document.getElementById('lightbox-caption').textContent = alt;
       document.getElementById('lightbox').classList.add('open');
-      document.body.style.overflow = 'hidden';
     }
-    function closeLightbox() {
+    function closePhoto() {
       document.getElementById('lightbox').classList.remove('open');
-      document.body.style.overflow = '';
     }
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closePhoto();
+    });
   </script>
 
 </body>
