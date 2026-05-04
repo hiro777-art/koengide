@@ -565,7 +565,7 @@
             ${areaBadge}
             <div class="park-address">📍 ${esc(p.address || '住所未登録')}</div>
             ${featTags ? `<div class="park-features">${featTags}</div>` : ''}
-            <button class="park-detail-btn" onclick="event.stopPropagation();openModal(${JSON.stringify(p).replace(/"/g,'&quot;')})">詳細を見る</button>
+            <a class="park-detail-btn" href="parks/${p.id}.html" onclick="event.stopPropagation()">詳細を見る</a>
           </div>`;
       }).join('');
     }
