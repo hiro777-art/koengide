@@ -279,6 +279,10 @@
       border-top: 1px dashed var(--gray-300);
       margin: 2px 0;
     }
+    .search-wrap { position: relative; margin-bottom: 4px; }
+    .search-input { width: 100%; padding: 9px 14px 9px 36px; border-radius: 100px; border: 1.5px solid var(--gray-300); font-size: 14px; font-family: inherit; color: var(--text); background: var(--white); outline: none; transition: border-color .18s; }
+    .search-input:focus { border-color: var(--green-light); box-shadow: 0 0 0 3px rgba(82,183,136,.15); }
+    .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 15px; pointer-events: none; }
 
     .main { max-width: 960px; margin: 0 auto; padding: 20px 16px 60px; }
     .result-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
@@ -409,6 +413,11 @@
   <div class="filter-section">
     <div class="filter-inner">
       <div class="filter-row">
+        <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input class="search-input" type="search" id="searchInput" placeholder="公園名で検索…" oninput="renderParks()" />
+      </div>
+<hr class="filter-divider">
         <!-- エリア絞り込み -->
         <div class="filter-label">🗺️ エリアで絞り込む</div>
         <div class="filter-chips">
@@ -530,6 +539,11 @@
 
     function getFiltered() {
       let result = allParks;
+      // キーワード検索
+      const kw = (document.getElementById('searchInput')?.value || '').trim();
+      if (kw) {
+        result = result.filter(p => p.name.includes(kw) || (p.address || '').includes(kw));
+      }
       // エリアフィルター
       if (activeArea !== '') {
         result = result.filter(p => p.area === activeArea);
