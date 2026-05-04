@@ -307,8 +307,8 @@
     .feat-tag { display: inline-flex; align-items: center; gap: 3px; background: var(--green-pale); color: var(--green-mid); border-radius: 6px; padding: 3px 8px; font-size: 11px; font-weight: 500; }
     .feat-tag.dog { background: #fff3e0; color: #e65100; }
     .feat-tag.water { background: #e3f2fd; color: #1565c0; }
-    .park-detail-btn { margin-top: 4px; padding: 9px 0; border-radius: var(--radius-sm); border: 1.5px solid var(--green-light); background: transparent; color: var(--green-mid); font-size: 13px; font-weight: 700; cursor: pointer; transition: all .18s; font-family: inherit; }
-    .park-detail-btn:hover { background: var(--green-mid); color: var(--white); }
+    .park-detail-btn { margin-top: 4px; padding: 10px 0; border-radius: var(--radius-sm); border: none; background: var(--green-mid); color: var(--white); font-size: 13px; font-weight: 700; cursor: pointer; transition: all .18s; font-family: inherit; display: block; text-align: center; text-decoration: none; letter-spacing: .05em; box-shadow: 0 2px 8px rgba(45,106,79,.25); }
+    .park-detail-btn:hover { background: var(--green-dark); box-shadow: 0 4px 12px rgba(45,106,79,.35); transform: translateY(-1px); }
     .modal-overlay { position: fixed; inset: 0; background: rgba(10,20,15,.6); backdrop-filter: blur(4px); z-index: 1000; display: flex; align-items: flex-end; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .25s ease; }
     .modal-overlay.open { opacity: 1; pointer-events: all; }
     .modal { background: var(--white); width: 100%; max-width: 640px; max-height: 90dvh; border-radius: var(--radius-lg) var(--radius-lg) 0 0; overflow-y: auto; overscroll-behavior: contain; transform: translateY(60px); transition: transform .3s cubic-bezier(.22,.61,.36,1); }
