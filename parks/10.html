@@ -1,221 +1,60 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>元蕨第三公園 | 戸田市公園ガイド</title>
-  <meta name="description" content="元蕨第三公園（戸田市上戸田2-9）の詳細情報。設備・アクセス・地図を掲載。" />
-  <link rel="canonical" href="https://koengide.com/parks/10.html" />
-
-  <!-- OGP -->
-  <meta property="og:title" content="元蕨第三公園 | 戸田市公園ガイド" />
-  <meta property="og:description" content="元蕨第三公園の設備・アクセス情報。戸田市公園ガイド。" />
-  <meta property="og:url" content="https://koengide.com/parks/10.html" />
-  <meta property="og:type" content="article" />
-  <meta property="og:site_name" content="戸田市公園ガイド" />
-
-  <!-- GA4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TY1M6QFYVZ"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-TY1M6QFYVZ');
-  </script>
-
-  <!-- JSON-LD -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Park",
-    "name": "元蕨第三公園",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "上戸田2-9",
-      "addressLocality": "戸田市",
-      "addressRegion": "埼玉県",
-      "addressCountry": "JP"
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": 35.8138,
-      "longitude": 139.6813
-    },
-    "url": "https://koengide.com/parks/10.html"
-  }
-  </script>
-
-  <!-- パンくずリスト JSON-LD -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {"@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://koengide.com/"},
-      {"@type": "ListItem", "position": 2, "name": "元蕨第三公園", "item": "https://koengide.com/parks/10.html"}
-    ]
-  }
-  </script>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
-
-  <style>
-    :root {
-      --primary: #1a8c6e; --primary-light: #e8f5f0;
-      --accent: #4db8f0; --accent-light: #e3f4fc;
-      --text: #2d3748; --text-muted: #718096;
-      --border: #e2e8f0; --bg: #f7fafc; --white: #ffffff;
-      --badge-area: #2b7de9;
-      --tag-bg: #e8f5f0; --tag-text: #1a8c6e;
-      --tag-off: #f1f5f9; --tag-off-text: #94a3b8;
-      --special-bg: #fff8e1; --special-border: #f59e0b;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Noto Sans JP', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-
-    .site-header { background: linear-gradient(135deg, #1a8c6e 0%, #2b9fd4 100%); padding: 12px 16px; display: flex; align-items: center; gap: 12px; }
-    .site-header a { color: white; text-decoration: none; font-weight: 700; font-size: 1.05rem; display: flex; align-items: center; gap: 8px; }
-    .site-header a:hover { opacity: 0.85; }
-
-    .breadcrumb { background: var(--white); padding: 10px 16px; font-size: 0.8rem; color: var(--text-muted); border-bottom: 1px solid var(--border); }
-    .breadcrumb a { color: var(--primary); text-decoration: none; }
-    .breadcrumb a:hover { text-decoration: underline; }
-    .breadcrumb span { margin: 0 6px; }
-
-    .main { max-width: 720px; margin: 0 auto; padding: 20px 16px 60px; }
-
-    .park-header { background: var(--white); border-radius: 16px; padding: 24px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-    .park-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
-    .badge-area { background: var(--badge-area); color: white; font-size: 0.75rem; font-weight: 700; padding: 3px 12px; border-radius: 20px; }
-    .park-name { font-size: 1.9rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
-    .park-address { color: var(--text-muted); font-size: 0.9rem; }
-
-    .section { background: var(--white); border-radius: 16px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-    .section-title { font-size: 0.78rem; font-weight: 700; color: var(--text-muted); letter-spacing: 0.08em; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 2px solid var(--primary-light); display: flex; align-items: center; gap: 8px; }
-    .section-title::before { content: ''; display: block; width: 3px; height: 16px; background: var(--primary); border-radius: 2px; }
-
-    .equipment-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-    .tag { display: inline-flex; align-items: center; gap: 5px; padding: 6px 14px; border-radius: 20px; font-size: 0.82rem; font-weight: 600; }
-    .tag-on { background: var(--tag-bg); color: var(--tag-text); border: 1px solid #b2dfcc; }
-    .tag-off { background: var(--tag-off); color: var(--tag-off-text); border: 1px solid var(--border); text-decoration: line-through; }
-
-    .equipment-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-    @media (max-width: 400px) { .equipment-grid { grid-template-columns: repeat(2, 1fr); } }
-    .equip-item { display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 14px 8px; border-radius: 12px; font-size: 0.78rem; font-weight: 600; text-align: center; border: 1.5px solid transparent; }
-    .equip-on { background: var(--primary-light); color: var(--primary); border-color: #b2dfcc; }
-    .equip-off { background: #efefef; color: #b0b8c1; border: 1.5px dashed #c8c8c8; opacity: 0.55; }
-    .equip-off .equip-icon { filter: grayscale(100%); }
-    .equip-icon { font-size: 1.5rem; }
-
-    .park-description { font-size: 0.95rem; line-height: 1.85; color: var(--text); }
-    .park-description p { margin-bottom: 10px; }
-    .park-description p:last-child { margin-bottom: 0; }
-
-    .detail-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
-    .detail-table tr { border-bottom: 1px solid var(--border); }
-    .detail-table tr:last-child { border-bottom: none; }
-    .detail-table td { padding: 10px 4px; vertical-align: top; }
-    .detail-table td:first-child { color: var(--text-muted); font-weight: 600; width: 90px; white-space: nowrap; }
-
-    .map-container { border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
-    .map-container iframe { width: 100%; height: 280px; display: block; border: none; }
-    .map-link { display: block; text-align: center; margin-top: 12px; padding: 12px; background: var(--primary); color: white; text-decoration: none; border-radius: 10px; font-weight: 700; font-size: 0.9rem; }
-    .map-link:hover { background: #157a5c; }
-
-    .back-btn { display: flex; align-items: center; gap: 8px; background: var(--white); color: var(--primary); border: 2px solid var(--primary); border-radius: 12px; padding: 14px 24px; font-size: 0.95rem; font-weight: 700; cursor: pointer; text-decoration: none; width: 100%; justify-content: center; margin-top: 8px; transition: all 0.2s; }
-    .back-btn:hover { background: var(--primary); color: white; }
-
-    .footer { text-align: center; padding: 24px; font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--border); margin-top: 16px; }
-  </style>
+  <meta name="description" content="上戸田2丁目に位置する元蕨第三公園は、カラフルな複合遊具やトンネルすべり台、動物モチーフのユニークな遊具が揃う子どもに人気の公園です。広場には大きな木が植えられており、日差しの強い日でも木陰でゆったり過ごせます。ブランコやベンチも完備しています。">
+  <meta property="og:title" content="元蕨第三公園 | 戸田市公園ガイド">
+  <meta property="og:description" content="上戸田2丁目に位置する元蕨第三公園は、カラフルな複合遊具やトンネルすべり台、動物モチーフのユニークな遊具が揃う子どもに人気の公園です。広場には大きな木が植えられており、日差しの強い日でも木陰でゆったり過ごせます。ブランコやベンチも完備しています。">
+  <meta property="og:image" content="https://koengide.com/images/parks/10/park-10-main.jpg">
+  <meta property="og:url" content="https://koengide.com/parks/10.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Park","name":"元蕨第三公園","address":{"@type":"PostalAddress","streetAddress":"上戸田2-9","addressLocality":"戸田市","addressRegion":"埼玉県"},"geo":{"@type":"GeoCoordinates","latitude":35.8138,"longitude":139.6813},"url":"https://koengide.com/parks/10.html"}</script>
+  <style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;background:#f8f9fa;color:#333}header{background:linear-gradient(135deg,#1b6f3a,#1a5276);color:white;padding:14px 16px}header a{color:white;font-size:1.05rem;font-weight:bold;text-decoration:none}.bc{font-size:.78rem;padding:8px 16px;color:#666}.bc a{color:#2d6a4f;text-decoration:none}.park-header{background:white;margin:8px;border-radius:12px;padding:18px;box-shadow:0 2px 8px rgba(0,0,0,.07)}.area-badge{display:inline-block;background:#1a5276;color:white;font-size:.72rem;padding:3px 10px;border-radius:20px;margin-bottom:8px}.park-name{font-size:1.55rem;font-weight:bold;color:#1b6f3a;margin-bottom:6px}.park-addr{color:#666;font-size:.88rem}.highlight{background:#fffbea;border-left:4px solid #f4c430;margin:8px;border-radius:8px;padding:14px 16px}.highlight h3{color:#8b6914;margin-bottom:10px;font-size:1rem}.highlight ul{list-style:none}.section{margin:8px;background:white;border-radius:12px;padding:18px;box-shadow:0 2px 8px rgba(0,0,0,.07)}.section h2{font-size:1.05rem;font-weight:bold;color:#1b6f3a;margin-bottom:12px;border-bottom:2px solid #e8f5e9;padding-bottom:8px}.fac-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}table{width:100%;border-collapse:collapse}td{padding:10px 0;border-bottom:1px solid #f0f0f0;font-size:.88rem}.map-wrap{border-radius:8px;overflow:hidden}.sub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:6px}.back-btn{display:block;text-align:center;background:#1b6f3a;color:white;padding:14px;border-radius:8px;text-decoration:none;font-weight:bold;margin:8px}footer{text-align:center;padding:20px 16px;font-size:.73rem;color:#999;line-height:1.8}footer a{color:#2d6a4f}</style>
 </head>
 <body>
-
-  <header class="site-header">
-    <a href="https://www.koengide.com/"><span>🌳</span> 戸田市公園ガイド</a>
-  </header>
-
-  <nav class="breadcrumb">
-    <a href="https://www.koengide.com/">ホーム</a>
-    <span>›</span>
-    <a href="https://www.koengide.com/">戸田・新曽エリア</a>
-    <span>›</span>
-    元蕨第三公園
-  </nav>
-
-  <main class="main">
-
-    <div class="park-header">
-      <div class="park-badges">
-        <span class="badge-area">🚉 戸田・新曽エリア</span>
-      </div>
-      <h1 class="park-name">元蕨第三公園</h1>
-      <p class="park-address">📍 埼玉県戸田市上戸田2-9</p>
+  <header><a href="../index.html">🌳 戸田市公園ガイド</a></header>
+  <nav class="bc"><a href="../index.html">ホーム</a> › 戸田・新曽エリア › 元蕨第三公園</nav>
+  <div class="park-header"><span class="area-badge">戸田・新曽エリア</span><div class="park-name">元蕨第三公園</div><div class="park-addr">📍 上戸田2-9</div></div>
+  <div class="highlight"><h3>⭐ この公園の特筆ポイント</h3><ul>
+      <li style="padding:6px 0;border-bottom:1px solid #f3f1e0;font-size:0.95rem">✅ 🛝 複合遊具とトンネルすべり台が充実した遊び場</li>
+      <li style="padding:6px 0;border-bottom:1px solid #f3f1e0;font-size:0.95rem">✅ 🐯 ユニークな動物型のスプリング遊具が楽しい</li>
+      <li style="padding:6px 0;border-bottom:1px solid #f3f1e0;font-size:0.95rem">✅ 🌳 大きな木陰があり夏でも快適に過ごせる</li>
+  </ul></div>
+  <div class="section"><h2>📸 写真ギャラリー</h2>
+    <img src="../images/parks/10/park-10-main.jpg" alt="元蕨第三公園のメイン写真" style="width:100%;border-radius:8px;margin-bottom:8px;cursor:pointer" onclick="this.requestFullscreen()" loading="lazy">
+    <div class="sub-grid">
+      <img src="../images/parks/10/park-10-2.jpg" alt="写真2" style="width:100%;height:130px;object-fit:cover;border-radius:8px;cursor:pointer" loading="lazy" onclick="this.requestFullscreen()">
+      <img src="../images/parks/10/park-10-3.jpg" alt="写真3" style="width:100%;height:130px;object-fit:cover;border-radius:8px;cursor:pointer" loading="lazy" onclick="this.requestFullscreen()">
+      <img src="../images/parks/10/park-10-4.jpg" alt="写真4" style="width:100%;height:130px;object-fit:cover;border-radius:8px;cursor:pointer" loading="lazy" onclick="this.requestFullscreen()">
+      <img src="../images/parks/10/park-10-5.jpg" alt="写真5" style="width:100%;height:130px;object-fit:cover;border-radius:8px;cursor:pointer" loading="lazy" onclick="this.requestFullscreen()">
     </div>
-
-    <div class="section">
-      <div class="section-title">設備タグ</div>
-      <div class="equipment-tags">
-        <span class="tag tag-off">🪁 ブランコ</span>
-        <span class="tag tag-on">🛝 すべり台</span>
-        <span class="tag tag-on">🏖️ 砂場</span>
-        <span class="tag tag-on">🚻 トイレ</span>
-        <span class="tag tag-off">🅿️ 駐車場</span>
-        <span class="tag tag-off">🚿 水遊び</span>
-        <span class="tag tag-off">🐕 犬の散歩OK</span>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">公園について</div>
-      <div class="park-description"><p>すべり台（大小）・スプリング・砂場。旧戸田城跡付近。★4.2</p></div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">設備・施設一覧</div>
-      <div class="equipment-grid">
-        <div class="equip-item equip-off"><span class="equip-icon">🪁</span><span>ブランコ<br><small style="font-size:0.65rem;font-weight:400;">なし</small></span></div>
-        <div class="equip-item equip-on"><span class="equip-icon">🛝</span><span>すべり台</span></div>
-        <div class="equip-item equip-on"><span class="equip-icon">🏖️</span><span>砂場</span></div>
-        <div class="equip-item equip-on"><span class="equip-icon">🚻</span><span>トイレ</span></div>
-        <div class="equip-item equip-off"><span class="equip-icon">🅿️</span><span>駐車場<br><small style="font-size:0.65rem;font-weight:400;">なし</small></span></div>
-        <div class="equip-item equip-off"><span class="equip-icon">🚿</span><span>水遊び<br><small style="font-size:0.65rem;font-weight:400;">なし</small></span></div>
-        <div class="equip-item equip-off"><span class="equip-icon">🐕</span><span>犬の散歩OK<br><small style="font-size:0.65rem;font-weight:400;">なし</small></span></div>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">基本情報</div>
-      <table class="detail-table">
-        <tr><td>住所</td><td>埼玉県戸田市上戸田2-9</td></tr>
-        <tr><td>エリア</td><td>戸田・新曽エリア</td></tr>
-        <tr><td>トイレ</td><td>あり</td></tr>
-        <tr><td>駐車場</td><td>なし</td></tr>
-      </table>
-    </div>
-
-    <div class="section">
-      <div class="section-title">地図・アクセス</div>
-      <div class="map-container">
-        <iframe
-          src="https://maps.google.com/maps?q=35.8138,139.6813&z=16&output=embed"
-          allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
-      </div>
-      <a href="https://www.google.com/maps/dir/?api=1&destination=35.8138,139.6813" target="_blank" rel="noopener" class="map-link">
-        🗺️ Googleマップで経路を調べる
-      </a>
-    </div>
-
-    <a href="https://www.koengide.com/" class="back-btn">← 公園一覧に戻る</a>
-
-  </main>
-
-  <footer class="footer">
-    <p>© 2026 戸田市公園ガイド</p>
-    <p style="margin-top:6px;font-size:11px;line-height:1.8;">掲載情報は調査時点のものです。設備の撤去・変更等により実際と異なる場合があります。<br>お出かけ前に現地または<a href="https://www.city.toda.saitama.jp/" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">戸田市公式サイト</a>でご確認ください。</p>
-  </footer>
-
+  </div>
+  <div class="section"><h2>🎯 設備情報</h2><div class="fac-grid">
+    <div style="border:2px solid #2d6a4f;border-radius:8px;padding:10px;text-align:center;background:#f0fdf4"><div style="font-size:1.3rem">🛝</div><div style="font-weight:bold;color:#2d6a4f;font-size:0.8rem;margin-top:4px">ブランコ</div><div style="color:#2d6a4f;font-size:0.75rem">あり</div></div>
+    <div style="border:2px solid #2d6a4f;border-radius:8px;padding:10px;text-align:center;background:#f0fdf4"><div style="font-size:1.3rem">🛝</div><div style="font-weight:bold;color:#2d6a4f;font-size:0.8rem;margin-top:4px">すべり台</div><div style="color:#2d6a4f;font-size:0.75rem">あり</div></div>
+    <div style="border:2px dashed #ccc;border-radius:8px;padding:10px;text-align:center;opacity:0.45"><div style="font-size:1.3rem;filter:grayscale(1)">⛱️</div><div style="font-weight:bold;color:#999;font-size:0.8rem;margin-top:4px;text-decoration:line-through">砂場</div><div style="color:#bbb;font-size:0.75rem">なし</div></div>
+    <div style="border:2px solid #2d6a4f;border-radius:8px;padding:10px;text-align:center;background:#f0fdf4"><div style="font-size:1.3rem">🚽</div><div style="font-weight:bold;color:#2d6a4f;font-size:0.8rem;margin-top:4px">トイレ</div><div style="color:#2d6a4f;font-size:0.75rem">あり</div></div>
+    <div style="border:2px dashed #ccc;border-radius:8px;padding:10px;text-align:center;opacity:0.45"><div style="font-size:1.3rem;filter:grayscale(1)">🅿️</div><div style="font-weight:bold;color:#999;font-size:0.8rem;margin-top:4px;text-decoration:line-through">駐車場</div><div style="color:#bbb;font-size:0.75rem">なし</div></div>
+    <div style="border:2px dashed #ccc;border-radius:8px;padding:10px;text-align:center;opacity:0.45"><div style="font-size:1.3rem;filter:grayscale(1)">💧</div><div style="font-weight:bold;color:#999;font-size:0.8rem;margin-top:4px;text-decoration:line-through">水遊び</div><div style="color:#bbb;font-size:0.75rem">なし</div></div>
+    <div style="border:2px dashed #ccc;border-radius:8px;padding:10px;text-align:center;opacity:0.45"><div style="font-size:1.3rem;filter:grayscale(1)">🐕</div><div style="font-weight:bold;color:#999;font-size:0.8rem;margin-top:4px;text-decoration:line-through">犬の散歩OK</div><div style="color:#bbb;font-size:0.75rem">なし</div></div>
+    <div style="border:2px solid #2d6a4f;border-radius:8px;padding:10px;text-align:center;background:#f0fdf4"><div style="font-size:1.3rem">🪑</div><div style="font-weight:bold;color:#2d6a4f;font-size:0.8rem;margin-top:4px">ベンチ</div><div style="color:#2d6a4f;font-size:0.75rem">あり</div></div>
+    <div style="border:2px dashed #ccc;border-radius:8px;padding:10px;text-align:center;opacity:0.45"><div style="font-size:1.3rem;filter:grayscale(1)">⚽</div><div style="font-weight:bold;color:#999;font-size:0.8rem;margin-top:4px;text-decoration:line-through">ボール遊びOK</div><div style="color:#bbb;font-size:0.75rem">なし</div></div>
+    <div style="border:2px dashed #ccc;border-radius:8px;padding:10px;text-align:center;opacity:0.45"><div style="font-size:1.3rem;filter:grayscale(1)">☂️</div><div style="font-weight:bold;color:#999;font-size:0.8rem;margin-top:4px;text-decoration:line-through">日陰あり</div><div style="color:#bbb;font-size:0.75rem">なし</div></div>
+    <div style="border:2px dashed #ccc;border-radius:8px;padding:10px;text-align:center;opacity:0.45"><div style="font-size:1.3rem;filter:grayscale(1)">🏪</div><div style="font-weight:bold;color:#999;font-size:0.8rem;margin-top:4px;text-decoration:line-through">コンビニ近く</div><div style="color:#bbb;font-size:0.75rem">なし</div></div>
+    <div style="border:2px dashed #ccc;border-radius:8px;padding:10px;text-align:center;opacity:0.45"><div style="font-size:1.3rem;filter:grayscale(1)">🛒</div><div style="font-weight:bold;color:#999;font-size:0.8rem;margin-top:4px;text-decoration:line-through">スーパー近く</div><div style="color:#bbb;font-size:0.75rem">なし</div></div>
+  </div></div>
+  <div class="section"><h2>ℹ️ 基本情報</h2>
+    <table>
+      <tr><td style="color:#666;padding:10px 0;width:40%">公園名</td><td style="padding:10px 0">元蕨第三公園</td></tr>
+      <tr><td style="color:#666;padding:10px 0">住所</td><td style="padding:10px 0">上戸田2-9</td></tr>
+      <tr><td style="color:#666;padding:10px 0">エリア</td><td style="padding:10px 0">戸田・新曽エリア</td></tr>
+      
+    </table>
+  </div>
+  <div class="section"><h2>🗺️ アクセスマップ</h2>
+    <div class="map-wrap"><iframe src="https://maps.google.com/maps?q=35.8138,139.6813&output=embed" width="100%" height="240" frameborder="0" style="border:0" loading="lazy" allowfullscreen></iframe></div>
+  </div>
+  <a href="../index.html" class="back-btn">← 公園一覧に戻る</a>
+  <footer><p>※掲載情報は現地確認に基づきますが、最新の状況は<a href="https://www.city.toda.saitama.jp" target="_blank" rel="noopener">戸田市公式サイト</a>でご確認ください。</p><p>© 2024 戸田市公園ガイド | koengide.com</p></footer>
 </body>
 </html>
