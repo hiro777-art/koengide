@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>戸田市公園ガイド | 遊具・水遊び・犬の散歩で探せる</title>
+  <title>戸田市公園ガイド | 遊具・水遊び・で探せる</title>
   <meta name="description" content="戸田市の公園88件を掲載。ブランコ・すべり台・砂場・水遊び・犬の散歩OKで絞り込みできる公園検索サイト。" />
   <!-- Google Search Console 確認タグ -->
   <meta name="google-site-verification" content="K-LyPaQChEx_y6KwRHGp-JkaWfyg-OQtCTHlODVA_3g" />
@@ -436,7 +436,9 @@
           <button class="chip" data-filter="has_toilet"  onclick="toggleFilter(this)"><span class="chip-icon">🚻</span>トイレ</button>
           <button class="chip" data-filter="has_water"   onclick="toggleFilter(this)"><span class="chip-icon">💧</span>水遊び</button>
           <button class="chip" data-filter="has_parking" onclick="toggleFilter(this)"><span class="chip-icon">🅿️</span>駐車場</button>
-          <button class="chip" data-filter="has_dog"     onclick="toggleFilter(this)"><span class="chip-icon">🐕</span>犬の散歩OK</button>
+          <button class="chip" data-filter="has_dog"     onclick="toggleFilter(this)"><span class="chip-icon">🐕</span>OK</button>
+          <button class="chip" data-filter="has_complex_play"    onclick="toggleFilter(this)"><span class="chip-icon">🏗️</span>複合遊具</button>
+          <button class="chip" data-filter="has_health_equipment" onclick="toggleFilter(this)"><span class="chip-icon">🏋️</span>健康器具</button>
         </div>
       </div>
     </div>
@@ -484,7 +486,7 @@
       { key: 'has_toilet',  icon: '🚻', label: 'トイレ',       cls: '' },
       { key: 'has_parking', icon: '🅿️', label: '駐車場',       cls: '' },
       { key: 'has_water',   icon: '💧', label: '水遊び',       cls: 'water' },
-      { key: 'has_dog',     icon: '🐕', label: '犬の散歩OK',   cls: 'dog' },
+      { key: 'has_dog',     icon: '🐕', label: 'OK',   cls: 'dog' },
     ];
 
     const MODAL_FEATURES = [
@@ -494,7 +496,7 @@
       { key: 'has_toilet',      icon: '🚻', label: 'トイレ',       cls: '' },
       { key: 'has_parking',     icon: '🅿️', label: '駐車場',       cls: '' },
       { key: 'has_water',       icon: '💧', label: '水遊び',       cls: 'has-water' },
-      { key: 'has_dog',         icon: '🐕', label: '犬の散歩OK',   cls: 'has-dog' },
+      { key: 'has_dog',         icon: '🐕', label: 'OK',   cls: 'has-dog' },
       { key: 'has_convenience', icon: '🏪', label: 'コンビニ近隣', cls: '' },
     ];
 
