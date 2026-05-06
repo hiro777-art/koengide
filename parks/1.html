@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>こどもの国（児童センター）- 戸田市公園ガイド</title>
-<meta name="description" content="戸田市本町にある「こどもの国（児童センター）」。夏のプール・恐竜オブジェ・複合遊具など。">
+<meta name="description" content="戸田市本町にある「こどもの国（児童センター）」。夏のプール・恐竜オブジェ・複合遊具など、子どもが思い切り遊べる公園の詳細情報。">
 <meta property="og:image" content="https://koengide.com/images/parks/1/1_01.jpg">
 <link rel="canonical" href="https://koengide.com/parks/1.html">
 <style>
@@ -24,8 +24,8 @@ main{max-width:800px;margin:0 auto;padding:20px 16px 40px}
 .highlight-box ul{list-style:none}
 .highlight-box ul li{padding:4px 0;font-size:.9rem}
 .highlight-box ul li::before{content:'⭐ '}
+.section-title{font-size:1rem;font-weight:bold;color:#333;margin-bottom:12px;padding-left:10px;border-left:3px solid #2e7d32}
 .gallery{margin-bottom:24px}
-.gallery h2,.facilities h2,.map-section h2,.info-table h2{font-size:1rem;font-weight:bold;color:#333;margin-bottom:12px;padding-left:10px;border-left:3px solid #2e7d32}
 .gallery-main{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;cursor:pointer;margin-bottom:8px;box-shadow:0 2px 8px rgba(0,0,0,.12)}
 .gallery-sub{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
 .gallery-sub img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:6px;cursor:pointer}
@@ -33,13 +33,16 @@ main{max-width:800px;margin:0 auto;padding:20px 16px 40px}
 .modal.open{display:flex}
 .modal img{max-width:92vw;max-height:88vh;border-radius:8px;object-fit:contain}
 .modal-close{position:absolute;top:16px;right:20px;color:#fff;font-size:2rem;cursor:pointer}
-.facilities,.info-table{background:#fff;border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
-.facility-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.facility-item{background:#e8f5e9;border:1px solid #a5d6a7;color:#2e7d32;border-radius:8px;padding:8px 6px;text-align:center;font-size:.78rem;font-weight:bold}
-.facility-item.not-available{background:#f5f5f5;border:1px solid #e0e0e0;color:#bbb;text-decoration:line-through}
-.facility-item.dog{background:#fff3e0;border:1px solid #ffcc80;color:#e65100}
+.about-section{background:#fff;border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.about-section p{font-size:.9rem;margin-bottom:12px;line-height:1.8}
+.about-section p:last-child{margin-bottom:0}
+.facilities{background:#fff;border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.fac-pills{display:flex;flex-wrap:wrap;gap:8px}
+.fac-pill{display:inline-flex;align-items:center;gap:4px;background:#e8f5e9;border:1px solid #a5d6a7;color:#2e7d32;border-radius:20px;padding:5px 12px;font-size:.8rem;font-weight:bold;white-space:nowrap}
+.fac-pill.off{background:#f5f5f5;border-color:#e0e0e0;color:#bbb;text-decoration:line-through}
 .map-section{margin-bottom:24px}
-.map-section iframe{width:100%;height:280px;border:none;border-radius:10px}
+.map-section iframe{width:100%;height:280px;border:none;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.info-table{background:#fff;border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
 .info-table table{width:100%;border-collapse:collapse;font-size:.87rem}
 .info-table td{padding:9px 10px;border-bottom:1px solid #f0f0f0}
 .info-table td:first-child{color:#666;width:90px;white-space:nowrap}
@@ -54,7 +57,7 @@ footer a{color:#80cbc4;text-decoration:none}
 <main>
   <div class="park-header"><span class="park-badge">戸田公園エリア</span><h1>こどもの国（児童センター）</h1><p class="address">戸田市本町1-17-7</p></div>
   <div class="highlight-box"><h2>✨ この公園の特徴</h2><ul><li>夏は本格プールで水遊び！子どもも大喜びの水着デーが楽しめる</li><li>迫力満点の恐竜オブジェは記念撮影スポットとしても大人気</li><li>複合遊具・すべり台で思い切り体を動かして遊べる</li></ul></div>
-  <section class="gallery"><h2>📷 写真</h2><img class="gallery-main" src="../images/parks/1/1_01.jpg" alt="こどもの国 メイン" onclick="openModal(this.src)"><div class="gallery-sub">
+  <section class="gallery"><h2 class="section-title">📷 写真</h2><img class="gallery-main" src="../images/parks/1/1_01.jpg" alt="こどもの国（児童センター）" onclick="openModal(this.src)"><div class="gallery-sub">
       <img src="../images/parks/1/1_02.jpg" alt="こどもの国 写真2" onclick="openModal(this.src)">
       <img src="../images/parks/1/1_03.jpg" alt="こどもの国 写真3" onclick="openModal(this.src)">
       <img src="../images/parks/1/1_04.jpg" alt="こどもの国 写真4" onclick="openModal(this.src)">
@@ -64,22 +67,27 @@ footer a{color:#80cbc4;text-decoration:none}
       <img src="../images/parks/1/1_08.jpg" alt="こどもの国 写真8" onclick="openModal(this.src)">
   </div></section>
   <div class="modal" id="modal" onclick="closeModal()"><span class="modal-close">✕</span><img id="modal-img" src="" alt="拡大"></div>
-  <section class="facilities"><h2>🎪 設備・施設</h2><div class="facility-grid">
-      <div class="facility-item not-available">🎠 ブランコ</div>
-      <div class="facility-item">🛝 すべり台</div>
-      <div class="facility-item not-available">🏖 砂場</div>
-      <div class="facility-item">🚻 トイレ</div>
-      <div class="facility-item not-available">🚗 駐車場</div>
-      <div class="facility-item">💧 水遊び</div>
-      <div class="facility-item not-available">🐕 ドッグラン</div>
-      <div class="facility-item">🪑 ベンチ</div>
-      <div class="facility-item">⛹ ボール遊びOK</div>
-      <div class="facility-item">🌳 日陰あり</div>
-      <div class="facility-item">🏗 複合遊具</div>
-      <div class="facility-item not-available">🏋 健康器具</div>
+  <section class="about-section"><h2 class="section-title">🌳 公園について</h2>
+    <p>こどもの国（児童センター）は、戸田市本町に位置する子どもたちのための公園です。園内には複合遊具・すべり台があり、小さなお子さまから小学生まで思い切り体を動かして遊べます。</p>
+    <p>夏季には本格的なプールが開放され、水着で水遊びを楽しめる人気スポットです。暑い季節の定番お出かけ先として、地域の親子に愛されています。</p>
+    <p>園内には迫力満点の恐竜オブジェがあり、子どもたちに大人気です。記念撮影スポットとしても知られており、はじめて訪れた子どもも目を輝かせます。ベンチも完備しているため、保護者の方もゆっくりと見守ることができます。</p>
+  </section>
+  <section class="facilities"><h2 class="section-title">🎪 設備・施設</h2><div class="fac-pills">
+    <span class="fac-pill">🛝 すべり台</span>
+    <span class="fac-pill">🚻 トイレ</span>
+    <span class="fac-pill">💧 水遊び</span>
+    <span class="fac-pill">🪑 ベンチ</span>
+    <span class="fac-pill">⛹ ボール遊びOK</span>
+    <span class="fac-pill">🌳 日陰あり</span>
+    <span class="fac-pill">🏗 複合遊具</span>
+    <span class="fac-pill off">🎠 ブランコ</span>
+    <span class="fac-pill off">🏖 砂場</span>
+    <span class="fac-pill off">🚗 駐車場</span>
+    <span class="fac-pill off">🐕 ドッグラン</span>
+    <span class="fac-pill off">🏋 健康器具</span>
   </div></section>
-  <section class="map-section"><h2>🗺 アクセス</h2><iframe src="https://maps.google.com/maps?q=35.8097,139.6804&output=embed" loading="lazy" title="地図"></iframe></section>
-  <section class="info-table"><h2>ℹ️ 基本情報</h2><table><tr><td>公園名</td><td>こどもの国（児童センター）</td></tr><tr><td>住所</td><td>埼玉県戸田市本町1-17-7</td></tr><tr><td>エリア</td><td>戸田公園エリア</td></tr><tr><td>プール</td><td>夏季開放（要確認）</td></tr></table></section>
+  <section class="map-section"><h2 class="section-title">🗺 アクセス</h2><iframe src="https://maps.google.com/maps?q=35.8097,139.6804&output=embed" loading="lazy" title="こどもの国の地図"></iframe></section>
+  <section class="info-table"><h2 class="section-title">ℹ️ 基本情報</h2><table><tr><td>公園名</td><td>こどもの国（児童センター）</td></tr><tr><td>住所</td><td>埼玉県戸田市本町1-17-7</td></tr><tr><td>エリア</td><td>戸田公園エリア</td></tr><tr><td>プール</td><td>夏季開放（要確認）</td></tr></table></section>
   <a href="../index.html" class="back-btn">← 公園一覧に戻る</a>
 </main>
 <footer><p>※掲載情報は現地調査に基づいていますが、最新情報と異なる場合があります。</p><p>お出かけ前に<a href="https://www.city.toda.saitama.jp" target="_blank" rel="noopener">戸田市公式サイト</a>でご確認ください。</p><p style="margin-top:10px;">© 2026 戸田市公園ガイド</p></footer>
