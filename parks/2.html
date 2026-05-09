@@ -107,7 +107,7 @@ function closeModal(){document.getElementById('modal').classList.remove('open');
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
 
 (function(){
-  var _area=encodeURIComponent('戸田・新曽エリア');
+  var _area=encodeURIComponent('戸田公園エリア');
   var _pid='2';
   var _url='https://cxqzrbghdibahedstrrv.supabase.co/rest/v1/parks?select=id,name,area&area=eq.'+_area+'&id=neq.'+_pid+'&order=id.asc&limit=5';
   var _key='sb_publishable_Jceze5gKAJ6VQbZc4_p8HA_aMNPCEXa';
