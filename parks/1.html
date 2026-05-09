@@ -49,6 +49,14 @@ main{max-width:800px;margin:0 auto;padding:20px 16px 40px}
 .back-btn{display:inline-block;background:linear-gradient(135deg,#2e7d32,#1565c0);color:#fff;text-decoration:none;padding:12px 28px;border-radius:30px;font-size:.9rem;font-weight:bold;margin-bottom:24px}
 footer{background:#263238;color:#aaa;text-align:center;padding:24px 16px;font-size:.78rem;line-height:1.9}
 footer a{color:#80cbc4;text-decoration:none}
+
+.related-parks{background:#fff;border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.related-card{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border:1px solid #e0e0e0;border-radius:8px;margin-bottom:8px;text-decoration:none;color:#333;transition:background .15s}
+.related-card:hover{background:#f5f5f5}
+.related-card:last-child{margin-bottom:0}
+.related-name{font-size:.9rem;font-weight:bold;color:#1a1a1a;flex:1}
+.related-area{font-size:.75rem;color:#888;margin:0 8px}
+.related-arrow{color:#1565c0;font-size:1.1rem}
 </style>
 </head>
 <body>
@@ -88,6 +96,8 @@ footer a{color:#80cbc4;text-decoration:none}
   </section>
   <section class="map-section"><h2 class="section-title">🗺 アクセス</h2><iframe src="https://maps.google.com/maps?q=35.8097,139.6804&output=embed" loading="lazy" title="こどもの国の地図"></iframe></section>
   <section class="info-table"><h2 class="section-title">ℹ️ 基本情報</h2><table><tr><td>公園名</td><td>こどもの国（児童センター）</td></tr><tr><td>住所</td><td>埼玉県戸田市本町1-17-7</td></tr><tr><td>エリア</td><td>戸田公園エリア</td></tr><tr><td>プール</td><td>夏季開放（要確認）</td></tr></table></section>
+  <section class="related-parks"><h2 class="section-title">🌿 同じエリアの公園</h2><div id="related-list"><p style="font-size:.85rem;color:#888;text-align:center;padding:8px">読み込み中...</p></div></section>
+
   <a href="../index.html" class="back-btn">← 公園一覧に戻る</a>
 </main>
 <footer><p>※掲載情報は現地調査に基づいていますが、最新情報と異なる場合があります。</p><p>お出かけ前に<a href="https://www.city.toda.saitama.jp" target="_blank" rel="noopener">戸田市公式サイト</a>でご確認ください。</p><p style="margin-top:10px;">© 2026 戸田市公園ガイド</p></footer>
@@ -95,6 +105,23 @@ footer a{color:#80cbc4;text-decoration:none}
 function openModal(s){document.getElementById('modal-img').src=s;document.getElementById('modal').classList.add('open');}
 function closeModal(){document.getElementById('modal').classList.remove('open');}
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
+
+(function(){
+  var _area=encodeURIComponent('戸田公園エリア');
+  var _pid='1';
+  var _url='https://cxqzrbghdibahedstrrv.supabase.co/rest/v1/parks?select=id,name,area&area=eq.'+_area+'&id=neq.'+_pid+'&order=id.asc&limit=5';
+  var _key='sb_publishable_Jceze5gKAJ6VQbZc4_p8HA_aMNPCEXa';
+  fetch(_url,{headers:{apikey:_key,'Authorization':'Bearer '+_key}})
+  .then(function(r){return r.json();})
+  .then(function(data){
+    var el=document.getElementById('related-list');
+    if(!data||!data.length){el.innerHTML='';return;}
+    el.innerHTML=data.map(function(p){
+      return '<a href="'+p.id+'.html" class="related-card"><span class="related-name">'+p.name+'</span><span class="related-area">'+p.area+'</span><span class="related-arrow">›</span></a>';
+    }).join('');
+  })
+  .catch(function(){document.getElementById('related-list').innerHTML='';});
+})();
 </script>
 </body>
 </html>
