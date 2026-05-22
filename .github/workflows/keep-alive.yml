@@ -1,0 +1,24 @@
+name: Supabase Keep Alive
+
+on:
+  schedule:
+    - cron: '0 1 */3 * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase（koengide.com用）
+        run: |
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}" \
+            "${{ secrets.SUPABASE_URL }}/rest/v1/parks?limit=1")
+          echo "HTTP Status: $RESPONSE"
+          if [ "$RESPONSE" = "200" ]; then
+            echo "✅ Supabase 接続成功"
+          else
+            echo "⚠️ レスポンス: $RESPONSE"
+            exit 1
+          fi
