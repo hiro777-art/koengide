@@ -65,7 +65,7 @@ const FACILITIES = [
   { key: 'has_ballplay',         icon: '⛹',  label: 'ボール遊びOK' },
   { key: 'has_health_equipment', icon: '🏋',  label: '健康器具' },
   { key: 'has_parking',          icon: '🅿',  label: '駐車場' },
-  { key: 'has_dog',              icon: '🐕', label: 'ドッグラン' },
+  { key: 'has_dog',              icon: '🐕', label: '犬の散歩OK' },
 ];
 
 // ============================================================
