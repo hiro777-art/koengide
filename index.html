@@ -510,7 +510,6 @@
       { key: 'has_parking',     icon: '🅿️', label: '駐車場',       cls: '' },
       { key: 'has_water',       icon: '💧', label: '水遊び',       cls: 'has-water' },
       { key: 'has_dog',         icon: '🐕', label: 'OK',   cls: 'has-dog' },
-      { key: 'has_convenience', icon: '🏪', label: 'コンビニ近隣', cls: '' },
     ];
 
     const SAMPLE_PARKS = [
@@ -631,8 +630,14 @@
       return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     }
 
+    // notes に混入している出典不明の★評価を表示から除去する（DBの notes は変更しない）
+    function sanitizeNotes(notes) {
+      return String(notes || '').replace(/★.*$/s, '').trim();
+    }
+
     function openModal(park) {
       document.getElementById('modalTitle').textContent = park.name;
+      const notesText = sanitizeNotes(park.notes);
       const equipHTML = MODAL_FEATURES.map(f => {
         const v = park[f.key];
         // TRUE: あり
@@ -686,12 +691,12 @@
           </div>
           ${areaBadgeModal}
         </div>
-        ${park.notes ? `
+        ${notesText ? `
         <div class="info-row">
           <span class="info-row-icon">💬</span>
           <div class="info-row-content">
             <div class="info-row-label">メモ</div>
-            <div class="info-row-value">${esc(park.notes)}</div>
+            <div class="info-row-value">${esc(notesText)}</div>
           </div>
         </div>` : ''}
         <a class="gmap-btn" href="${gmapUrl}" target="_blank" rel="noopener">
