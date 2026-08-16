@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/parks/43.html",
+      "destination": "/parks/38.html",
+      "statusCode": 301
+    }
+  ]
+}
