@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * rebuild-all.js
- * 戸田市公園ガイド - 全88ページ一括再生成スクリプト
+ * 戸田市公園ガイド - 全87ページ一括再生成スクリプト
  *
  * 【使い方】
  *   node rebuild-all.js          … ドライラン（何も書き換えない・差分だけ表示）
@@ -11,7 +11,7 @@
  *   C:\Users\hsasa\Downloads\koengide\rebuild-all.js  （リポジトリのルート）
  *
  * 【やること】
- *   1. Supabase から88件を取得（読み取りのみ・publishable key）
+ *   1. Supabase から87件を取得（読み取りのみ・publishable key）
  *   2. images/parks/<id>/ をローカルで走査して写真の有無・枚数を判定
  *   3. 既存の parks/<id>.html から手書き資産を救出
  *        - ✨この公園の特徴（3点）
