@@ -334,6 +334,8 @@
     .photo-area-icon { font-size: 36px; opacity: .4; }
     .photo-area-text { font-size: 13px; color: var(--gray-500); line-height: 1.6; }
     .photo-area-badge { display: inline-flex; align-items: center; gap: 5px; background: var(--accent); color: var(--white); border-radius: 100px; padding: 4px 12px; font-size: 11px; font-weight: 700; }
+    .photo-shot { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-md); display: block; background: var(--gray-100); }
+    .photo-caption { margin-top: 8px; font-size: 12px; color: var(--gray-500); display: flex; align-items: center; justify-content: space-between; gap: 8px; }
     .info-section-title { font-size: 12px; font-weight: 700; color: var(--gray-500); letter-spacing: .1em; margin-bottom: 10px; }
     .equip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
     .equip-item { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px 8px; border-radius: var(--radius-sm); border: 1.5px solid var(--gray-100); font-size: 11px; font-weight: 500; text-align: center; color: var(--gray-500); transition: all .15s; }
@@ -490,6 +492,7 @@
     const SUPABASE_KEY = 'sb_publishable_Jceze5gKAJ6VQbZc4_p8HA_aMNPCEXa';
 
     let allParks = [];
+    let parkPhotos = {};   // photos.json の中身（id → ファイル名の配列）
     let activeFilters = new Set();
     let activeArea = '';
 
@@ -529,6 +532,19 @@
       } catch (e) {
         console.warn('Supabase fetch failed, using sample data:', e);
         return SAMPLE_PARKS;
+      }
+    }
+
+    // 写真マニフェスト。取得に失敗しても、写真なし扱いで従来表示に落ちるだけにする
+    async function fetchPhotos() {
+      try {
+        const res = await fetch('photos.json', { cache: 'no-cache' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        return (data && data.photos) || {};
+      } catch (e) {
+        console.warn('photos.json fetch failed, treating all parks as photo-less:', e);
+        return {};
       }
     }
 
@@ -668,15 +684,28 @@
             </div>
           </div>`
         : '';
+      // 写真の有無で出し分ける。ファイル名は photos.json（listPhotos() の結果）が持つ
+      const shots = parkPhotos[park.id] || [];
+      const photoHTML = shots.length
+        ? `<div>
+            <img class="photo-shot" src="images/parks/${park.id}/${encodeURIComponent(shots[0])}"
+                 alt="${esc(park.name)}の写真" loading="lazy" decoding="async">
+            <div class="photo-caption">
+              <span>写真${shots.length}枚</span>
+              <a href="parks/${park.id}.html">すべて見る →</a>
+            </div>
+          </div>`
+        : `<div class="photo-area">
+            <div class="photo-area-icon">📸</div>
+            <div class="photo-area-text">
+              公園の写真はまだ登録されていません<br>
+              <small>散歩中の写真を投稿してみんなに教えよう</small>
+            </div>
+            <span class="photo-area-badge">🚧 写真投稿機能 準備中</span>
+          </div>`;
+
       document.getElementById('modalBody').innerHTML = `
-        <div class="photo-area">
-          <div class="photo-area-icon">📸</div>
-          <div class="photo-area-text">
-            公園の写真はまだ登録されていません<br>
-            <small>散歩中の写真を投稿してみんなに教えよう</small>
-          </div>
-          <span class="photo-area-badge">🚧 写真投稿機能 準備中</span>
-        </div>
+        ${photoHTML}
         <div>
           <div class="info-section-title">EQUIPMENT ／ 設備・特徴</div>
           <div class="equip-grid">${equipHTML}</div>${equipNote}
@@ -720,7 +749,9 @@
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
     window.addEventListener('load', async () => {
-      allParks = await fetchParks();
+      const [parks, photos] = await Promise.all([fetchParks(), fetchPhotos()]);
+      allParks   = parks;
+      parkPhotos = photos;
       renderParks();
     });
   </script>

@@ -588,6 +588,14 @@ async function main() {
   const bLayerConflicts = [];
   /** 組み立て済みHTML。中断できるよう、全件そろってから書き出す */
   const pending = [];
+  /**
+   * トップページのモーダル用の写真マニフェスト。
+   * 写真の所在は images/parks/<id>/ の実ファイルにしかなく（photo_url は
+   * 死にカラムで全件NULL）、ブラウザからはディレクトリを列挙できない。
+   * 詳細ページと同じ listPhotos() の結果をそのまま渡すことで、
+   * トップと詳細で写真の有無がズレないようにする。
+   */
+  const photoManifest = {};
 
   for (const park of parks) {
     const id = park.id;
@@ -596,6 +604,7 @@ async function main() {
     const prev = extractExisting(id);
 
     if (photoCount > 0) stats.withPhotos++;
+    if (photoCount > 0) photoManifest[id] = photos;
 
     const points = prev?.points?.length ? prev.points : [];
     const about  = prev?.about?.length  ? prev.about  : [];
@@ -725,6 +734,25 @@ async function main() {
     }
   } else {
     log('\n📄 HTMLとDBの設備情報に差分はありませんでした。');
+  }
+
+  // photos.json（トップページのモーダルが読む写真マニフェスト）
+  hr();
+  {
+    const manifestPath = path.join(ROOT, 'photos.json');
+    const manifest = {
+      generated_at: new Date().toISOString().slice(0, 10),
+      photos: photoManifest,
+    };
+    const json = JSON.stringify(manifest, null, 2) + '\n';
+    const parkCount  = Object.keys(photoManifest).length;
+    const photoTotal = Object.values(photoManifest).reduce((n, a) => n + a.length, 0);
+    if (WRITE) {
+      fs.writeFileSync(manifestPath, json, 'utf-8');
+      log(`\n📄 photos.json を出力しました（${parkCount} 公園 / ${photoTotal} 枚 / ${json.length} バイト）`);
+    } else {
+      log(`\n📄 photos.json は ${parkCount} 公園 / ${photoTotal} 枚になります（--write で出力）`);
+    }
   }
 
   // サマリー
