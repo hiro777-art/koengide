@@ -181,6 +181,108 @@ function extractExisting(id) {
 }
 
 // ============================================================
+// アクセス情報（記事テンプレv1.0 / A層の柱）
+//
+//   出典が特定できない記述は書かない、というのが最優先ルールなので、
+//   値が入っている項目だけを行として出す。未取得の項目は行ごと消える。
+//   「不明」「準備中」のような穴埋めは一切しない。
+// ============================================================
+
+/** 表示する順番と見出し。ここに無い列は出さない */
+const ACCESS_ROWS = [
+  { key: 'access_station',  label: '最寄駅' },
+  { key: 'access_note',     label: '列車の停車' },
+  { key: 'access_walk_min', label: '徒歩時間',  format: (v) => `駅出口から約${v}分` },
+  { key: 'access_bus',      label: 'バス' },
+  { key: 'access_landmark', label: '目印' },
+];
+
+const ACCESS_FIELDS = ACCESS_ROWS.map(r => r.key);
+
+/**
+ * アクセス欄に「出典付きの実データ」が何行あるかを返す。
+ *
+ *   source_urls[].covers に載っていない値は数えない。これが無いと、
+ *   生成側が最寄駅を機械的に埋めるだけで基準を満たせてしまい、
+ *   ルールが形骸化する。最寄駅は座標から自動で出せるので、
+ *   1行だけでは index にしない（2行以上を要求する）。
+ */
+function accessRowCount(park) {
+  const covered = new Set(
+    (Array.isArray(park.source_urls) ? park.source_urls : [])
+      .flatMap(s => (s && Array.isArray(s.covers)) ? s.covers : [])
+  );
+  return ACCESS_FIELDS.filter((k) => {
+    const v = park[k];
+    if (v === null || v === undefined || v === '') return false;  // 未取得＝行ごと非表示
+    if (!covered.has(k)) return false;                            // 出典に紐づかない値は数えない
+    if (k === 'access_walk_min') return Number.isInteger(v) && v > 0;
+    return String(v).trim().length >= 6;                          // 「駅」等の一語埋めを弾く
+  }).length;
+}
+
+/** アクセス表のHTML。1行も無ければ空文字（セクションごと出さない） */
+function buildAccessTable(park) {
+  const rows = ACCESS_ROWS
+    .filter(r => park[r.key] !== null && park[r.key] !== undefined && park[r.key] !== '')
+    .map((r) => {
+      const raw  = r.format ? r.format(park[r.key]) : park[r.key];
+      const cell = esc(raw).replace(/\n/g, '<br>');   // access_bus は改行区切りの複数行
+      return `      <tr><td>${r.label}</td><td>${cell}</td></tr>`;
+    });
+  if (!rows.length) return '';
+
+  // 徒歩分数が未取得のときだけ、その旨を明示する（「不明」とは書かない）
+  const walkNote = (park.access_walk_min === null || park.access_walk_min === undefined)
+    ? `\n    <p class="fac-note">駅出口からの徒歩所要時間は、出典を特定できていないため掲載していません。</p>`
+    : '';
+
+  return `  <section class="info-table access-table">
+    <h2 class="section-title">🚉 アクセス</h2>
+    <table>
+${rows.join('\n')}
+    </table>${walkNote}
+  </section>
+`;
+}
+
+/** 情報源と調査状況。source_urls が空なら出さない */
+function buildSourceSection(park) {
+  const sources = Array.isArray(park.source_urls) ? park.source_urls.filter(Boolean) : [];
+  if (!sources.length) return '';
+
+  const items = sources.map((s) => {
+    const who   = esc([s.publisher, s.title].filter(Boolean).join('「') + (s.title ? '」' : ''));
+    const when  = s.fetched_on ? `／取得日 ${esc(s.fetched_on)}` : '';
+    const link  = s.url
+      ? `<br><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.url)}</a>`
+      : '';
+    return `      <li>・${who}${when}${link}</li>`;
+  });
+
+  // 未取得の項目を隠さず宣言する。架空の情報で埋めないことを読み手に示す
+  const missing = ACCESS_ROWS
+    .filter(r => park[r.key] === null || park[r.key] === undefined || park[r.key] === '')
+    .map(r => r.label);
+  const missingLine = missing.length
+    ? `\n      <li>・未取得のため掲載していない項目：${esc(missing.join('／'))}。確認でき次第、掲載します。</li>`
+    : '';
+
+  const lead = Number(park.survey_level) >= 2
+    ? 'このページは、現地調査と公式情報にもとづいて作成しています。'
+    : 'このページは、公式に公開されている情報のみで作成しています（現地調査は未実施）。';
+
+  return `  <section class="info-table">
+    <h2 class="section-title">📄 情報源と調査状況</h2>
+    <p class="lead">${lead}</p>
+    <ul class="src-list">
+${items.join('\n')}${missingLine}
+    </ul>
+  </section>
+`;
+}
+
+// ============================================================
 // HTML生成
 // ============================================================
 function buildHTML(park, ctx) {
@@ -208,8 +310,14 @@ function buildHTML(park, ctx) {
     ? `\n      <p class="fac-note">「未確認」は現地調査がまだ済んでいない項目です。設備が無いという意味ではありません。</p>`
     : '';
 
-  // --- 特徴 ---
-  const highlightHTML = points.length
+  // --- B層を出してよいか（記事テンプレv1.0） ---
+  //   survey_level が 2（現地訪問・写真あり）のときだけ、特徴3項目・写真・
+  //   公園について本文を出す。0 のときはセクションごと出さない。
+  //   「準備中」のようなダミー表示も置かない（v1.0 の方針）。
+  const allowBLayer = Number(park.survey_level) >= 2;
+
+  // --- 特徴（B層） ---
+  const highlightHTML = (allowBLayer && points.length)
     ? `  <div class="highlight-box">
     <h2>✨ この公園の特徴</h2>
     <ul>
@@ -219,9 +327,9 @@ ${points.map(p => `      <li>${p}</li>`).join('\n')}
 `
     : '';
 
-  // --- 写真 ---
+  // --- 写真（B層） ---
   let galleryHTML = '';
-  if (photoCount > 0) {
+  if (allowBLayer && photoCount > 0) {
     const altFor = (i) =>
       esc(alts[i] || guessAlt(park.name, photos[i]) || `${park.name} 写真${i + 1}`);
     const subs = photos.slice(1).map((f, i) =>
@@ -239,18 +347,19 @@ ${subs ? `    <div class="gallery-sub">\n${subs}\n    </div>` : ''}
 `;
   }
 
-  // --- 本文 ---
-  const aboutHTML = about.length
+  // --- 本文（B層） ---
+  //   v1.0 では「準備中」のダミー段落を置かない。書けないならセクションごと消す。
+  const aboutHTML = (allowBLayer && about.length)
     ? `  <section class="about-section">
     <h2 class="section-title">🌳 公園について</h2>
 ${about.map(p => `    <p>${p.replace(/\n/g, '<br>')}</p>`).join('\n')}
   </section>
 `
-    : `  <section class="about-section pending">
-    <h2 class="section-title">🌳 公園について</h2>
-    <p>この公園はまだ現地調査が済んでいません。写真と詳しい情報は順次追加していきます。</p>
-  </section>
-`;
+    : '';
+
+  // --- アクセス・情報源（A層） ---
+  const accessTableHTML = buildAccessTable(park);
+  const sourceHTML      = buildSourceSection(park);
 
   // --- 構造化データ ---
   const ldPark = JSON.stringify({
@@ -350,6 +459,10 @@ main{max-width:800px;margin:0 auto;padding:20px 16px 40px}
 .info-table table{width:100%;border-collapse:collapse;font-size:.87rem}
 .info-table td{padding:9px 10px;border-bottom:1px solid #f0f0f0}
 .info-table td:first-child{color:#666;width:90px;white-space:nowrap}
+.info-table.access-table td:first-child{width:112px;white-space:normal}
+.info-table p.lead{font-size:.87rem;margin-bottom:12px}
+.info-table ul.src-list{list-style:none;font-size:.74rem;color:#999;line-height:1.8}
+.info-table ul.src-list a{color:#1565c0;text-decoration:none;word-break:break-all}
 .back-btn{display:inline-block;background:linear-gradient(135deg,#2e7d32,#1565c0);color:#fff;text-decoration:none;padding:12px 28px;border-radius:30px;font-size:.9rem;font-weight:bold;margin-bottom:24px}
 .nearby-section{background:#fff;border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
 .nearby-list{list-style:none}
@@ -377,8 +490,8 @@ ${highlightHTML}${galleryHTML}  <section class="facilities">
 ${pillsHTML}
     </div>${unknownNote}
   </section>
-${aboutHTML}  <section class="map-section">
-    <h2 class="section-title">🗺 アクセス</h2>
+${aboutHTML}${accessTableHTML}  <section class="map-section">
+    <h2 class="section-title">🗺 ${accessTableHTML ? '地図' : 'アクセス'}</h2>
     <iframe src="${mapSrc}" loading="lazy" title="${name}の地図"></iframe>
     <a class="map-link" href="https://www.google.com/maps/dir/?api=1&destination=${park.lat},${park.lng}" target="_blank" rel="noopener">🗺 Googleマップで経路を調べる</a>
   </section>
@@ -390,7 +503,7 @@ ${aboutHTML}  <section class="map-section">
       <tr><td>エリア</td><td>${area}</td></tr>
     </table>
   </section>
-  <section class="nearby-section" id="nearbySection">
+${sourceHTML}  <section class="nearby-section" id="nearbySection">
     <h2 class="section-title">🌿 同じエリアの公園</h2>
     <ul class="nearby-list" id="nearbyList"></ul>
   </section>
@@ -449,10 +562,15 @@ async function main() {
     rescued: 0,
     noindex: 0,
     facsFromHtml: 0,
+    withAccess: 0,
     written: 0,
   };
   const sqlLines = [];
   const rows = [];
+  /** survey_level<2 なのにB層の手書き資産を持つページ（書き込み前に中断する） */
+  const bLayerConflicts = [];
+  /** 組み立て済みHTML。中断できるよう、全件そろってから書き出す */
+  const pending = [];
 
   for (const park of parks) {
     const id = park.id;
@@ -490,28 +608,66 @@ async function main() {
       }
     }
 
-    // noindex の条件：写真も本文も無く、なおかつ設備が1つも「あり」でない
-    //   → 設備情報があるページは薄くても検索の答えになるので index に残す
+    // B層（特徴・写真・本文）は survey_level=2 の公園にしか出さない。
+    // survey_level が 0 のまま手書き資産を持つページがあると、ここで黙って
+    // 消えてしまう。DBに存在しない資産なので、消す前に必ず人に判断させる。
+    const allowBLayer = Number(park.survey_level) >= 2;
+    if (!allowBLayer && (points.length || about.length)) {
+      bLayerConflicts.push({ id, name: park.name, points: points.length, about: about.length });
+    }
+
+    // noindex の条件：写真も本文も無く、設備が1つも「あり」でなく、
+    //   なおかつアクセス欄に出典付きの実データが2行未満
+    //   → 設備情報やアクセス情報があるページは薄くても検索の答えになるので index に残す
     const hasAnyFacility = FACILITIES.some(f => facts[f.key] === true);
-    const noindex = photoCount === 0 && about.length === 0 && !hasAnyFacility;
+    const accessRows = accessRowCount(park);
+    const noindex = photoCount === 0
+                 && about.length === 0
+                 && !hasAnyFacility
+                 && accessRows < 2;
     if (noindex) stats.noindex++;
+    if (accessRows >= 2) stats.withAccess++;
 
     const html = buildHTML(park, { photos, points, about, alts, facts, noindex });
     const outPath = path.join(PARKS_DIR, `${id}.html`);
 
-    if (WRITE) {
-      fs.writeFileSync(outPath, html, 'utf-8');
-      stats.written++;
-    }
+    // 全件分を組み立て終えてからまとめて書く。B層の取りこぼしを検出したときに
+    // 1枚も書き換えずに中断できるようにするため。
+    pending.push({ outPath, html });
 
     rows.push({
       id,
       name: park.name,
+      Lv: park.survey_level,
       photos: photoCount,
       本文: about.length ? '○' : '－',
+      アクセス: accessRows,
       設備元: usedHtml ? 'HTML' : 'DB',
       noindex: noindex ? 'YES' : '',
     });
+  }
+
+  // B層の手書き資産を黙って捨てないためのガード。
+  // 生成済みHTMLにしか存在しない資産なので、消す前に必ず人が判断する。
+  if (bLayerConflicts.length) {
+    const lines = bLayerConflicts
+      .map(c => `  - id=${c.id} ${c.name}（特徴 ${c.points}件 / 本文 ${c.about}段落）`)
+      .join('\n');
+    throw new Error(
+      `survey_level が 2 未満なのに、B層の手書き資産を持つページがあります（${bLayerConflicts.length}件）。\n` +
+      `${lines}\n` +
+      '  このまま進めると、DBに存在しないこれらの資産が失われます。\n' +
+      '  現地調査済みなら survey_level を 2 に上げてください。\n' +
+      '  そうでなければ、先に本文を抽出・保全してから再実行してください。\n' +
+      '  （ファイルは1枚も書き換えていません）'
+    );
+  }
+
+  if (WRITE) {
+    for (const p of pending) {
+      fs.writeFileSync(p.outPath, p.html, 'utf-8');
+      stats.written++;
+    }
   }
 
   // 一覧表示
@@ -550,6 +706,7 @@ async function main() {
   log(`   写真あり              : ${stats.withPhotos}`);
   log(`   手書き本文を救出      : ${stats.rescued}`);
   log(`   設備をHTMLから採用    : ${stats.facsFromHtml}`);
+  log(`   アクセス2行以上       : ${stats.withAccess}`);
   log(`   noindex を付与        : ${stats.noindex}`);
   log(`   書き出したファイル    : ${WRITE ? stats.written : 0}`);
   log('');
