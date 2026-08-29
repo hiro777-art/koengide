@@ -33,6 +33,7 @@ const WRITE     = process.argv.includes('--write');
 /** 静的に載せたい固定ページ（今後 privacy.html などを足す場所） */
 const STATIC_PAGES = [
   { loc: `${SITE_BASE}/`, file: path.join(ROOT, 'index.html') },
+  { loc: `${SITE_BASE}/disclaimer.html`, file: path.join(ROOT, 'disclaimer.html') },
   // { loc: `${SITE_BASE}/privacy.html`,  file: path.join(ROOT, 'privacy.html') },
   // { loc: `${SITE_BASE}/about.html`,    file: path.join(ROOT, 'about.html') },
   // { loc: `${SITE_BASE}/contact.html`,  file: path.join(ROOT, 'contact.html') },
