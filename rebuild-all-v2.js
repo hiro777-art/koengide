@@ -50,6 +50,19 @@ const IMAGES_DIR = path.join(ROOT, 'images', 'parks');
 
 const WRITE = process.argv.includes('--write');
 
+/**
+ * 写真も本文もアクセス情報も無いページを index に残す下限。
+ *
+ *   これらのページは設備ピルだけが唯一の内容になる。「あり」が1〜3件しか
+ *   無いページは検索者の問いに答えられておらず、薄いページを増やすと
+ *   サイト全体の評価を下げかねない。
+ *   実データでは、あり4件以上が20ページ、1件と3件が各1ページで、
+ *   4 がちょうど自然に分かれる位置だった。
+ *   設備の値は公社サイト由来（2026-08-16-fill-null-flags-from-kousha.js）で
+ *   出典が明確なため、件数が揃っていれば公開してよいと判断している。
+ */
+const MIN_FACILITIES_FOR_INDEX = 4;
+
 // ============================================================
 // 設備マスター
 // ============================================================
@@ -177,7 +190,10 @@ function extractExisting(id) {
     if (fac) { pills[fac.key] = !isOff; hasPills = true; }
   }
 
-  return { points, about, alts, pills: hasPills ? pills : null };
+  // 現時点で index されているか（noindex メタが無ければ index）
+  const indexed = !/<meta\s+name=["']robots["']\s+content=["'][^"']*noindex/i.test(html);
+
+  return { points, about, alts, indexed, pills: hasPills ? pills : null };
 }
 
 // ============================================================
@@ -563,6 +579,7 @@ async function main() {
     noindex: 0,
     facsFromHtml: 0,
     withAccess: 0,
+    grandfathered: 0,
     written: 0,
   };
   const sqlLines = [];
@@ -616,17 +633,28 @@ async function main() {
       bLayerConflicts.push({ id, name: park.name, points: points.length, about: about.length });
     }
 
-    // noindex の条件：写真も本文も無く、設備が1つも「あり」でなく、
-    //   なおかつアクセス欄に出典付きの実データが2行未満
-    //   → 設備情報やアクセス情報があるページは薄くても検索の答えになるので index に残す
-    const hasAnyFacility = FACILITIES.some(f => facts[f.key] === true);
+    // index の基準：写真か本文があるか、設備の「あり」が MIN_FACILITIES_FOR_INDEX 以上か、
+    //   アクセス欄に出典付きの実データが2行以上あるか。
+    //   → 内容が十分あるページは、写真や本文が無くても検索の答えになるので index に残す
+    const facilityCount = FACILITIES.filter(f => facts[f.key] === true).length;
     const accessRows = accessRowCount(park);
+    const meetsNewBar = facilityCount >= MIN_FACILITIES_FOR_INDEX || accessRows >= 2;
+
+    // 据え置き（grandfather）:
+    //   閾値は「これから index にするか」の判断にだけ使う。すでに index されて
+    //   検索結果に出ているページを引き上げるのは、得られるものの割に失うものが
+    //   大きいので触らない。これらのページも Phase 2〜4 でアクセス情報が入れば
+    //   meetsNewBar を自力で満たすようになる。そうなったらこの節は外してよい。
+    const wasIndexed  = prev ? prev.indexed : false;
+    const grandfather = wasIndexed && facilityCount >= 1;
+
     const noindex = photoCount === 0
                  && about.length === 0
-                 && !hasAnyFacility
-                 && accessRows < 2;
+                 && !meetsNewBar
+                 && !grandfather;
     if (noindex) stats.noindex++;
     if (accessRows >= 2) stats.withAccess++;
+    if (grandfather && !meetsNewBar) stats.grandfathered++;
 
     const html = buildHTML(park, { photos, points, about, alts, facts, noindex });
     const outPath = path.join(PARKS_DIR, `${id}.html`);
@@ -707,6 +735,7 @@ async function main() {
   log(`   手書き本文を救出      : ${stats.rescued}`);
   log(`   設備をHTMLから採用    : ${stats.facsFromHtml}`);
   log(`   アクセス2行以上       : ${stats.withAccess}`);
+  log(`   据え置きで index 維持 : ${stats.grandfathered}`);
   log(`   noindex を付与        : ${stats.noindex}`);
   log(`   書き出したファイル    : ${WRITE ? stats.written : 0}`);
   log('');
