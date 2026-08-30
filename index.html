@@ -289,37 +289,41 @@
     .result-count { font-size: 13px; color: var(--gray-500); }
     .result-count strong { color: var(--green-mid); font-size: 18px; font-weight: 700; }
     .result-count-sub { font-size: 12px; color: var(--gray-500); margin-left: 2px; }
-    .parks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+    .parks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 10px; }
     /* 三値表示: 未確認（NULL）グループの区切り */
     .unknown-divider { grid-column: 1 / -1; display: flex; align-items: center; gap: 10px; margin-top: 12px; font-size: 11px; font-weight: 700; color: var(--gray-500); letter-spacing: .08em; }
     .unknown-divider::before, .unknown-divider::after { content: ''; flex: 1; height: 1px; background: var(--gray-300); }
     .unknown-note { grid-column: 1 / -1; font-size: 11px; color: var(--gray-500); line-height: 1.6; margin: -4px 0 2px; }
     .park-card.is-unknown { border-style: dashed; border-color: var(--gray-300); opacity: .66; }
     .park-card.is-unknown:hover { opacity: 1; }
-    .park-card { background: var(--white); border-radius: var(--radius-md); border: 1.5px solid var(--gray-100); padding: 16px; cursor: pointer; transition: all .2s ease; display: flex; flex-direction: column; gap: 10px; }
+    /* 横並びカード: [サムネ56px] [情報] [›] 。高さは設備ピル数に関わらず一定 */
+    .park-card { background: var(--white); border-radius: var(--radius-md); border: 1.5px solid var(--gray-100); padding: 12px; cursor: pointer; transition: all .2s ease; display: flex; align-items: center; gap: 12px; }
     .park-card:hover { border-color: var(--green-light); box-shadow: var(--shadow-md); transform: translateY(-2px); }
-    .park-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
-    .park-name { font-size: 15px; font-weight: 700; color: var(--text); line-height: 1.4; flex: 1; }
+
+    /* サムネ枠: アイコンは写真あり／なし共通のカメラ。背景色と彩度で状態を分ける */
+    .park-thumb { width: 56px; height: 56px; flex-shrink: 0; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 22px; background: var(--gray-100); border: 1.5px solid var(--gray-100); }
+    .park-thumb.has-photo { background: var(--green-pale); border-color: var(--lime); }
+    /* 写真なし: 同じカメラアイコンをグレースケール＋低透明度で中立的に見せる */
+    .park-thumb:not(.has-photo) .thumb-icon { filter: grayscale(1); opacity: .35; }
+
+    .park-card-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+    .park-name { font-size: 15px; font-weight: 700; color: var(--text); line-height: 1.35; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    /* 「エリア名 ・ 住所」1行。絞り込み状態に関わらずエリア名は常に表示する */
+    .park-meta { font-size: 11px; color: var(--gray-500); line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .park-meta-area { color: var(--area-color); font-weight: 600; }
+    .park-meta-sep { margin: 0 4px; color: var(--gray-300); }
+
+    /* 設備ピル: 単色グレー。1行に収める（超過分は「+N」にまとめ、詳細はモーダルで） */
+    .park-features { display: flex; gap: 5px; flex-wrap: nowrap; overflow: hidden; height: 19px; }
+    .feat-tag { flex-shrink: 0; display: inline-flex; align-items: center; gap: 3px; background: var(--gray-100); color: var(--gray-700); border: 1px solid transparent; border-radius: 5px; padding: 2px 7px; font-size: 10px; font-weight: 500; line-height: 1.4; white-space: nowrap; }
+    .feat-tag.more { background: transparent; color: var(--gray-500); }
+    /* 三値表示: 設備が1つも確定していない公園（NULLを含む＝未確認） */
+    .feat-tag.unconfirmed { background: var(--white); border: 1px dashed var(--gray-300); color: var(--gray-500); font-weight: 400; }
+    /* 三値表示: 全項目がFALSE確定（＝設備なしが確定）。実線ボーダーで未確認と区別する */
+    .feat-tag.no-facility { background: var(--white); border: 1px solid var(--gray-300); color: var(--gray-500); font-weight: 400; }
+
     .park-arrow { font-size: 18px; color: var(--gray-300); flex-shrink: 0; transition: transform .18s; }
     .park-card:hover .park-arrow { transform: translateX(3px); color: var(--green-light); }
-    .park-address { font-size: 11px; color: var(--gray-500); display: flex; align-items: center; gap: 4px; }
-    .park-area-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 3px;
-      background: var(--area-pale);
-      color: var(--area-color);
-      border-radius: 6px;
-      padding: 2px 7px;
-      font-size: 10px;
-      font-weight: 600;
-    }
-    .park-features { display: flex; gap: 6px; flex-wrap: wrap; }
-    .feat-tag { display: inline-flex; align-items: center; gap: 3px; background: var(--green-pale); color: var(--green-mid); border-radius: 6px; padding: 3px 8px; font-size: 11px; font-weight: 500; }
-    .feat-tag.dog { background: #fff3e0; color: #e65100; }
-    .feat-tag.water { background: #e3f2fd; color: #1565c0; }
-    .park-detail-btn { margin-top: 4px; padding: 10px 0; border-radius: var(--radius-sm); border: none; background: var(--green-mid); color: var(--white); font-size: 13px; font-weight: 700; cursor: pointer; transition: all .18s; font-family: inherit; display: block; text-align: center; text-decoration: none; letter-spacing: .05em; box-shadow: 0 2px 8px rgba(45,106,79,.25); }
-    .park-detail-btn:hover { background: var(--green-dark); box-shadow: 0 4px 12px rgba(45,106,79,.35); transform: translateY(-1px); }
     .modal-overlay { position: fixed; inset: 0; background: rgba(10,20,15,.6); backdrop-filter: blur(4px); z-index: 1000; display: flex; align-items: flex-end; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .25s ease; }
     .modal-overlay.open { opacity: 1; pointer-events: all; }
     .modal { background: var(--white); width: 100%; max-width: 640px; max-height: 90dvh; border-radius: var(--radius-lg) var(--radius-lg) 0 0; overflow-y: auto; overscroll-behavior: contain; transform: translateY(60px); transition: transform .3s cubic-bezier(.22,.61,.36,1); }
@@ -355,6 +359,9 @@
     .info-row-value { font-size: 14px; color: var(--text); line-height: 1.5; }
     .gmap-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px; border-radius: var(--radius-md); border: none; background: var(--green-mid); color: var(--white); font-size: 14px; font-weight: 700; cursor: pointer; text-decoration: none; transition: background .18s; font-family: inherit; }
     .gmap-btn:hover { background: var(--green-dark); }
+    /* 一覧カードの「詳細を見る」ボタン廃止に伴う、詳細ページへの導線（写真の有無に関わらず常設） */
+    .detail-page-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 13px; border-radius: var(--radius-md); border: 1.5px solid var(--green-mid); background: var(--white); color: var(--green-mid); font-size: 14px; font-weight: 700; text-decoration: none; transition: all .18s; font-family: inherit; }
+    .detail-page-btn:hover { background: var(--green-pale); }
     .empty-state { grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: var(--gray-500); }
     .empty-state-icon { font-size: 48px; margin-bottom: 12px; }
     .empty-state p { font-size: 15px; }
@@ -506,6 +513,9 @@
       { key: 'has_dog',     icon: '🐕', label: '犬の散歩OK', cls: 'dog' },
     ];
 
+    // カードに表示する設備ピルの最大数（超過分は「+N」にまとめ、詳細はモーダルで見せる）
+    const CARD_FEAT_LIMIT = 2;
+
     const MODAL_FEATURES = [
       { key: 'has_swing',       icon: '🎠', label: 'ブランコ',     cls: '' },
       { key: 'has_slide',       icon: '🛝', label: 'すべり台',     cls: '' },
@@ -604,23 +614,43 @@
     }
 
     function cardHTML(p, isUnknownGroup) {
-      const featTags = FEATURES
-        .filter(f => p[f.key])
-        .map(f => `<span class="feat-tag ${f.cls}">${f.icon} ${f.label}</span>`)
-        .join('');
-      const areaBadge = p.area
-        ? `<span class="park-area-badge">📍 ${esc(p.area)}</span>`
-        : '';
+      // 写真の有無は photos.json（parkPhotos）で判定。取得失敗時は全件「写真なし」扱い
+      const hasPhoto = ((parkPhotos && parkPhotos[p.id]) || []).length > 0;
+      const thumb = `<div class="park-thumb${hasPhoto ? ' has-photo' : ''}" title="${hasPhoto ? '写真あり' : '写真なし'}"><span class="thumb-icon">📷</span></div>`;
+
+      // 設備ピル: 確定(TRUE)のみ。1行に収まる最大 CARD_FEAT_LIMIT 個、残りは件数にまとめる
+      const confirmedFeats = FEATURES.filter(f => p[f.key] === true);
+      let featTags;
+      if (confirmedFeats.length === 0) {
+        // 全項目 FALSE = 「設備なし」が確定。NULL を1つでも含むなら「未確認」
+        const allFalse = FEATURES.every(f => p[f.key] === false);
+        featTags = allFalse
+          ? `<span class="feat-tag no-facility">設備なし</span>`
+          : `<span class="feat-tag unconfirmed">未確認</span>`;
+      } else {
+        const shown = confirmedFeats.slice(0, CARD_FEAT_LIMIT);
+        const rest  = confirmedFeats.length - shown.length;
+        featTags = shown
+          .map(f => `<span class="feat-tag">${f.icon} ${f.label}</span>`)
+          .join('') + (rest > 0 ? `<span class="feat-tag more">+${rest}</span>` : '');
+      }
+
+      // 「エリア名 ・ 住所」の1行。エリア名は絞り込み状態に関わらず常に表示する
+      const meta = [
+        p.area ? `<span class="park-meta-area">${esc(p.area)}</span>` : '',
+        esc(p.address || '住所未登録')
+      ].filter(Boolean).join('<span class="park-meta-sep">・</span>');
+
+      // カード全体がタップ領域。詳細ページへの導線はモーダル側に持たせる
       return `
         <div class="park-card${isUnknownGroup ? ' is-unknown' : ''}" onclick="openModal(${JSON.stringify(p).replace(/"/g,'&quot;')})">
-          <div class="park-card-header">
+          ${thumb}
+          <div class="park-card-body">
             <div class="park-name">${esc(p.name)}</div>
-            <div class="park-arrow">›</div>
+            <div class="park-meta">${meta}</div>
+            <div class="park-features">${featTags}</div>
           </div>
-          ${areaBadge}
-          <div class="park-address">📍 ${esc(p.address || '住所未登録')}</div>
-          ${featTags ? `<div class="park-features">${featTags}</div>` : ''}
-          <a class="park-detail-btn" href="parks/${p.id}.html" onclick="event.stopPropagation()">詳細を見る</a>
+          <div class="park-arrow">›</div>
         </div>`;
     }
 
@@ -731,6 +761,9 @@
         </div>` : ''}
         <a class="gmap-btn" href="${gmapUrl}" target="_blank" rel="noopener">
           🗺️ Googleマップで経路を調べる
+        </a>
+        <a class="detail-page-btn" href="parks/${park.id}.html">
+          📄 ${esc(park.name)}の詳細ページを見る
         </a>
       `;
       document.getElementById('modalOverlay').classList.add('open');
