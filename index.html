@@ -620,11 +620,11 @@
 
     function cardHTML(p, isUnknownGroup) {
       // 写真の有無は photos.json（parkPhotos）で判定。取得失敗時は全件「写真なし」扱い
-      // 写真あり: メイン写真（配列先頭）をサムネ表示。パス形式はモーダル側の実装に合わせる
+      // 写真あり: 専用サムネ thumb.webp（112px, generate-thumbnails.js で生成）を表示
       // 読み込みに失敗したら has-photo を外してカメラアイコン表示にフォールバックする
       const shots = (parkPhotos && parkPhotos[p.id]) || [];
       const thumb = shots.length
-        ? `<div class="park-thumb has-photo" title="写真あり"><img class="park-thumb-img" src="images/parks/${p.id}/${encodeURIComponent(shots[0])}" alt="${esc(p.name)}のメイン写真" loading="lazy" decoding="async" width="56" height="56" onerror="this.hidden=true; this.parentNode.classList.remove('has-photo')"><span class="thumb-icon">📷</span></div>`
+        ? `<div class="park-thumb has-photo" title="写真あり"><img class="park-thumb-img" src="images/parks/${p.id}/thumb.webp" alt="${esc(p.name)}のメイン写真" loading="lazy" decoding="async" width="56" height="56" onerror="this.hidden=true; this.parentNode.classList.remove('has-photo')"><span class="thumb-icon">📷</span></div>`
         : `<div class="park-thumb" title="写真なし"><span class="thumb-icon">📷</span></div>`;
 
       // 設備ピル: 確定(TRUE)のみ。1行に収まる最大 CARD_FEAT_LIMIT 個、残りは件数にまとめる
