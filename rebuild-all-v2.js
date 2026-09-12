@@ -111,6 +111,8 @@ async function fetchAllParks() {
 //   戻り値はファイル名の配列（1枚目がメイン写真）
 // ============================================================
 const PHOTO_EXT = /\.(jpe?g|png|webp)$/i;
+/** 写真ではない派生ファイル（トップページ用サムネ等）。ギャラリーに出さない */
+const NON_GALLERY = /^thumb\./i;
 
 /** ファイル名から日本語altを推測するための辞書（B形式用） */
 const ALT_HINTS = {
@@ -126,7 +128,7 @@ const ALT_HINTS = {
 function listPhotos(id) {
   const dir = path.join(IMAGES_DIR, String(id));
   if (!fs.existsSync(dir)) return [];
-  const files = fs.readdirSync(dir).filter(f => PHOTO_EXT.test(f));
+  const files = fs.readdirSync(dir).filter(f => PHOTO_EXT.test(f) && !NON_GALLERY.test(f));
 
   // A形式（<id>_NN）は番号順、B形式は main を先頭にしてあとは名前順
   const numOf = (f) => {
