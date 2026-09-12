@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 /**
- * rebuild-all.js
+ * rebuild-all-v2.js
  * 戸田市公園ガイド - 全87ページ一括再生成スクリプト
  *
  * 【使い方】
- *   node rebuild-all.js          … ドライラン（何も書き換えない・差分だけ表示）
- *   node rebuild-all.js --write  … 実際に parks/*.html を書き出す
+ *   node rebuild-all-v2.js          … ドライラン（何も書き換えない・差分だけ表示）
+ *   node rebuild-all-v2.js --write  … 実際に parks/*.html を書き出す
  *
  * 【置き場所】
- *   C:\Users\hsasa\Downloads\koengide\rebuild-all.js  （リポジトリのルート）
+ *   koengide リポジトリのルート
  *
  * 【やること】
  *   1. Supabase から87件を取得（読み取りのみ・publishable key）
@@ -18,6 +18,8 @@
  *        - 🌳公園について（本文）
  *        - alt テキスト
  *        - 設備ピル（← Supabaseより正確なのでこちらを正とする）
+ *          ただしDBへ書き戻すSQLは出力しない。DBの修正は koengide-pipeline の
+ *          migrations/ で退避・検証つきで行う（sync-db.sql は廃止した）。
  *   4. 全ページを同一テンプレートで再生成
  *        - 設備を3値表示（あり／なし／未確認）
  *        - GA4 を全ページに追加
@@ -25,11 +27,10 @@
  *        - 内部リンクを ../ に統一
  *        - 中身のないページに noindex
  *        - BreadcrumbList 構造化データを追加
- *   5. sync-db.sql を出力（HTMLの設備をSupabaseへ書き戻すSQL）
+ *   5. photos.json を出力（トップページのモーダルが読む写真マニフェスト）
  *
  * 【注意】
- *   Supabaseへの書き込みは行いません。生成された sync-db.sql を
- *   自分でSQL Editorに貼って実行してください。
+ *   Supabaseへの書き込みは行いません（読み取りのみ）。
  */
 'use strict';
 
@@ -69,15 +70,16 @@ const MIN_FACILITIES_FOR_INDEX = 4;
 const FACILITIES = [
   { key: 'has_swing',            icon: '🎠', label: 'ブランコ' },
   { key: 'has_slide',            icon: '🛝', label: 'すべり台' },
-  { key: 'has_sandbox',          icon: '🏖',  label: '砂場' },
+  { key: 'has_sandbox',          icon: '🏖️', label: '砂場' },
   { key: 'has_toilet',           icon: '🚻', label: 'トイレ' },
   { key: 'has_water',            icon: '💧', label: '水遊び' },
-  { key: 'has_complex_play',     icon: '🏗',  label: '複合遊具' },
+  { key: 'has_complex_play',     icon: '🏗️', label: '複合遊具' },
   { key: 'has_bench',            icon: '🪑', label: 'ベンチ' },
   { key: 'has_shade',            icon: '🌳', label: '日陰あり' },
-  { key: 'has_ballplay',         icon: '⛹',  label: 'ボール遊びOK' },
-  { key: 'has_health_equipment', icon: '🏋',  label: '健康器具' },
-  { key: 'has_parking',          icon: '🅿',  label: '駐車場' },
+  { key: 'has_rain_shelter',     icon: '☔', label: '雨よけあり' },
+  { key: 'has_ballplay',         icon: '⚽', label: 'ボール遊びOK' },
+  { key: 'has_health_equipment', icon: '🏋️', label: '健康器具' },
+  { key: 'has_parking',          icon: '🅿️', label: '駐車場' },
   { key: 'has_dog',              icon: '🐕', label: '犬の散歩OK' },
 ];
 
@@ -584,7 +586,6 @@ async function main() {
     grandfathered: 0,
     written: 0,
   };
-  const sqlLines = [];
   const rows = [];
   /** survey_level<2 なのにB層の手書き資産を持つページ（書き込み前に中断する） */
   const bLayerConflicts = [];
@@ -625,16 +626,7 @@ async function main() {
         facts[f.key] = (v === true || v === false) ? v : null;
       }
     }
-    if (usedHtml) {
-      stats.facsFromHtml++;
-      // DBと食い違う項目だけSQLを出す
-      const diffs = FACILITIES
-        .filter(f => facts[f.key] !== null && facts[f.key] !== park[f.key])
-        .map(f => `${f.key} = ${facts[f.key]}`);
-      if (diffs.length) {
-        sqlLines.push(`update parks set ${diffs.join(', ')} where id = ${id};  -- ${park.name}`);
-      }
-    }
+    if (usedHtml) stats.facsFromHtml++;
 
     // B層（特徴・写真・本文）は survey_level=2 の公園にしか出さない。
     // survey_level が 0 のまま手書き資産を持つページがあると、ここで黙って
@@ -714,30 +706,6 @@ async function main() {
   log('');
   console.table(rows);
 
-  // sync-db.sql
-  hr();
-  if (sqlLines.length) {
-    const sqlPath = path.join(ROOT, 'sync-db.sql');
-    const header = [
-      '-- HTMLに書かれていた設備情報をSupabaseへ書き戻すSQL',
-      '-- rebuild-all.js が自動生成',
-      '-- 実行前に必ずバックアップを取ること:',
-      "--   create table parks_backup_" + new Date().toISOString().slice(0,10).replace(/-/g,'') + ' as select * from parks;',
-      '',
-    ].join('\n');
-    if (WRITE) {
-      fs.writeFileSync(sqlPath, header + sqlLines.join('\n') + '\n', 'utf-8');
-      log(`\n📄 sync-db.sql を出力しました（${sqlLines.length} 件のUPDATE）`);
-    } else {
-      log(`\n📄 sync-db.sql は ${sqlLines.length} 件のUPDATEになります（--write で出力）`);
-      log('   プレビュー:');
-      sqlLines.slice(0, 5).forEach(l => log('     ' + l));
-      if (sqlLines.length > 5) log(`     ... 他 ${sqlLines.length - 5} 件`);
-    }
-  } else {
-    log('\n📄 HTMLとDBの設備情報に差分はありませんでした。');
-  }
-
   // photos.json（トップページのモーダルが読む写真マニフェスト）
   hr();
   {
@@ -772,14 +740,13 @@ async function main() {
 
   if (!WRITE) {
     log('⚠️  ドライランです。ファイルは変更していません。');
-    log('    問題なければ  node rebuild-all.js --write  を実行してください。\n');
+    log('    問題なければ  node rebuild-all-v2.js --write  を実行してください。\n');
   } else {
     log('✅ 完了。次の手順でデプロイしてください:');
     log('     git add .');
     log('     git commit -m "Rebuild all park pages: 3-state facilities, GA4, www canonical, noindex"');
     log('     git push');
     log('');
-    log('   その後 sync-db.sql をSupabaseのSQL Editorに貼って実行してください。\n');
   }
 }
 
