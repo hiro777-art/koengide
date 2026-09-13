@@ -17,9 +17,9 @@
  *        - ✨この公園の特徴（3点）
  *        - 🌳公園について（本文）
  *        - alt テキスト
- *        - 設備ピル（← Supabaseより正確なのでこちらを正とする）
- *          ただしDBへ書き戻すSQLは出力しない。DBの修正は koengide-pipeline の
- *          migrations/ で退避・検証つきで行う（sync-db.sql は廃止した）。
+ *      設備ピルは救出しない。設備は Supabase parks の has_* を唯一の出典とし、
+ *      park-creator.js と同じく TRUE=あり / FALSE=なし / NULL=未確認 で出す。
+ *      DBの修正は koengide-pipeline の migrations/ で退避・検証つきで行う。
  *   4. 全ページを同一テンプレートで再生成
  *        - 設備を3値表示（あり／なし／未確認）
  *        - GA4 を全ページに追加
@@ -184,20 +184,10 @@ function extractExisting(id) {
     ? [...galBlock[1].matchAll(/alt="([^"]*)"/g)].map(m => m[1])
     : [];
 
-  // 🎪 設備ピル（この形式を持つのはリッチ版のみ）
-  const pills = {};
-  let hasPills = false;
-  for (const m of html.matchAll(/<span class="fac-pill(\s+off)?"[^>]*>([\s\S]*?)<\/span>/g)) {
-    const isOff = Boolean(m[1]);
-    const text  = m[2];
-    const fac = FACILITIES.find(f => text.includes(f.label));
-    if (fac) { pills[fac.key] = !isOff; hasPills = true; }
-  }
-
   // 現時点で index されているか（noindex メタが無ければ index）
   const indexed = !/<meta\s+name=["']robots["']\s+content=["'][^"']*noindex/i.test(html);
 
-  return { points, about, alts, indexed, pills: hasPills ? pills : null };
+  return { points, about, alts, indexed };
 }
 
 // ============================================================
@@ -581,7 +571,6 @@ async function main() {
     withPhotos: 0,
     rescued: 0,
     noindex: 0,
-    facsFromHtml: 0,
     withAccess: 0,
     grandfathered: 0,
     written: 0,
@@ -614,19 +603,14 @@ async function main() {
     const alts   = prev?.alts?.length   ? prev.alts   : [];
     if (points.length || about.length) stats.rescued++;
 
-    // 設備：HTMLにピルがあればそちらを正とし、無ければDBの値
+    // 設備：DBの値だけで組み立てる（park-creator.js と同じ出典）。
+    // 既存HTMLのピルは読まない。HTMLを優先すると、migrations/ で直したDBの値が
+    // ページに届かなくなるため。bool 以外（NULL 等）は「未確認」として扱う。
     const facts = {};
-    let usedHtml = false;
     for (const f of FACILITIES) {
-      if (prev?.pills && Object.prototype.hasOwnProperty.call(prev.pills, f.key)) {
-        facts[f.key] = prev.pills[f.key];
-        usedHtml = true;
-      } else {
-        const v = park[f.key];
-        facts[f.key] = (v === true || v === false) ? v : null;
-      }
+      const v = park[f.key];
+      facts[f.key] = (v === true || v === false) ? v : null;
     }
-    if (usedHtml) stats.facsFromHtml++;
 
     // B層（特徴・写真・本文）は survey_level=2 の公園にしか出さない。
     // survey_level が 0 のまま手書き資産を持つページがあると、ここで黙って
@@ -673,7 +657,6 @@ async function main() {
       photos: photoCount,
       本文: about.length ? '○' : '－',
       アクセス: accessRows,
-      設備元: usedHtml ? 'HTML' : 'DB',
       noindex: noindex ? 'YES' : '',
     });
   }
@@ -731,7 +714,6 @@ async function main() {
   log(`   総ページ数            : ${stats.total}`);
   log(`   写真あり              : ${stats.withPhotos}`);
   log(`   手書き本文を救出      : ${stats.rescued}`);
-  log(`   設備をHTMLから採用    : ${stats.facsFromHtml}`);
   log(`   アクセス2行以上       : ${stats.withAccess}`);
   log(`   据え置きで index 維持 : ${stats.grandfathered}`);
   log(`   noindex を付与        : ${stats.noindex}`);
