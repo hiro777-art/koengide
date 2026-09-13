@@ -72,6 +72,7 @@ const FACILITIES = [
   { key: 'has_slide',            icon: '🛝', label: 'すべり台' },
   { key: 'has_sandbox',          icon: '🏖️', label: '砂場' },
   { key: 'has_toilet',           icon: '🚻', label: 'トイレ' },
+  { key: 'has_accessible_toilet', icon: '♿', label: '多目的トイレ' },
   { key: 'has_water',            icon: '💧', label: '水遊び' },
   { key: 'has_complex_play',     icon: '🏗️', label: '複合遊具' },
   { key: 'has_bench',            icon: '🪑', label: 'ベンチ' },
