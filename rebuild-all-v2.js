@@ -66,6 +66,11 @@ const MIN_FACILITIES_FOR_INDEX = 4;
 
 // ============================================================
 // 設備マスター
+//
+// band: true は「設備の数」ではなく遊具の対象年齢を表す項目。
+// ピルとしては他と同じ3値（あり／なし／未確認）で出すが、
+// index 判定（MIN_FACILITIES_FOR_INDEX）では数えない。COUNTED_FACILITIES を参照。
+// この配列は koengide-pipeline/park-creator.js と同一に保つ。
 // ============================================================
 const FACILITIES = [
   { key: 'has_swing',            icon: '🎠', label: 'ブランコ' },
@@ -75,6 +80,8 @@ const FACILITIES = [
   { key: 'has_accessible_toilet', icon: '♿', label: '多目的トイレ' },
   { key: 'has_water',            icon: '💧', label: '水遊び' },
   { key: 'has_complex_play',     icon: '🏗️', label: '複合遊具' },
+  { key: 'age_toddler',          icon: '👶', label: '未就学児向け遊具', band: true },
+  { key: 'age_school',           icon: '🎒', label: '小学生向け遊具',   band: true },
   { key: 'has_bench',            icon: '🪑', label: 'ベンチ' },
   { key: 'has_shade',            icon: '🌳', label: '日陰あり' },
   { key: 'has_rain_shelter',     icon: '☔', label: '雨よけあり' },
@@ -83,6 +90,17 @@ const FACILITIES = [
   { key: 'has_parking',          icon: '🅿️', label: '駐車場' },
   { key: 'has_dog',              icon: '🐕', label: '犬の散歩OK' },
 ];
+
+/**
+ * index 判定（MIN_FACILITIES_FOR_INDEX）に数える設備。
+ *
+ *   年齢帯（band: true）は遊具の対象年齢であって設備の数ではないため、
+ *   薄いページ対策の関門には数えない。MIN_FACILITIES_FOR_INDEX の 4 という値は
+ *   設備の「あり」の件数分布から決めたもので（上のコメント参照）、
+ *   別の軸を混ぜるとその根拠が崩れる。
+ *   ピルとしては FACILITIES の他の項目と同じく3値で表示する。
+ */
+const COUNTED_FACILITIES = FACILITIES.filter(f => !f.band);
 
 // ============================================================
 // ユーティリティ
@@ -624,7 +642,7 @@ async function main() {
     // index の基準：写真か本文があるか、設備の「あり」が MIN_FACILITIES_FOR_INDEX 以上か、
     //   アクセス欄に出典付きの実データが2行以上あるか。
     //   → 内容が十分あるページは、写真や本文が無くても検索の答えになるので index に残す
-    const facilityCount = FACILITIES.filter(f => facts[f.key] === true).length;
+    const facilityCount = COUNTED_FACILITIES.filter(f => facts[f.key] === true).length;
     const accessRows = accessRowCount(park);
     const meetsNewBar = facilityCount >= MIN_FACILITIES_FOR_INDEX || accessRows >= 2;
 
